@@ -75,71 +75,71 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% Redefine sectional headings to contain rules
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\let\origsection\section
+%\let\origsection\section
 %\renewcommand\section{\@ifstar{\starsection}{\nostarsection}}
-\renewcommand{\section}{\@startsection{section}{1}{\z@}%
-{-2\baselineskip}{1em}
-	%{-3.5ex \@plus -1ex \@minus -.2ex}%
-	%{2.3ex \@plus.2ex}%
-	{%
-		\vspace{-2\baselineskip}
-	\textcolor{sectionlinecolor}{\hrule depth 1em}
-%\nolinebreak[4]
-	%
-\Large\bfseries\sffamily}}
-\let\origsection\section
-\renewcommand\section{\@ifstar{\starsection}{\nostarsection}}
-
-\newcommand\nostarsection[1]
-{\sectionprelude\origsection{#1}\sectionpostlude}
-%{\origsection{#1}\sectionpostlude}
-\newcommand\starsection[1]
-{\sectionprelude\origsection*{#1}\sectionpostlude}
-
-\newcommand\sectionprelude{%
-	%\vspace{-\baselineskip}
-	%\colorhrule{sectionlinecolor}{1em}{\columnwidth} 
-	%\vspace{-0.5\baselineskip}
-	}
-\newcommand\sectionpostlude{%
-	%\vspace{-0.5ex}
-	%\colorhrule{sectionlinecolor}{0.2em}{\columnwidth} 
-	%\vspace{0.5\baselineskip}
-}
+%\renewcommand{\section}{\@startsection{section}{1}{\z@}%
+%{-2\baselineskip}{1em}
+%	%{-3.5ex \@plus -1ex \@minus -.2ex}%
+%	%{2.3ex \@plus.2ex}%
+%	{%
+%		\vspace{-2\baselineskip}
+%	\textcolor{sectionlinecolor}{\hrule depth 1em}
+%%\nolinebreak[4]
+%	%
+%\Large\bfseries\sffamily}}
+%\let\origsection\section
+%\renewcommand\section{\@ifstar{\starsection}{\nostarsection}}
+%
+%\newcommand\nostarsection[1]
+%{\sectionprelude\origsection{#1}\sectionpostlude}
+%%{\origsection{#1}\sectionpostlude}
+%\newcommand\starsection[1]
+%{\sectionprelude\origsection*{#1}\sectionpostlude}
+%
+%\newcommand\sectionprelude{%
+%	%\vspace{-\baselineskip}
+%	%\colorhrule{sectionlinecolor}{1em}{\columnwidth} 
+%	%\vspace{-0.5\baselineskip}
+%	}
+%\newcommand\sectionpostlude{%
+%	%\vspace{-0.5ex}
+%	%\colorhrule{sectionlinecolor}{0.2em}{\columnwidth} 
+%	%\vspace{0.5\baselineskip}
+%}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% Redefine subsectional headings to contain rules
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\renewcommand{\subsection}{\@startsection{subsection}{2}{\z@}%
-{-2\baselineskip}{0.5em}
-	%{-3.5ex \@plus -1ex \@minus -.2ex}%
-	%{2.3ex \@plus.2ex}%
-	{%
-	\vspace{-2\baselineskip}
-	\textcolor{subsectionlinecolor}{\hrule depth 0.5em}
-	%
-\Large\bfseries\sffamily}}
-
-\let\origsubsection\subsection
-\renewcommand\subsection{\@ifstar{\starsubsection}{\nostarsubsection}}
-
-\newcommand\nostarsubsection[1]
-{\subsectionprelude\origsubsection{#1}\subsectionpostlude}
-%{\origsubsection{#1}\subsectionpostlude}
-\newcommand\starsubsection[1]
-{\subsectionprelude\origsubsection*{#1}\subsectionpostlude}
-
-\newcommand\subsectionprelude{%
-	\vspace{\baselineskip}
-	%\colorhrule{subsectionlinecolor}{1em}{\columnwidth} 
-	%\vspace{-0.5\baselineskip}
-	}
-\newcommand\subsectionpostlude{%
-	\vspace{-0.2ex}
-	%\colorhrule{subsectionlinecolor}{0.1em}{\columnwidth} 
-	%\vspace{0.5\baselineskip}
-}
-
+%\renewcommand{\subsection}{\@startsection{subsection}{2}{\z@}%
+%{-2\baselineskip}{0.5em}
+%	%{-3.5ex \@plus -1ex \@minus -.2ex}%
+%	%{2.3ex \@plus.2ex}%
+%	{%
+%	\vspace{-2\baselineskip}
+%	\textcolor{subsectionlinecolor}{\hrule depth 0.5em}
+%	%
+%\Large\bfseries\sffamily}}
+%
+%\let\origsubsection\subsection
+%\renewcommand\subsection{\@ifstar{\starsubsection}{\nostarsubsection}}
+%
+%\newcommand\nostarsubsection[1]
+%{\subsectionprelude\origsubsection{#1}\subsectionpostlude}
+%%{\origsubsection{#1}\subsectionpostlude}
+%\newcommand\starsubsection[1]
+%{\subsectionprelude\origsubsection*{#1}\subsectionpostlude}
+%
+%\newcommand\subsectionprelude{%
+%	\vspace{\baselineskip}
+%	%\colorhrule{subsectionlinecolor}{1em}{\columnwidth} 
+%	%\vspace{-0.5\baselineskip}
+%	}
+%\newcommand\subsectionpostlude{%
+%	\vspace{-0.2ex}
+%	%\colorhrule{subsectionlinecolor}{0.1em}{\columnwidth} 
+%	%\vspace{0.5\baselineskip}
+%}
+%
 
 %\renewcommand{\subsection}{\@startsection{subsection}{2}{\z@}%
 %{-2\baselineskip}{8pt}
@@ -205,13 +205,14 @@
 }
 
 %%% paralist config
-\pltopsep0.7em
-\plpartopsep0.7ex
-\plitemsep0.7ex
-\plparsep0.7ex
+\pltopsep0.25ex
+\plpartopsep0.25ex
+\plitemsep0.25ex
+\plparsep0.25ex
+\setdefaultleftmargin{0pt}{0pt}{0pt}{0pt}{0pt}{0pt}
 
 %%% Page layout
-\newcommand{\margin}{0.8cm}
+\newcommand{\margin}{0.79cm}
 \setstocksize{21.0cm}{29.7cm}
 \settrimmedsize{\stockheight}{\stockwidth}{*}
 \settypeblocksize{\stockheight-\margin*2}{\stockwidth-\margin*2}{*}
@@ -221,3 +222,14 @@
 \setulmarginsandblock{\margin}{*}{*}
 \setheadfoot{7pt}{7pt}
 \checkandfixthelayout
+
+\setsecheadstyle{\colorhrule{sectionlinecolor}{1ex}{\columnwidth}\vspace{-0.25ex}\normalsize\bfseries}
+\setsubsecheadstyle{\colorhrule{subsectionlinecolor}{0.5ex}{\columnwidth}\vspace{-0.125ex}\color{subsectionlinecolor}\normalsize\bfseries}
+\setparaheadstyle{\small\bfseries}
+%\setsubsubsecheadstyle{\normalsize\scshape\raggedright}
+\setbeforesecskip{-1.2ex plus -.25ex minus -.1ex}
+\setaftersecskip{0.25ex plus .05ex}
+\setbeforesubsecskip{-0.5ex plus -.25ex minus -.1ex}
+\setaftersubsecskip{0.5ex plus .1ex}
+\setbeforeparaskip{-0.5ex plus -.25ex minus -.1ex}
+\setafterparaskip{0.5ex plus .1ex}

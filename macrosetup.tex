@@ -1,4 +1,16 @@
 %% Custom commands =============================================================
+%% #1: slide name, #2: slide page, #3: image name, #4: left, #5: bottom, #6: right, #7: top
+\newcommand{\pgr}[6]{
+	\begin{center}
+		\resizebox{\linewidth}{!}{
+		\begin{tikzpicture}
+				\clip[] (#3,#4) rectangle (#5,#6);
+				\node[draw] (fig) at (0,0) {\includegraphics[page=#2,width=6cm]{../slides/#1.pdf}};
+		\end{tikzpicture}
+		}
+	\end{center}
+}
+\newcommand{\lp}[1]{\colorbox{subsectionlinecolor}{#1}}
 
 %% Depends on this
 \usepackage{ifthen}
