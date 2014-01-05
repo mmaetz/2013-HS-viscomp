@@ -136,3 +136,14 @@
 %\renewcommand{\phi}{\ensuremath{\varphi}}
 
 %% Uncomment to type bra, kets etc.
+
+\newcommand{\nsum}[1][1.4]{% only for \displaystyle
+    \mathop{%
+        \raisebox
+            {-#1\depthofsumsign+1\depthofsumsign}
+            {\scalebox
+                {#1}
+                {$\displaystyle\sum$}%
+            }
+    }
+}
