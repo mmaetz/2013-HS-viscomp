@@ -1,7 +1,8 @@
 %%%\documentclass[paper,notoc,12pt]{JHEP3}
 %%%mmaetz: put a4paper
 %\documentclass[a5paper]{book}
-\documentclass[9pt,twoside,article]{memoir}
+\documentclass[5pt,twoside,article]{memoir}
+%\documentclass[8pt,twoside,article]{memoir}
 %%%mmaetz: reduce margins
 %%%mmaetz: omitted temporarily to have the margins for the change remarks.
 %\usepackage[a5paper,left=2cm, right=1cm,top=1.5cm, bottom=1.5cm]{geometry}
@@ -47,7 +48,9 @@
 %  E-mail: {\em babis@phys.ethz.ch}}
 
 \begin{document} 
-\small
+%\small
+%\footnotesize
+\tiny
 
 \begin{titlingpage}
 %\maketitle
@@ -78,22 +81,21 @@
 
 %\tableofcontents 
 %\listofchanges
-\begin{multicols*}{5}
+\begin{multicols*}{8}
 	\input{kap1.tex}
 	\input{kap2.tex}
 	\input{kap3.tex}
-%	\input{kap3.tex}
-%	\input{kap4.tex}
-%	\input{kap5.tex}
-%	\input{kap6.tex}
-%	\input{kap7.tex}
-%	\input{kap8.tex}
+	\input{kap4.tex}
+	\input{kap5.tex}
+	\input{kap6.tex}
+	\input{kap7.tex}
+	\input{kap8.tex}
 %	\input{kap9.tex}
 %	\input{kap10.tex}
 %	\input{kap11.tex}
 %	\columnbreak
 %	\input{appendix.tex}
-	\input{questions.tex}
+%	\input{questions.tex}
 \end{multicols*}
 \end{document}
 

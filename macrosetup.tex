@@ -10,7 +10,34 @@
 		}
 	\end{center}
 }
-\newcommand{\lp}[1]{\colorbox{subsectionlinecolor}{#1}}
+%Define a reference depth. 
+%You can choose either relative or absolute.
+%--------------------------
+\newlength{\DepthReference}
+\settodepth{\DepthReference}{g}%relative to a depth of a letter.
+%\setlength{\DepthReference}{6pt}%absolute value.
+
+%Define a reference Height. 
+%You can choose either relative or absolute.
+%--------------------------
+\newlength{\HeightReference}
+\settoheight{\HeightReference}{\tiny T}
+%\setlength{\HeightReference}{6pt}
+
+\newlength{\Width}%
+\newcommand{\MyColorBox}[2][red]%
+{%
+    \settowidth{\Width}{#2}%
+    \setlength{\fboxsep}{0.2ex}%
+    \colorbox{#1}%
+    {%      
+        \raisebox{-\DepthReference}%
+        {%
+                \parbox[b][\HeightReference+\DepthReference][c]{\Width}{\centering#2}%
+        }%
+    }%
+}
+\newcommand{\lp}[1]{\MyColorBox[subsectionlinecolor]{#1}}
 
 %% Depends on this
 \usepackage{ifthen}
@@ -24,6 +51,7 @@
 \newcommand{\dd}[1]{\operatorname{d}\ifthenelse{\equal{#1}{}}{\,}{\!#1}}
 \newcommand{\rd}{\mathrm d}
 \newcommand{\p}{\mathbb P}
+\newcommand{\mean}[1]{\left\langle #1 \right\rangle}
 
 %% Symbols for euler number and imaginary unit
 \providecommand*{\eu}%
@@ -42,6 +70,10 @@
 
 %% Additional mathematical operators
 %% Just use the physics package
+\DeclareMathOperator*{\argmin}{\operatornamewithlimits{argmin}}
+\DeclareMathOperator*{\argmax}{\operatornamewithlimits{argmax}}
+\DeclareMathOperator*{\class}{Class}
+\DeclareMathOperator{\trace}{trace}
 \DeclareMathOperator{\sgn}{sgn}
 \DeclareMathOperator{\tr}{tr}
 \DeclareMathOperator{\id}{Id}
@@ -49,6 +81,8 @@
 \DeclareMathOperator{\arsinh}{arsinh}
 \DeclareMathOperator{\arcosh}{arcosh}
 \DeclareMathOperator{\artanh}{artanh}
+\DeclareMathOperator{\sinc}{sinc}
+\DeclareMathOperator{\diag}{diag}
 %% Statistical mathematical operators
 \DeclareMathOperator{\E}{\ensuremath\mathbb E}
 \DeclareMathOperator{\V}{\ensuremath\mathbb V}
@@ -147,3 +181,5 @@
             }
     }
 }
+%% Enumerate
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{\node[shape=circle,fill=test,inner sep=0.2ex] (char) {#1};}}

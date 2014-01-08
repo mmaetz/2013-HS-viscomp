@@ -1,0 +1,36 @@
+\chapter{Scale-space representations}
+From an original signal $f(x)$ generate a parametric family of signals $f^t(x)$, where fine-scale information is successively suppressed.
+\section{Image pyramid}
+\begin{inparaenum}[\itshape Level 1:]
+	\setcounter{enumi}{-1}
+	\item $1\times1$,
+	\item $2\times2$,
+	\item $4\times 4$,
+	\item[Level $J-1$:] $N/2\times N/2$,
+	\item[Level $J$ (base):] $N\times N$.
+\end{inparaenum}
+\section{Applications}
+\begin{inparaenum}[\itshape(1)]
+	\item Search for correspondence: look at coarse scales, then refine with finer scales
+	\item Edge tracking: a ``good'' edge at a fine scale has parents at a coarser scale
+	\item Control of detail and computational cost in matching: e.g. finding stripes; terribly important in texture representation
+\end{inparaenum}
+\section{Pyramids}
+\begin{compactdesc}
+	\item[\lp{Gaussian pyramid}] 
+		Smooth with gaussians, because $\text{``$\text{gaussian}^2$''}=\text{another gaussian}$. 
+		%\emph{Synthesis}: smooth and sample. \emph{Analysis}: take the top image. Gaussians are low pass filters, so representation is redunant.
+		Progressively blurred and subsampled versions of the image. Adds scale invariance to fixed-size algorithms.
+	\item[\lp{Laplacian Pyramid}]<++>
+		%\emph{Synthesis}: Preserve difference between upsampled gaussian pyramid level and Gaussian pyramid level. Band pass filter - each leevl representns spatial frequencies (largely) unrepresented at other levels. \emph{Analysis}: Reconstruct Gaussian pyramid, take top layer.
+		Shown the information added in gaussian pyramid at each spatial scale. Useful for noise reduction \& coding.
+	\item[\lp{Wavelet/QMF}] Bandpassed representation, complete, but with aliasing and some non-oriented subbands. Recursive application of a two-band filter bank to the lowpass band of the provious stage yields octave band splitting.
+	\item[\lp{Steerable pyramid}] Shown components at each scale and orientation separately, Non-aliased subbands. Good for texture and feature analysis.
+		\section{Haar Transform}
+		Two major sub-operations:
+		\begin{inparaenum}[\itshape(1)]
+			\item Scaling captures info at different frequencies
+			\item Translation captures info at different locations
+		\end{inparaenum}
+		Can be represented by filtering and downsampling. Relatively poor energy compaction.
+\end{compactdesc}

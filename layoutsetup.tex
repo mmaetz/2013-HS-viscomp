@@ -1,5 +1,6 @@
 \raggedbottom
-\usepackage{times}
+%\usepackage{times}
+%\usepackage{pifont}
 %\quad ,\\% Memoir layout setup
 
 %% NOTE: You are strongly advised not to change any of them unless you
@@ -37,7 +38,7 @@
 \definecolor{chapterlinecolor}{HSB}{250,\saturation,\brightness}
 \definecolor{sectionlinecolor}{HSB}{166,\saturation,\brightness}
 \definecolor{subsectionlinecolor}{HSB}{80,\saturation,\brightness}
-
+\colorlet{test}{subsectionlinecolor}
 \makechapterstyle{test}{
 	\setlength\midchapskip{0.5em}
 	\setlength\afterchapskip{0.2em}
@@ -49,9 +50,9 @@
 	\renewcommand{\printchaptername}{}
 	%\renewcommand\colorchapnum{\color{\chapterlinecolor}}
 	\renewcommand{\chapternamenum}{}
-	\renewcommand{\chapnamefont}{\normalfont\Large\bfseries}
-	\renewcommand{\chaptitlefont}{\normalfont\Large\bfseries}
-	\renewcommand{\chapnumfont}{\normalfont\Large\bfseries}
+	\renewcommand{\chapnamefont}{\normalfont\footnotesize\bfseries}
+	\renewcommand{\chaptitlefont}{\normalfont\footnotesize\bfseries}
+	\renewcommand{\chapnumfont}{\normalfont\footnotesize\bfseries}
 	\renewcommand{\printchapternum}{\chapnumfont\space\thechapter}
 	\renewcommand{\afterchapternum}{\space}
 	\renewcommand{\afterchaptertitle}{\par\nobreak\vspace{-1ex}\rule{\columnwidth}{0.4ex}\colorlet{rulecolor}{black}\vskip\afterchapskip}
@@ -206,6 +207,7 @@
 \setlength\abovedisplayshortskip{0.25ex}
 \setlength\belowdisplayshortskip{0.25ex}
 }
+\DeclareMathSizes{12}{9}{7}{5}
 
 %%% paralist config
 \pltopsep0.25ex
@@ -215,8 +217,11 @@
 \setdefaultleftmargin{0pt}{0pt}{0pt}{0pt}{0pt}{0pt}
 
 %%% Page layout
-\newcommand{\lrmargin}{0.33cm}
-\newcommand{\ulmargin}{0.54cm}
+\setlength{\headheight}{0pt}
+\setlength{\headsep}{0pt}
+\setlength{\footskip}{0pt}
+\newcommand{\lrmargin}{0.25cm}
+\newcommand{\ulmargin}{0.25cm}
 \setstocksize{21.0cm}{29.7cm}
 \settrimmedsize{\stockheight}{\stockwidth}{*}
 %\settypeblocksize{\stockheight-\test*2}{\stockwidth-\margin*2}{*}
@@ -227,12 +232,12 @@
 \setheadfoot{0pt}{0pt}
 \checkandfixthelayout
 
-\setsecheadstyle{\colorhrule{sectionlinecolor}{1ex}{\columnwidth}\vspace{-0.25ex}\normalsize\bfseries}
-\setsubsecheadstyle{\colorhrule{subsectionlinecolor}{0.5ex}{\columnwidth}\vspace{-0.125ex}\normalsize\bfseries}
-\setparaheadstyle{\small\bfseries}
+\setsecheadstyle{\colorhrule{sectionlinecolor}{1ex}{\columnwidth}\vspace{-0.25ex}\scriptsize\bfseries}
+\setsubsecheadstyle{\colorhrule{subsectionlinecolor}{0.5ex}{\columnwidth}\vspace{-0.125ex}\tiny\bfseries}
+\setparaheadstyle{\tiny\bfseries}
 %\setsubsubsecheadstyle{\normalsize\scshape\raggedright}
 \setbeforesecskip{-1.2ex plus -.25ex minus -.1ex}
-\setaftersecskip{0.25ex plus .05ex}
+\setaftersecskip{1ex plus .1ex}
 \setbeforesubsecskip{-0.5ex plus -.125ex minus -.05ex}
 \setaftersubsecskip{0.5ex plus .1ex}
 \setbeforeparaskip{-0.5ex plus -.25ex minus -.1ex}
@@ -245,7 +250,7 @@
 \lstset{ %
 	otherkeywords={::},
   backgroundcolor=\color{white},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}
-  basicstyle=\footnotesize,        % the size of the fonts that are used for the code
+  basicstyle=\tiny,        % the size of the fonts that are used for the code
   breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
   breaklines=true,                 % sets automatic line breaking
   captionpos=b,                    % sets the caption-position to bottom

@@ -1,0 +1,29 @@
+\chapter{Optical Flow}
+\section{Applications}
+\begin{inparaenum}[\itshape(1)]
+	\item tracking
+	\item structure from motion
+	\item stabilization
+	\item compression
+	\item Mosaicing
+\end{inparaenum}
+\section{Brightness constancy}
+\begin{compactdesc}
+	\item[\lp{Definition of Optical Flow}] ``Apparent motion of brightness patterns''. Ideally, the optical flow is the projection of the three-dimensional velocity vectors on the image.
+	\item[\lp{Caution required}]
+		\begin{inparaenum}[\itshape (1)]
+			\item Uniform, rotating sphere $\mathcal{OF}=0$
+			\item No motion, but changing lighting $\mathcal{OF}\neq0$
+		\end{inparaenum}
+		\section{Mathematical formulation}
+		$I(x,y,t)=\text{brightness at }(x,y)\text{ at time }t$.
+	\item[\lp{Brightness constancy assumption:}]
+		\begin{gather*}
+			I\!\left(\!\! \dv{x}{t}\delta t,y+\dv{y}{t} \delta t,t+\delta t \!\!\right)\!=I(x,y,t)
+		\end{gather*}
+	\item[\lp{Optical flow constraint equation:}]
+		\begin{gather*}
+			\dv{I}{t}=\pdv{I}{x}\dv{x}{t}+\pdv{I}{y}\dv{y}{t}+\pdv{I}{t}=0
+		\end{gather*}
+		\section{The aperture problem}
+\end{compactdesc}

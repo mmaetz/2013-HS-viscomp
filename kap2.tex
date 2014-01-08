@@ -10,7 +10,7 @@
 	\item[\lp{Definition}]
 	it partitions an image into \emph{regions of interest}. It is the first stage in many automatic image analysis systems. A \emph{complete segmentation} of an image $I$ is a finite set of regions $R_1,\ldots,R_N$, such that
 	\begin{gather*}
-		I=\bigcup_{i=1}^{N}\text{ and } R_i\cap R_j=\varnothing,\qquad \forall i\neq j.
+		I={\scriptstyle\bigcup_{i=1}^{N}}\text{ and } R_i\cap R_j=\varnothing,\qquad \forall i\neq j.
 	\end{gather*}
 	\item[\lp{segmentation quality}] the quality of a segmentation depends on what you want to do with it. Segmentation algorithms must be chosen and evaluated with an application in mind.
 \end{compactdesc}
@@ -47,12 +47,13 @@ Is a simple segmentation process, produces a binary image $B$. It labes each pix
 		\end{gather*}
 	\item[\lp{ROC Analysis}] Receiver operating Characteristic. An ROC curve characterizes the performance of a binary classifier. A binary classifier distinguishes between two different types of things.
 	\item[\lp{Classification error}] Binary classifiers make errors. Two types of input to a binary classifier: Positives, negatives. Four possible outcomes in any test: True positive, true negative, false negative, false positive.
-	\item[\lp{ROC Curve}] Characterizes the error trade-off in binary classification tasks. It plots  the \emph{true positive fraction} (TP fraction) 
+	\item[\lp{ROC Curve}] Characterizes the error trade-off in binary classification tasks. It plots  the \emph{true positive fraction} 
 		\begin{align*}
-			&=\text{true positive count}/P,& P&=TP+FN 
-			\shortintertext{and \emph{false positive fraction} (FP fraction)}
-		 &=\text{false positive count}/N, &N&=FP+TN.
+			\text{TP fraction }&=\text{true positive count}/P,
+			\shortintertext{$P=TP+FN$ and \emph{false positive fraction} }
+			\text{FP fraction}&=\text{false positive count}/N, 
 		\end{align*}
+$N=FP+TN$.
 	ROC curve always passes through $(0,0)$ and $(1,1)$.
 	\item[\lp{MAP}] (Maximum A Posteriori) detector
 	\item[\lp{Operating points}] choose an \emph{operating point} by assigning relative costs and values to each outcome, $V_{TN},V_{TP},C_{FN},C_{FP}$. $V$ and $C$ being values and costs. For simplicity, often $V_{TN}=V_{TP}=0$.

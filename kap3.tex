@@ -130,7 +130,7 @@ About modifying pixels based on \emph{neighborhood}. Local methods simplest. Lin
 	 where $K$ is a high-pass filter kernel and $\alpha\in [0,1]$.
  \item[\lp{Integral images}] integral images (also known as summed-area tables) allow to efficiently compute the convolution with a constant rectangle
 	 \begin{gather*}
-		 \mathcal{I}(x,y)=\int_{0}^{x}\!\rd{x'}\int_{0}^{y}\!\rd{y'}\, I(x',y')
+		 \mathcal{I}(x,y)={\scriptstyle\int_{0}^{x}}\!\rd{x'}{\scriptstyle\int_{0}^{y}}\!\rd{y'}\, I(x',y')
 	 \end{gather*}
 	 \begin{align*}
 		 A&=\mathcal{I}(1)&A+C&=\mathcal{I}(3)\\

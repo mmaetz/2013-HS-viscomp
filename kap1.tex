@@ -66,7 +66,7 @@ Inverse of sampling. Making samples back into continuous function. For output (n
 	\item[\lp{sampling grids}] cartesian sampling, hexagonal sampling and non-uniform sampling
 \end{compactdesc}
 \section{Quantization}
-\pgr{VisComp01b_DigitalSensors}{63}{-2.3}{-1.65}{2.4}{0.7}
+%\pgr{VisComp01b_DigitalSensors}{63}{-2.3}{-1.65}{2.4}{0.7}
 real valued function will get digital values - integer values. Quantization is lossy and can't be reconstructed. Simple quantization uses equally spaced levels with $k$ intervals.
 \begin{compactdesc}
 \item[\lp{usual quantization intervals}] \emph{Grayscale image:} $8$ bit$=2^{8}=256$ grayvalues. \emph{Color image RGB (3 channels):} $8\,\text{bit}/\text{channel}=2^{24}=16.7\text{M}\,\text{colors}$. Nonlinear, for example log-scale.
@@ -74,7 +74,6 @@ real valued function will get digital values - integer values. Quantization is l
 \section{Image Properties}
 \emph{Image resolution:} Clipped when reduced. \emph{Geometric resolution:} Whole picture but crappy when reduced. \emph{Radiometric resolution:} Number of colors.
 \section{Image Noise}
-
 \begin{compactdesc}
 	\item[\lp{additive Gaussian Noise}] Common model $I(x,y)=f(x,y)+c$, where $c\sim \mathcal{N}(0,\sigma^2)$. So that $p(c)=(2\pi\sigma^2)^{-1}e^{-c^2/2\sigma^2}$. 
 	\item[\lp{Poisson noise:} (shot noise)] 
@@ -83,12 +82,12 @@ real valued function will get digital values - integer values. Quantization is l
 		\end{gather*}
 	\item[\lp{Rician noise:}] (appears in MRI) 
 		\begin{gather*}
-			p(I)=\frac{I}{\sigma^2}\exp\!\left( \frac{-\left( I^2+f^2 \right)}{2\sigma^2} \right)I_0\left( \frac{If}{\sigma^2} \right)
+			p(I)=\frac{I}{\sigma^2}\exp\!\biggl(\! \frac{-\big( I^2+f^2 \big)}{2\sigma^2}\! \biggr)I_0\!\left( \frac{If}{\sigma^2} \right)
 		\end{gather*}
 	\item[\lp{Multiplicative noise:}] $I=f+fc$
 	\item[\lp{Signal to noise ration (SNR)}] $s=F/\sigma$ is an index of image quality, where
 		\begin{gather*}
-			F=\frac{1}{XY}\sum_{x=1}^{X}\sum_{y=1}^{Y}f(x,y)
+			F=\frac{1}{XY}{\scriptstyle\sum\limits_{x=1}^{X}}{\scriptstyle\sum\limits_{y=1}^{Y}}f(x,y)
 		\end{gather*}
 		Often used instead: \emph{Peak Signal to Noise Ratio (PSNR)} $s_{\text{peak}}=F_{\text{max}}/\sigma$
 \end{compactdesc}
