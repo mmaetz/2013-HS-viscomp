@@ -1,20 +1,24 @@
 \chapter{Optical Flow}
+In Visual Computing, people seem like to use
+\begin{align*}
+	I_{\spadesuit}&=\pdv{I}{\spadesuit},&u&=\pdv{x}{t},&v&=\pdv{y}{t}.
+\end{align*}
 \section{Applications}
-\begin{inparaenum}[\itshape(1)]
+\begin{enumerate*}[label=\protect\circled{\arabic*}]
 	\item tracking
 	\item structure from motion
 	\item stabilization
 	\item compression
 	\item Mosaicing
-\end{inparaenum}
+\end{enumerate*}
 \section{Brightness constancy}
 \begin{compactdesc}
 	\item[\lp{Definition of Optical Flow}] ``Apparent motion of brightness patterns''. Ideally, the optical flow is the projection of the three-dimensional velocity vectors on the image.
 	\item[\lp{Caution required}]
-		\begin{inparaenum}[\itshape (1)]
+		\begin{enumerate*}[label=\protect\circled{\arabic*}]
 			\item Uniform, rotating sphere $\mathcal{OF}=0$
 			\item No motion, but changing lighting $\mathcal{OF}\neq0$
-		\end{inparaenum}
+		\end{enumerate*}
 		\section{Mathematical formulation}
 		$I(x,y,t)=\text{brightness at }(x,y)\text{ at time }t$.
 	\item[\lp{Brightness constancy assumption:}]
@@ -26,4 +30,61 @@
 			\dv{I}{t}=\pdv{I}{x}\dv{x}{t}+\pdv{I}{y}\dv{y}{t}+\pdv{I}{t}=0
 		\end{gather*}
 		\section{The aperture problem}
+		The motion of an edge seen through an aperture is (in some cases) inherently ambiguous. E.g. the edge is physically moving upwards, but the edge motion alone is consistent with many other possible motions, and in this case the edge e.g. appears to move diagonally.
+		\section{Optical Flow meaning}
+		Estimate of observed projected motion field. Not always well defined! Compare:
+		\begin{enumerate*}[label=\protect\circled{\arabic*}]
+			\item Motion Field (or Scene Flow), projection of 3-D motion field
+			\item Normal Flow: observed tangent motion
+			\item Optic Flow: Apparent motion of the brightness pattern: Apparent motion of the brightness pattern (hopefully equal to motion field)
+			\item Consider barber pole illusion
+		\end{enumerate*}
+	\item[\lp{Planar motion}]
+		Ideal motions of a plane, $X,Y$ being the horizontal and vertical direction and $Z$ normal to the image plane:
+		\begin{enumerate*}[label=\protect\circled{\arabic*}]
+			\item translation in $X$
+			\item translation in $Z$
+			\item rotation around $Z$
+			\item rotation around $Y$
+		\end{enumerate*}
+		\section{Regularization: Horn \& Schunck algorithm} 
+		The Horn-Schunck algorithm assumes smoothness in the flow over the whole image. thus, it tries to minimize distortions in flow and prefers solutions which show more smoothness. The flow is formulated as a global energy functional which is the sought to be minimized. This function is given for two-dimensional image streams as:
+		\begin{align*}
+			E&={\scriptstyle\iint\limits_{}^{}}\!\dd{x}\!\dd{y}\left[\left( \pdv{I}{x}\dv{x}{t}+\pdv{I}{y}\pdv{y}{t}\right.\right.\\
+			&\quad\left.\left.+\pdv{I}{t} \right)^2
+		+\alpha^2\!\left( \norm{\nabla \dot{x}} +\norm{\nabla\dot{y}}\right)^2  \right]
+		\end{align*}
+		The associated ELE are 
+		\begin{align*}
+			\pdv{L}{\dot{x}}-\pdv{}{x}\pdv{L}{\pdv{\dot{x}}{x}}-\pdv{}{y}\pdv{L}{\pdv{\dot{x}}{y}}&=0,\\
+			\pdv{L}{\dot{y}}-\pdv{}{x}\pdv{L}{\pdv{\dot{y}}{x}}-\pdv{}{y}\pdv{L}{\pdv{\dot{y}}{y}}&=0.
+			\shortintertext{this gives}
+			\pdv{I}{x}\!\left(\! \pdv{I}{x}\dot{x}+\pdv{I}{y}\dot{y}+\pdv{I}{t} \!\right)-\alpha^2\Delta \dot{x}&=0,\\
+			\pdv{I}{y}\!\left(\! \pdv{I}{x}\dot{x}+\pdv{I}{y}\dot{y}+\pdv{I}{t} \!\right)-\alpha^2\Delta \dot{y}&=0.
+		\end{align*}
+		with $\ds\Delta=\pddv{}{x}+\pddv{}{y}.$
+	\item[\lp{Remarks}]\hfill
+		\begin{enumerate}[label=\protect\circled{\arabic*},leftmargin=1em]
+			\item Coupled PDE solved using iterative methods and finite differences
+				\begin{align*}
+					\ddot{x}&=\Delta \dot{x}-\lambda\!\left( \pdv{I}{x}\dot{x}+\pdv{I}{y}\dot{y}+\dot{I} \right)\pdv{I}{x},\\
+					\ddot{y}&=\Delta \dot{y}-\lambda\!\left( \pdv{I}{x}\dot{x}+\pdv{I}{y}\dot{y}+\dot{I} \right)\pdv{I}{y}.
+				\end{align*}
+		\end{enumerate}
+		\begin{enumerate*}[label=\protect\circled{\arabic*}]
+			\setcounter{enumi}{1}
+			\item More than two frames allow a better estimation of $\dot{I}$.
+			\item Information spreads from corner-type patterns.
+			\item Errors at boundaries
+			\item Example of \emph{regularisiation}: selection principle for the solution of illposed problems.
+		\end{enumerate*}
+		\section{Lucas-Kanade: Integrate over a Patch}
+		Assume a single velocity for all pixels within a image patch $I=I(x,y)$
+		\begin{gather*}
+			E(\dot{x},\dot{y})={\scriptstyle\sum\limits_{\mathclap{x,y\in\Omega}}^{}}\!{\left( \pdv{I}{x}\dot{x}+\pdv{I}{y}\dot{y}+\dot{I} \right)\!}^2
+		\end{gather*}
+		\begin{align*}
+			\pdv{E}{\dot{x}}&=2{\scriptstyle\sum\limits_{}^{}}\pdv{I}{x}\!\left( \pdv{I}{x}\dot{x}+\pdv{I}{y}\dot{y}+\dot{I} \right),\\
+			\pdv{E}{\dot{y}}&={2\scriptstyle\sum\limits_{}^{}}\pdv{I}{y}\!\left( \pdv{I}{x}\dot{x}+\pdv{I}{y}\dot{y}+\dot{I} \right).
+		\end{align*}
 \end{compactdesc}
