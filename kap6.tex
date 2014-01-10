@@ -1,14 +1,14 @@
 \chapter{Unitary transforms}
 Digital image as a matrix:
-\begin{align*}
-	f&=
-	\left( 
+\begin{align*}\scriptscriptstyle
+	f&=\!
+	\left[ 
 		\begin{smallmatrix}
 			f(0,0)&\cdots&f(N-1,0)\\
 			\vdots&\ddots&\vdots\\
 			f(0,L-1)&\cdots&f(N-1,L-1)
 			\end{smallmatrix}
-	\right)\\
+	\right]\!\\
 		&=f_{yx}
 		\shortintertext{or as a vector}
 	\vtr{f}&=
@@ -116,14 +116,16 @@ Digital image as a matrix:
 	Training data: For eigenfaces distance of difference of illumination are within indivual variance. Key idea: Find directions where ratio of between/within individual variance are maximized. Linearly project to basis where dimension with good signal to nois ration ar maximized.
 \item[\lp{Fisher linear discriminant analysis}] Eigenimage method maximizes ``scatter'' within the linear subspace over the entire image set - regardless of classification task
 	\begin{align*}
-		E_{\text{opt}}&=\argmax_E\!\left( \det\left( ERE^* \right) \right),
+		E_{\text{opt}}&=\argmax_E\!\left( \det\!\left( ERE^* \right) \right),
 		\shortintertext{Fisher linear discriminant analysis: Maximize between-class scatter, while minimizing within-class scatter,}
-		F_{\text{opt}}&=\argmax_F\!\left( \frac{\det\!\left( FR_BW^* \right)}{\det\!\left(FR_WF^*  \right)} \right),\\
-		R_B&={\scriptstyle\sum\limits_{i=1}^{c}}N_i\left( \vtr{\upmu}_i-\vtr{\upmu} \right)\left( \vtr{\upmu}_i-\vtr{\upmu} \right)^*,\\
-		R_W&={\scriptstyle\sum\limits_{\mathclap{\substack{i=1,\ldots,c\\\vtr{\Gamma}_{\ell}\in\,\class(i)}}}^{}}\left( \vtr{\Gamma}_{\ell}-\vtr{\upmu}_i \right)\left( \vtr{\Gamma}_{\ell}-\vtr{\upmu}_i \right)^*.
-		\shortintertext{$N_i$ are the samples in class $i$ and $\vtr{\upmu}_i$ is the mean in class $i$. Solution: Generalized eigenvectors $\vtr{w}_i$ corresponding to the $k$ largest eigenvalues $\left\{ \lambda_i\mid i=1,\ldots,k \right\}$, i.e.}
-		R_B\vtr{w}_i&=\lambda_iR_w\vtr{w}_i, i=1,\ldots,k
+		F_{\text{opt}}&=\argmax_F\!\!\left(\!\!\! \frac{\det\!\left( FR_BW^* \right)}{\det\!\left(FR_WF^*  \right)} \!\!\!\right)\!\!,\\
+		R_B&={\scriptstyle\sum\limits_{i=1}^{c}}N_i\!\left(\! \vtr{\upmu}_i-\vtr{\upmu} \!\right)\!\!{\left( \vtr{\upmu}_i-\vtr{\upmu} \right)\!}^*\!,\\
+		R_W&={\scriptstyle\sum\limits_{\mathclap{\substack{i=1,\ldots,c\\\vtr{\Gamma}_{\ell}\in\,\class(i)}}}^{}}\!\left(\! \vtr{\Gamma}_{\ell}-\vtr{\upmu}_i \!\right)\!\!{\left(\! \vtr{\Gamma}_{\ell}-\vtr{\upmu}_i \right)\!}^*\!.
 	\end{align*}.
+		$N_i$ are the samples in class $i$ and $\vtr{\upmu}_i$ is the mean in class $i$. Solution: Generalized eigenvectors $\vtr{w}_i$ corresponding to the $k$ largest eigenvalues $\left\{ \lambda_i\mid i=1,\ldots,k \right\}$, i.e.
+		\begin{align*}
+			R_B\vtr{w}_i&=\lambda_iR_w\vtr{w}_i, i=1,\ldots,k
+		\end{align*}
 	Problem: within-class scatter matrix $R_W$ at most of rank $L-c$, hence usually singular. Apply KLT first to reduce dimension of feature space to $L-c$ (or less), proceed with Fisher LDA in low-dimensional space.
 	\item[\lp{Eigenfaces vs. Fisherfaces}] Eigenfaces conserve energy but the two classes e.g. in 2D are no longer distinguishable. FLD (Fisher LDA) separates the classes by choosing a better 1D subspace. Fisher faces are much better in varying illuminations.
 	\item[\lp{Varying illumination (FF)}] All images of same Lambertian surface with different illumination (without shadows) ile in a 3D linear subspace. Single point source at infinity

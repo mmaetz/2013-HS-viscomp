@@ -3,10 +3,10 @@
 \begin{compactdesc}
 	\item[\lp{Problem}] Locate an object, described by a template $t(x,y)$, in the image $s(x,y)$. \emph{Example:} Passport photo as image and eyes to detect.
 	\item[\lp{Method}] Search for the best match by minimizing mean -squared error $E(p,q)$
-		\begin{align*}
-			&={\scriptstyle\sum_{x,y=-\infty}^{\infty}}\left[ s(x,y)-t(x-p,y-q) \right]^2\\
-			&={\scriptstyle\sum_{x,y=-\infty}^{\infty}}\abs{s(x,y)}^2+\abs{t(x,y)}^2\\
-			&\quad -2\cdot{\scriptstyle\sum_{x,y=-\infty}^{\infty}}s(x,y)\cdot t(x-p,y-q)
+		\begin{align*}\scriptscriptstyle
+			&={\scriptstyle\sum\limits_{\mathclap{x,y=-\infty}}^{\infty}}\left[ s(x,y)\!-\!t(x\!-\!p,y\!-\!q) \right]^2\\
+			&={\scriptstyle\sum\limits_{\mathclap{x,y=-\infty}}^{\infty}}\abs{s(x,y)}^2+\abs{t(x,y)}^2\\
+			&\,-2\!\cdot\!{\scriptstyle\sum\limits_{\mathclap{x,y=-\infty}}^{\infty}}s(x,y)\cdot t(x\!-\!p,y\!-\!q)
 		\end{align*}
 		Equivalently, maximize \emph{area correlation}
 		\begin{align*}
@@ -96,9 +96,11 @@
 		\end{smallmatrix}\right)$,
 	\item[\lp{Laplacian of Gaussian}]
 		The Laplacian operator is very sensity to fine detail and noise, so blur it first with Gaussian.$\to$ do it in one operator Laplacian of Gaussian (LoG)
-		\begin{gather*}
-			\text{LoG}(x,y)=-\frac{1}{\pi\sigma^4}\left[ 1-\frac{x^2+y^2}{2\sigma^2} \right]e^{-\frac{x^2+y^2}{2\sigma^2}}
-		\end{gather*}
+		\begin{align*}
+			&\LoG(x,y)\\
+			&\quad=-\frac{1}{\pi\sigma^4}\left[ 1-\frac{x^2+y^2}{2\sigma^2} \right]\\
+			&\qquad \cdot e^{-\frac{x^2+y^2}{2\sigma^2}}
+		\end{align*}
 \end{compactdesc}
 \subsection{Canny edge detector}
 \begin{inparaenum}[\itshape(1)]

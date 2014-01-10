@@ -1,64 +1,48 @@
+\usepackage[utf8]{inputenc}
+\usepackage[ngerman,english]{babel}
+\usepackage{multicol}
+\usepackage{epsfig,cite,amsmath,amssymb,amsbsy,mathrsfs}
 \usepackage{calc}
 \usepackage[rgb]{xcolor}
 \usepackage{listings}
-\usepackage{mathptmx}
-\usepackage{multicol}
-%\usepackage{sectsty}
+%\usepackage{txfonts}
+%\usepackage{mathptmx}
+\usepackage{newtxtext,newtxmath}
 \usepackage[activate={true,nocompatibility},final,tracking=true,kerning=true,spacing=true,factor=1100,stretch=10,shrink=10]{microtype}
-%\usepackage{microtype}
-%\usepackage{setspace}
 %%% Compact itemize and enumerate
 \usepackage[alwaysadjust]{paralist}
 \usepackage[inline]{enumitem}
-%\usepackage[compact]{titlesec}
-\usepackage[utf8]{inputenc}
-\usepackage[ngerman,english]{babel}
 \usepackage{tikz,tikz-3dplot,pgflibraryshapes}
 \usepackage{pgfplots}
-%\usepackage[headings,cm]{fullpage}
 
-%\usepackage{epsfig,cite,amsmath,amssymb,amsbsy,mathrsfs}
-\usepackage{epsfig,cite,amsmath,amssymb,amsbsy,mathrsfs}
 \usepackage{color,graphicx}
-\usepackage{latexsym}
+%\usepackage{latexsym}
 %%% mmaetz packages
 %%% Side captions
 \usepackage{sidecap}
-%%% Theorems like Theorem 3.1, proof environment
+%%%% Theorems like Theorem 3.1, proof environment
 %\usepackage{amsthm}
 %% NTheorem is a reimplementation of the AMS Theorem package. This will allow
 %% us to typeset theorems like examples, proofs and similar.
 %% NOTE: Must be loaded AFTER amsmath, or the \qed placement will break
-\usepackage[amsthm,thmmarks]{ntheorem}
+%\usepackage[amsthm,thmmarks]{ntheorem}
 %%% Using this packages numbers with units are always typed correctly.
 \usepackage{siunitx}
 %%% To cross out some stuff.
-\usepackage{cancel}
+%\usepackage{cancel}
 %%% To have an enumerate environment with options to get like.
 %%% i) bla
 %%% ii) lala
 %%% typing just \item
 \usepackage{enumerate}
-%%% To use \bm\mathrm instead of \vec one needs the appropriate greek letters
-\usepackage{upgreek}
+%% To use \bm\mathrm instead of \vec one needs the appropriate greek letters
+%\usepackage{upgreek}
 %%% bold math
 \usepackage{bm}
 %%% Nice tabular
 \usepackage{booktabs}
 %%% For iddots (Inverse diagonal triple dot.)
-\usepackage{mathdots}
-%%% To change the headers. 
-%\newcommand{\changefont}{%
-%	\fontsize{9}{11}\selectfont
-%}
-%%% fancy headers
-%\usepackage{fancyhdr}
-%\pagestyle{fancy}
-%\fancyhead[LE]{\changefont\slshape\nouppercase \rightmark} %section
-%\fancyhead[RE]{\thepage}
-%\fancyhead[RO]{\changefont\slshape\nouppercase \leftmark} % chapter
-%\fancyhead[LO]{\thepage}
-%\fancyfoot[C]{}
+%\usepackage{mathdots}
 
 %%% To use mathclap.
 \usepackage{mathtools}
@@ -84,12 +68,12 @@
 %%% mmaetz: I'm using an authors id
 %\definechangesauthor[name={Marc Maetz},color=blue!50!black]{MM}
 
-%%% mmaetz: Can be useful for something but forgot what and I'm not using it here.
-%\usepackage{etoolbox}
-%%% mmaetz: Just discovered breqn which provides automatic line breaking. Very nice, more powerful but requires a bit of getting used to it.
-%%% flexisym is needed by breqn
-\usepackage{flexisym}
-\usepackage{breqn}
-%%% To make the references clickable
-%%% The color settings are in the tikzstuff.tex file.
+%%%% mmaetz: Can be useful for something but forgot what and I'm not using it here.
+%%\usepackage{etoolbox}
+%%%% mmaetz: Just discovered breqn which provides automatic line breaking. Very nice, more powerful but requires a bit of getting used to it.
+%%%% flexisym is needed by breqn
+%\usepackage{flexisym}
+%\usepackage{breqn}
+%%%% To make the references clickable
+%%%% The color settings are in the tikzstuff.tex file.
 \usepackage{hyperref}
