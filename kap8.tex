@@ -71,13 +71,8 @@ where the subindex means a derivative if and only if we are talking about $I$.
 	\item[\lp{Remarks}]\hfill
 		\begin{enumerate*}[label=\protect\circled{\arabic*}]
 			\item Coupled PDE solved using iterative methods and finite differences
-<<<<<<< HEAD
 				$\ddot{x}=\Delta \dot{x}-\lambda\!\left( \pdv{I}{x}\dot{x}+\pdv{I}{y}\dot{y}+\dot{I} \right)\!\pdv{I}{x},\\$\\
 				$\ddot{y}=\Delta \dot{y}-\lambda\!\left( \pdv{I}{x}\dot{x}+\pdv{I}{y}\dot{y}+\dot{I} \right)\!\pdv{I}{y}.$
-=======
-				$\ddot{x}=\Delta \dot{x}-\lambda\!\left( \pdv{I}{x}\dot{x}+\pdv{I}{y}\dot{y}+\dot{I} \right)\pdv{I}{x},\\$\\
-				$\ddot{y}=\Delta \dot{y}-\lambda\!\left( \pdv{I}{x}\dot{x}+\pdv{I}{y}\dot{y}+\dot{I} \right)\pdv{I}{y}.$
->>>>>>> f6ce3346e43f8bc6520d5754d121b000737cb906
 		\item More than two frames allow a better estimation of $\dot{I}$.
 			\item Information spreads from corner-type patterns.
 			\item Errors at boundaries
@@ -109,11 +104,7 @@ Assume \emph{brightness constancy}. Let $f_1(x)$ and $f_2(x)$ be 1D signals (ima
 \begin{align}\scriptscriptstyle
 	\mkern-36mu\leadsto &f_1(x)-f_2(x)\nonumber\\
 	&=\delta f_1'(x)+\mathcal{O}\!\left( \delta^2 \right)\nonumber\\
-<<<<<<< HEAD
 	\leadsto \tilde{\delta} &=\frac{f_1(x)-f_2(x)}{f_1'(x)}\approx \delta
-=======
-	\leadsto \delta &\approx\frac{f_1(x)-f_2(x)}{f_1'(x)}
->>>>>>> f6ce3346e43f8bc6520d5754d121b000737cb906
 	\label{eq:gradient1}
 \end{align}
 Assume displaced image well approximated by first-order Taylor series
@@ -123,7 +114,6 @@ Assume displaced image well approximated by first-order Taylor series
 		&\quad\approx I(\vtr{x},t)+\vtr{u}\cdot \nabla I(\vtr{x},t)+I_t(\vtr{x},t)\nonumber
 \end{align}
 Insert Eq. \ref{eq:gradient1} in Eq. \ref{eq:gradient2} to get
-<<<<<<< HEAD
 \begin{gather}
 	\nabla I(\vtr{x},t)\cdot\vtr{u}+I_t(\vtr{x},t)=0.
 	\label{eq:gradconstr}
@@ -225,7 +215,6 @@ The most expensive step at each iteration is the computation of image gradients 
 	\nabla I(\vtr{x},t)\cdot\vtr{u}+I_t(\vtr{x},t)=0.
 \end{gather*}
 This i s called the \emph{gradient constraint equation}.
->>>>>>> f6ce3346e43f8bc6520d5754d121b000737cb906
 \section{Pyramid/Coarse-to-fine}
 Limits of the (local) gradient method:
 \begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
@@ -233,7 +222,6 @@ Limits of the (local) gradient method:
 	\item Fails when displacement is large (typical operating range is motion of 1 pixel per iteration!). Linearization of brightness is suitable only for small displacements. \\
 	\item Brightness is no strictly constant in images. Actually less problematic than it appears, since we can pre-filter images to make them look similar.\\
 \end{enumerate*}
-<<<<<<< HEAD
 
 In practice, our images have temporal sampling rates lower than required by the sampling theorem to uniquely reconstruct the continuous signal. AS a consequence, temporal aliasing is a common problem in motion estimation.
 
@@ -349,5 +337,4 @@ Global miton models offer:\\
 	\item More constrained solutions than smoothness (Horn-Schunck)\\
 	\item Integration over a large area than a translation-only model can accomodate (Lucas-Kanade)
 \end{enumerate*}
->>>>>>> f6ce3346e43f8bc6520d5754d121b000737cb906
 \end{compactdesc}

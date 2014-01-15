@@ -84,7 +84,7 @@ For each block in the current frame, search for best matching block in the refer
 	\item Why are half-pixel motion vectors better? They can capture half-pixel motion. Averaging effect (from spatial interpolation) reduces prediction error $\to$ Improved prediction. For noisy sequences, averaging effect reduces noise $\to$ Improved compression.
 \end{itemize*}
 \subsection{Practical Half-Pixel Motion Estimation Algorithm}
-Half-pixel ME (coarlse-fine) algorithm:
+Half-pixel ME (coarse-fine) algorithm:
 \begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
 	\item Coarse step: Perform integer motion estimation on blocks; find best integer-pixel MV\\
 	\item Fine step: Refine estimate to find best half-pixel MV\\
@@ -110,13 +110,13 @@ Typically, bilinear interpolation is used for spatial interpolation
 		\item Ofter produces blocking artifacts (OK for coding with Block DCT)
 	\end{enumerate*}
 \item[\lp{Bidirectional MC prediction}]
-	is uset to estimate a block in the current frame from a block in:
+	is uset to estimate a block in the current frame from a block in:\\
 	\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
 		\item Previous frame\\
 		\item Future frame\\
 		\item Average of ablock from the previous frame and a block from the future frame\\
 		\item Neither, i.e. code current block without prediction
-	\end{enumerate*}
+	\end{enumerate*}\\
 	\emph{Example}: Prediction with P- and B-frames\\
 	\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
 		\item Motion compensated prediction: Predict the current frame based on reference frame(s) while compensating for the motion.\\
@@ -164,5 +164,32 @@ Main addition over image compression: Exploit the temporal redundancy. Predict c
 			&IBBPBBPBBPBBI.
 		\end{align*}
 		Why not all P and B frames after initial I? (Because then the whole movie depends on the accuracy of the first frame. Data loss possible etc.)
-	\item[\lp{Example compression performance}] $I$: $\hat{=}\frac{1}{7}$, $P$: $\frac{1}{20}$, $B$: $\frac{1}{50}$, Average: $\frac{1}{27}$.
+	\item[\lp{Example compression performance}] \hfill\\I: $\frac{1}{7}$, P: $\frac{1}{20}$, B: $\frac{1}{50}$, Average: $\frac{1}{27}$.
+\section{Summary of Temporal Processing}
+	\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
+		\item Use MC-prediction (P and P frames) to reduce temporal redundancy.\\
+		\item MC-prediction usually performs well; In compression have a second changce to recover when it performs badly.\\
+		\item MC-prediction yields\\
+			\begin{enumerate*}[label=\quad\protect\circled{\alph*},itemjoin=]
+				\item Motion vectors\\
+				\item MC-prediction error or residual $\to$ Code error with conventional image coder\\
+			\end{enumerate*}
+		\item Sometimes MC-prediction may \emph{perform badly}\\
+			\begin{enumerate*}[label=\quad\protect\circled{\alph*},itemjoin=]
+				\item Examples: complex motion, new imagery (occlusions)\\
+				\item Approach: \emph{1.} Identify frame or individual blocks where prediction fails \\
+					\emph{2.} Code without prediction
+			\end{enumerate*}
+	\end{enumerate*}
+	\section{Basic Video Compression Architecture}
+	\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
+		\item Exploiting the reduncancies:
+			\begin{enumerate*}[label=\quad\protect\circled{\alph*},itemjoin=]
+				\item Temporal: MC-prediction (P and B frames)\\
+				\item Spatial: Block DCT\\
+				\item Color: color space conversion
+			\end{enumerate*}
+		\item Scalar quantization of DCT coefficients\\
+		\item Zigzag scanning, runlength and Huffman coding of the nonzero quantized DCT coefficients
+	\end{enumerate*}
 \end{compactdesc}
