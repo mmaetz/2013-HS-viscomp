@@ -81,9 +81,10 @@ real valued function will get digital values - integer values. Quantization is l
 			p(k)=\lambda^{k}e^{-\lambda}/k!
 		\end{gather*}
 	\item[\lp{Rician noise:}] (appears in MRI) 
-		\begin{gather*}
-			p(I)=\frac{I}{\sigma^2}\exp\!\biggl(\! \frac{-\big( I^2+f^2 \big)}{2\sigma^2}\! \biggr)I_0\!\left( \frac{If}{\sigma^2} \right)
-		\end{gather*}
+		\begin{align*}
+			p(I)&=\frac{I}{\sigma^2}\exp\!\biggl(\! \frac{-\big( I^2+f^2 \big)}{2\sigma^2}\! \biggr)\\
+			&\quad I_0\!\left( \frac{If}{\sigma^2} \right)
+		\end{align*}
 	\item[\lp{Multiplicative noise:}] $I=f+fc$
 	\item[\lp{Signal to noise ration (SNR)}] $s=F/\sigma$ is an index of image quality, where
 		\begin{gather*}

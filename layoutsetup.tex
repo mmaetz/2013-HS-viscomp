@@ -12,13 +12,20 @@
 
 % Define the default sans serif font as the lighter computer modern bright by
 % D. Knuth.
-\renewcommand{\sfdefault}{cmbr}
+%\renewcommand{\sfdefault}{cmbr}
+%%% colors
+\def\saturation{200}
+\def\brightness{170}
+\definecolor{chapterlinecolor}{HSB}{250,\saturation,\brightness}
+\definecolor{sectionlinecolor}{HSB}{166,\saturation,\brightness}
+\definecolor{subsectionlinecolor}{HSB}{80,\saturation,\brightness}
+\colorlet{test}{subsectionlinecolor}
 
 %%% Define a nice orange color and use it for hyperref
 %%% Needs xcolor
 \usepackage{xcolor}
 \definecolor{rioday}{RGB}{255,166,0} 
-\hypersetup{colorlinks=false,linkbordercolor=rioday}
+\hypersetup{colorlinks=false,linkbordercolor=chapterlinecolor}
 
 
 % Turn extra space before chapter headings off.
@@ -33,16 +40,10 @@
 \newcommand{\colorhrule}[3]{%
 	\begingroup\color{#1}\hrule height #2 width #3\endgroup
 }%
-\def\saturation{200}
-\def\brightness{170}
-\definecolor{chapterlinecolor}{HSB}{250,\saturation,\brightness}
-\definecolor{sectionlinecolor}{HSB}{166,\saturation,\brightness}
-\definecolor{subsectionlinecolor}{HSB}{80,\saturation,\brightness}
-\colorlet{test}{subsectionlinecolor}
 \makechapterstyle{test}{
-	\setlength\midchapskip{0.5em}
+	\setlength\midchapskip{0.0em}
 	\setlength\afterchapskip{0.2em}
-	\setlength\beforechapskip{0.2em}
+	\setlength\beforechapskip{0.0em}
 	%\setlength\beforesecskip{0cm}
 	%\setlength\aftersecskip{0cm}
 	\renewcommand{\chapterheadstart}{\colorlet{rulecolor}{chapterlinecolor}\rule{\columnwidth}{1.5ex}%\vspace{-1pt}}
@@ -191,13 +192,13 @@
 \makeatother
 
 % This defines how theorems should look. Best leave as is.
-\theoremstyle{nonumberbreak}
-\theoremseparator{:\quad}
-\theoremprework{}
-\theoremindent2em
-\theoremheaderfont{\sffamily\bfseries}
-\theorembodyfont{\normalfont}
-\theoremsymbol{}
+%\theoremstyle{nonumberbreak}
+%\theoremseparator{:\quad}
+%\theoremprework{}
+%\theoremindent2em
+%\theoremheaderfont{\sffamily\bfseries}
+%\theorembodyfont{\normalfont}
+%\theoremsymbol{}
 
 \expandafter\def\expandafter\normalsize\expandafter{%
 %\normalsize
@@ -217,23 +218,53 @@
 \setdefaultleftmargin{0pt}{0pt}{0pt}{0pt}{0pt}{0pt}
 
 %%% Page layout
-\setlength{\headheight}{0pt}
-\setlength{\headsep}{0pt}
+%%% My layout
+%\setlength{\headheight}{0pt}
+%\setlength{\headsep}{0pt}
+%\setlength{\footskip}{0pt}
+%\newcommand{\lrmargin}{0.25cm}
+%\newcommand{\ulmargin}{0.25cm}
+%\setstocksize{21.0cm}{29.7cm}
+%\settrimmedsize{\stockheight}{\stockwidth}{*}
+%%\settypeblocksize{\stockheight-\test*2}{\stockwidth-\margin*2}{*}
+%%\setlrmargins{\margin}{*}{*}
+%\setlrmarginsandblock{\lrmargin}{*}{*}
+%%\setulmargins{\test}{*}{*}
+%\setulmarginsandblock{\ulmargin}{*}{*}
+%\setheadfoot{0pt}{4.39pt}
+%\checkandfixthelayout
+%% From the internet
+%\pagestyle{plain}
+%\setstocksize{21.0cm}{29.7cm}
+\setlength{\trimtop}{0cm}
+\setlength{\trimedge}{0cm}
+\setlength{\evensidemargin}{0.0cm}
+\setlength{\oddsidemargin}{0cm}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+\setlength{\topmargin}{0cm}
+\setlength{\uppermargin}{0cm}
+\setlength{\lowermargin}{0cm}
+\setlength{\headheight}{0cm}
+\setlength{\headsep}{0cm}
 \setlength{\footskip}{0pt}
-\newcommand{\lrmargin}{0.25cm}
-\newcommand{\ulmargin}{0.25cm}
-\setstocksize{21.0cm}{29.7cm}
-\settrimmedsize{\stockheight}{\stockwidth}{*}
-%\settypeblocksize{\stockheight-\test*2}{\stockwidth-\margin*2}{*}
-%\setlrmargins{\margin}{*}{*}
-\setlrmarginsandblock{\lrmargin}{*}{*}
-%\setulmargins{\test}{*}{*}
-\setulmarginsandblock{\ulmargin}{*}{*}
-\setheadfoot{0pt}{0pt}
+\setlength{\spinemargin}{0cm}
+\setlength{\foremargin}{0cm}
+\setlength{\marginparwidth}{0cm}
+\newcommand{\lrmargin}{0cm}
+\newcommand{\ulmargin}{0cm}
+\setlrmarginsandblock{\lrmargin}{\lrmargin}{*}
+\setulmarginsandblock{-0.5pt}{\ulmargin}{*}
+%\setlength{\marginsep}{0cm}
+\setlength{\paperheight}{21.0cm}
+\setlength{\paperwidth}{29.7cm}
+\setlength{\stockheight}{\paperheight}
+\setlength{\stockwidth}{\paperwidth}
+\setlength{\textheight}{\stockheight-0.5pt}
+\setlength{\textwidth}{\stockwidth}
 \checkandfixthelayout
-
-\setsecheadstyle{\colorhrule{sectionlinecolor}{1ex}{\columnwidth}\vspace{-0.25ex}\scriptsize\bfseries}
-\setsubsecheadstyle{\colorhrule{subsectionlinecolor}{0.5ex}{\columnwidth}\vspace{-0.125ex}\tiny\bfseries}
+\setsecheadstyle{\colorhrule{sectionlinecolor}{1ex}{\columnwidth}\vspace{0.1em}\scriptsize\bfseries}
+\setsubsecheadstyle{\colorhrule{subsectionlinecolor}{0.5ex}{\columnwidth}\vspace{0.05em}\tiny\bfseries}
 \setparaheadstyle{\tiny\bfseries}
 %\setsubsubsecheadstyle{\normalsize\scshape\raggedright}
 \setbeforesecskip{-1.2ex plus -.25ex minus -.1ex}

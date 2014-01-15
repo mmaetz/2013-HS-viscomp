@@ -70,6 +70,8 @@
 
 %% Additional mathematical operators
 %% Just use the physics package
+\DeclareMathOperator*{\rank}{rank}
+\DeclareMathOperator*{\LoG}{LoG}
 \DeclareMathOperator*{\argmin}{\operatornamewithlimits{argmin}}
 \DeclareMathOperator*{\argmax}{\operatornamewithlimits{argmax}}
 \DeclareMathOperator*{\class}{Class}
@@ -142,8 +144,16 @@
 \newcommand{\pddvm}[3]{\frac{\partial^{2} #1}{\partial #2 \partial #3}}
 \newcommand{\pdvn}[3]{\frac{\partial^{#1} #2}{\partial #3 ^{#1}}}
 \newcommand{\fdv}[2]{\frac{\delta #1}{\delta #2}}
-\newcommand{\vtr}[1]{\boldsymbol{\mathrm{#1}}}
+%\newcommand{\vtr}[1]{\boldsymbol{\mathrm{#1}}}
+%\newcommand{\vtr}[1]{\mathbf{#1}}
+\newcommand{\vtr}[1]{\bm{\mathrm{#1}}}
 
+%%% siunitx
+\DeclareSIUnit\pixel{pixel}
+\DeclareSIUnit\pixels{pixels}
+\DeclareSIUnit\bits{bits}
+\DeclareSIUnit\mb{Mb}
+\DeclareSIUnit\gb{Gb}
 
 %% Set an index and print it to the current position at the same time
 \newcommand{\Index}[1]{\emph{#1}\index{#1}}
@@ -184,3 +194,4 @@
 }
 %% Enumerate
 \newcommand*\circled[1]{\tikz[baseline=(char.base)]{\node[shape=circle,fill=test,inner sep=0.2ex] (char) {#1};}}
+\newcommand*\colorbullet{\textcolor{test}{\textbullet}}

@@ -1,8 +1,10 @@
+\setcounter{chapter}{7}
 \chapter{Optical Flow}
 In Visual Computing, people seem like to use
 \begin{align*}
-	I_{\spadesuit}&=\pdv{I}{\spadesuit},&u&=\pdv{x}{t},&v&=\pdv{y}{t}.
+	I_{\spadesuit}&=\pdv{I}{\spadesuit},&u&=\pdv{x}{t},&v&=\pdv{y}{t},
 \end{align*}
+where the subindex means a derivative if and only if we are talking about $I$.
 \section{Applications}
 \begin{enumerate*}[label=\protect\circled{\arabic*}]
 	\item tracking
@@ -13,18 +15,22 @@ In Visual Computing, people seem like to use
 \end{enumerate*}
 \section{Brightness constancy}
 \begin{compactdesc}
-	\item[\lp{Definition of Optical Flow}] ``Apparent motion of brightness patterns''. Ideally, the optical flow is the projection of the three-dimensional velocity vectors on the image.
+	\item[\lp{Definition of Optical Flow}]\hfill ``Apparent motion of brightness patterns''. Ideally, the optical flow is the projection of the three-dimensional velocity vectors on the image.
 	\item[\lp{Caution required}]
 		\begin{enumerate*}[label=\protect\circled{\arabic*}]
 			\item Uniform, rotating sphere $\mathcal{OF}=0$
 			\item No motion, but changing lighting $\mathcal{OF}\neq0$
 		\end{enumerate*}
 		\section{Mathematical formulation}
-		$I(x,y,t)=\text{brightness at }(x,y)\text{ at time }t$.
+		\begin{align*}
+		&I(x,y,t)\\
+		\;&=\text{brightness}\text{ }\text{at}\text{ }(x,y)\text{ }\text{at}\text{ }\text{time}\text{ }t.
+		\end{align*}
 	\item[\lp{Brightness constancy assumption:}]
-		\begin{gather*}
-			I\!\left(\!\! \dv{x}{t}\delta t,y+\dv{y}{t} \delta t,t+\delta t \!\!\right)\!=I(x,y,t)
-		\end{gather*}
+		\begin{align*}
+			&I\!\left(\!\! \dv{x}{t}\delta t,y+\dv{y}{t} \delta t,t+\delta t \!\!\right)\!\\
+			&\quad=I(x,y,t)
+		\end{align*}
 	\item[\lp{Optical flow constraint equation:}]
 		\begin{gather*}
 			\dv{I}{t}=\pdv{I}{x}\dv{x}{t}+\pdv{I}{y}\dv{y}{t}+\pdv{I}{t}=0
@@ -48,43 +54,275 @@ In Visual Computing, people seem like to use
 			\item rotation around $Y$
 		\end{enumerate*}
 		\section{Regularization: Horn \& Schunck algorithm} 
-		The Horn-Schunck algorithm assumes smoothness in the flow over the whole image. thus, it tries to minimize distortions in flow and prefers solutions which show more smoothness. The flow is formulated as a global energy functional which is the sought to be minimized. This function is given for two-dimensional image streams as:
-		\begin{align*}
-			E&={\scriptstyle\iint\limits_{}^{}}\!\dd{x}\!\dd{y}\left[\left( \pdv{I}{x}\dv{x}{t}+\pdv{I}{y}\pdv{y}{t}\right.\right.\\
-			&\quad\left.\left.+\pdv{I}{t} \right)^2
-		+\alpha^2\!\left( \norm{\nabla \dot{x}} +\norm{\nabla\dot{y}}\right)^2  \right]
-		\end{align*}
+		The Horn-Schunck algorithm assumes smoothness in the flow over the whole image. thus, it tries to minimize distortions in flow and prefers solutions which show more smoothness. The flow is formulated as a global energy functional which is the sought to be minimized. This function is given for two-dimensional image streams as Eq. \ref{eq:2dimstreams}:
 		The associated ELE are 
 		\begin{align*}
 			\pdv{L}{\dot{x}}-\pdv{}{x}\pdv{L}{\pdv{\dot{x}}{x}}-\pdv{}{y}\pdv{L}{\pdv{\dot{x}}{y}}&=0,\\
 			\pdv{L}{\dot{y}}-\pdv{}{x}\pdv{L}{\pdv{\dot{y}}{x}}-\pdv{}{y}\pdv{L}{\pdv{\dot{y}}{y}}&=0.
-			\shortintertext{this gives}
-			\pdv{I}{x}\!\left(\! \pdv{I}{x}\dot{x}+\pdv{I}{y}\dot{y}+\pdv{I}{t} \!\right)-\alpha^2\Delta \dot{x}&=0,\\
-			\pdv{I}{y}\!\left(\! \pdv{I}{x}\dot{x}+\pdv{I}{y}\dot{y}+\pdv{I}{t} \!\right)-\alpha^2\Delta \dot{y}&=0.
+		\end{align*}
+			this gives
+		\begin{align*}
+			&\pdv{I}{x}\!\left(\! \pdv{I}{x}\dot{x}+\pdv{I}{y}\dot{y}+\pdv{I}{t} \!\right)-\alpha^2\Delta \dot{x}\\
+			&\quad=0,\\
+			&\pdv{I}{y}\!\left(\! \pdv{I}{x}\dot{x}+\pdv{I}{y}\dot{y}+\pdv{I}{t} \!\right)-\alpha^2\Delta \dot{y}\\
+			&\quad=0.
 		\end{align*}
 		with $\ds\Delta=\pddv{}{x}+\pddv{}{y}.$
 	\item[\lp{Remarks}]\hfill
-		\begin{enumerate}[label=\protect\circled{\arabic*},leftmargin=1em]
-			\item Coupled PDE solved using iterative methods and finite differences
-				\begin{align*}
-					\ddot{x}&=\Delta \dot{x}-\lambda\!\left( \pdv{I}{x}\dot{x}+\pdv{I}{y}\dot{y}+\dot{I} \right)\pdv{I}{x},\\
-					\ddot{y}&=\Delta \dot{y}-\lambda\!\left( \pdv{I}{x}\dot{x}+\pdv{I}{y}\dot{y}+\dot{I} \right)\pdv{I}{y}.
-				\end{align*}
-		\end{enumerate}
 		\begin{enumerate*}[label=\protect\circled{\arabic*}]
-			\setcounter{enumi}{1}
-			\item More than two frames allow a better estimation of $\dot{I}$.
+			\item Coupled PDE solved using iterative methods and finite differences
+				$\ddot{x}=\Delta \dot{x}-\lambda\!\left( \pdv{I}{x}\dot{x}+\pdv{I}{y}\dot{y}+\dot{I} \right)\!\pdv{I}{x},\\$\\
+				$\ddot{y}=\Delta \dot{y}-\lambda\!\left( \pdv{I}{x}\dot{x}+\pdv{I}{y}\dot{y}+\dot{I} \right)\!\pdv{I}{y}.$
+		\item More than two frames allow a better estimation of $\dot{I}$.
 			\item Information spreads from corner-type patterns.
 			\item Errors at boundaries
 			\item Example of \emph{regularisiation}: selection principle for the solution of illposed problems.
 		\end{enumerate*}
 		\section{Lucas-Kanade: Integrate over a Patch}
-		Assume a single velocity for all pixels within a image patch $I=I(x,y)$
+%		Assume a single velocity for all pixels within a image patch $I=I(x,y)$
+%		\begin{gather*}
+%			E(\dot{x},\dot{y})={\scriptstyle\sum\limits_{\mathclap{x,y\in\Omega}}^{}}\!{\left( \pdv{I}{x}\dot{x}+\pdv{I}{y}\dot{y}+\dot{I} \right)\!}^2
+%		\end{gather*}
+%		\begin{align*}
+%			\pdv{E}{\dot{x}}&=2{\scriptstyle\sum\limits_{}^{}}\pdv{I}{x}\!\left( \pdv{I}{x}\dot{x}+\pdv{I}{y}\dot{y}+\dot{I} \right),\\
+%			\pdv{E}{\dot{y}}&={2\scriptstyle\sum\limits_{}^{}}\pdv{I}{y}\!\left( \pdv{I}{x}\dot{x}+\pdv{I}{y}\dot{y}+\dot{I} \right).
+%		\end{align*}
+		The Lucas-Kanade method assumes that the displacement of the image contents between two nearby instants (frames) is small and approximately constant within a neightborhood of the point $p$ under consideration. thus the optical flow equation can be assumed to hold for all pixels within a window centered at $p$. Namely, the local image flow (velocity) vector $\left( \dot{x},\dot{y}\right)$ must satisfy
 		\begin{gather*}
-			E(\dot{x},\dot{y})={\scriptstyle\sum\limits_{\mathclap{x,y\in\Omega}}^{}}\!{\left( \pdv{I}{x}\dot{x}+\pdv{I}{y}\dot{y}+\dot{I} \right)\!}^2
+			\pdv{I(q_k)}{x}\dot{x}+\pdv{I(q_k)}{y}\dot{y}=-\pdv{I(q_k)}{t},
 		\end{gather*}
-		\begin{align*}
-			\pdv{E}{\dot{x}}&=2{\scriptstyle\sum\limits_{}^{}}\pdv{I}{x}\!\left( \pdv{I}{x}\dot{x}+\pdv{I}{y}\dot{y}+\dot{I} \right),\\
-			\pdv{E}{\dot{y}}&={2\scriptstyle\sum\limits_{}^{}}\pdv{I}{y}\!\left( \pdv{I}{x}\dot{x}+\pdv{I}{y}\dot{y}+\dot{I} \right).
-		\end{align*}
+		for $k=1,\ldots,n$ and $q_k$ the pixels inside the window. These equations can be written in matrix form 
+		\begin{align}
+			A\vtr{v}&=\vtr{b}
+			\label{eq:lucaskanade1}
+			\shortintertext{where $\vtr{x}={\!\left(\! \begin{smallmatrix} x&y \end{smallmatrix} \!\right)\!}^T\!\!,\quad \vtr{v}= {\!\left(\! \begin{smallmatrix} \dot{x}&\dot{y} \end{smallmatrix} \!\right)\!}^T$ and}
+			A_{ij}&=\pdv{I(q_i)}{x_j},&\vtr{b}_i&=-\pdv{I(q_i)}{t}.\nonumber
+		\end{align}
+		Eq. \ref{eq:lucaskanade1} is overdetermined, so do compromise solution by the least squares principle Eq. \ref{eq:lucaskanade2}
+\section{Gradient-Based Estimation}
+Assume \emph{brightness constancy}. Let $f_1(x)$ and $f_2(x)$ be 1D signals (images) at two time instants. Let $f_2=f_1(x-\delta)$, where $\delta$ denotes translation.
+\begin{align}\scriptscriptstyle
+	\mkern-36mu\leadsto &f_1(x)-f_2(x)\nonumber\\
+	&=\delta f_1'(x)+\mathcal{O}\!\left( \delta^2 \right)\nonumber\\
+	\leadsto \tilde{\delta} &=\frac{f_1(x)-f_2(x)}{f_1'(x)}\approx \delta
+	\label{eq:gradient1}
+\end{align}
+Assume displaced image well approximated by first-order Taylor series
+\begin{align}
+		&I\!\left( \vtr{x}+\vtr{u},t+1 \right)
+	\label{eq:gradient2}\\
+		&\quad\approx I(\vtr{x},t)+\vtr{u}\cdot \nabla I(\vtr{x},t)+I_t(\vtr{x},t)\nonumber
+\end{align}
+Insert Eq. \ref{eq:gradient1} in Eq. \ref{eq:gradient2} to get
+\begin{gather}
+	\nabla I(\vtr{x},t)\cdot\vtr{u}+I_t(\vtr{x},t)=0.
+	\label{eq:gradconstr}
+\end{gather}
+This i s called the \emph{gradient constraint equation}.
+\item[\lp{Intensity Conservation}] Tracking points of constant brightness can also be viewed as the estimation of 2D paths $\vtr{x}(t)$ along which intensity is conserved:
+	\begin{align}
+		I\!\left( \vtr{x}(t),t \right)&=c,\nonumber\\
+		\leadsto\dv{}{t}\!I\left( \vtr{x}(t),t \right)&=0\nonumber\\
+		\leadsto\nabla I\cdot \vtr{u}+I_t&=0.
+		\label{eq:brightnessconst3}
+	\end{align}
+	$\leadsto$ gradient-constraint equation Eq. \ref{eq:gradconstr}.
+\item[\lp{Least-Squares estimation}] One cannot recover $\vtr{u}$ from one gradient constraint since Eq. \ref{eq:gradconstr}  is one equation with two unknowns, $u_1$ and $u_2$. The intensity gradient constrains the flow to a one parameter family of volecities along a line in \emph{velocity space}. One can see from Eq. \ref{eq:gradconstr} that this line is perpendicular to $\nabla I$ and its perpendicular distance from the origin is $\abs{I_t}/\norm{\nabla I}$.
+
+	One common way to further constrain $\vtr{u}$ is to use gradient constraints from nearby pixels, assuming they share the same 2D velocity. With many constraints there may be no velocity that simultaneously satisfies them all, so instead we find the velocity that minimizes the constraint errors. The least-squares (LS) estimator minimizes the squared errors:
+	\begin{gather}\scriptscriptstyle
+		E(\vtr{u})\,=\sum_{\vtr{x}}^{}\!g(\vtr{x})\left[ \vtr{u}\cdot \nabla I(\vtr{x},t)+I_t(\vtr{x},t) \right]^2,
+		\label{eq:minsquarederrors}
+	\end{gather}
+	where $g(\vtr{x})$ is a weighting function that determines the \emph{support} of the estimator (the region within which we combine constraints). It is common to let $g(\vtr{x})$ be Gaussian in order to weight constraints in the conter of the neigborhood more highly, giving them more influence. The 2D velocity $\hat{u}$ that minimizes $E(\vtr{u})$ is the least squares flow estimate.
+
+	The minimum of $E(\vtr{u})$ can be found from its critical points, where its derivatives with respect to $\vtr{u}$ are zero; i.e.,
+	\begin{align*}\scriptscriptstyle
+		&\pdv{E(u_1,u_2)}{u_1}\\
+		&\;\,=\scriptscriptstyle\sum_{\vtr{x}}^{}\!g(\vtr{x})\left[ u_1I_{x}^{2}+u_2I_xI_y+I_xI_t \right]\\
+		&\;\,=0\\
+		&\pdv{E(u_1,u_2)}{u_2}\\
+		&\;\,=\scriptscriptstyle\sum_{\vtr{x}}^{}\!g(\vtr{x})\left[ u_2I_{x}^{2}+u_1I_xI_y+I_xI_t \right]\\
+		&\;\,=0
+	\end{align*}
+	These equations may be rewritten in matrix form:
+	\begin{gather}
+		M\vtr{u}=\vtr{b}
+		\label{eq:critpointsol}
+	\end{gather}
+	\begin{align*}
+		M&=\scriptscriptstyle
+		\begin{pmatrix}
+			\sum_{}^{}gI_{x}^{2}&\sum_{}^{}gI_xI_y\\[1em]
+			\sum_{}^{}gI_xI_y&\sum_{}^{}gI_{y}^{2}
+		\end{pmatrix},\\
+		\vtr{b}&=-
+		\begin{pmatrix}
+			\sum_{}^{}gI_xI_t\\[1em]
+			\sum_{}^{}gI_yI_t
+		\end{pmatrix}.
+	\end{align*}
+	When $M$ has rank 2, then the LS estimate is $\hat{u}=M^{-1}\vtr{b}$.
+\item[\lp{Implementation Issues}] Usually we wish to estimate optical flow at every pixel, so we should express $M$ and $\vtr{b}$ as functions of position $\vtr{x}$, i.e., $M(\vtr{x})\vtr{u}(\vtr{x})$. Note that the elements of $M$ and $\vtr{b}$ are local sums of products of image derivatives. An effective way to estimate the flow field ist to first compute derivative images through convolution with suitable filters. Then, compute their products ($I_{x}^{2}$, $I_xI_y$, $I_y^2$, $I_xI_t$ and $I_yI_t$), as required by Eq. \ref{eq:critpointsol}. These quadratic images are then convolved with $g(\vtr{x})$, to obtain the elemnts of $M(\vtr{x})$ and $\vtr{b}(\vtr{x})$.
+
+	In practice, the image derivatives will be approximated using numerical differentiation. It is important to use a consistent approximation scheme for all three directions.
+	\section{Aperture Problem}
+	When $\vtr{M}$ in Eq. \ref{eq:critpointsol} is rank deficient one cannot solve for $\vtr{u}$. This is ofted called the aperture problem as it invariably occurs when support $g(x)$ is sufficiently local. However, the important issue is not the width of the image structure. Howeve, the important issue is not the width of support, but rather the dimensionality of the image structure. Even for large regions, if the image is one-dimensional then $M$ will be singular. When each image gradient within a region has the same spatial direction, it is easy to see that $\rank M=1$. Moreover, note that a single gradient constraint only provides the normal component of $\vtr{u}$,
+	\begin{gather*}
+		\hat{\vtr{u}}=\frac{-I_t}{\norm{\nabla I}}\frac{\nabla I}{\norm{\nabla I}}
+	\end{gather*}
+\section{Iterative Optical Flow Estimation}
+Equation \ref{eq:critpointsol} provides an optimal solution, but not to our original problem. Higher-order terms ignored!
+\begin{gather*}\scriptscriptstyle
+	\abs{\tilde{\delta}-\delta} =\frac{\delta^2}{\abs{f_1''(x)}}{2\abs{f_1'(x)}}+\mathcal{O}\left( \delta^3 \right)
+\end{gather*}
+For a sufficiently small displacement, and bounded $\lvert f_1''/f_1'\rvert $, we expect reasonably accurate estimates. This suggests a form of Gauss-Newton optimization in which we use the current estimate to \emph{undo} the motion, and then we reapply the estimator to the \emph{warped} signals to find the residual motion. This continues until the residual motion is sufficiently small.
+
+In 2D, given an estimate of the optical flow field $\vtr{u}^0$, we create a \emph{warped} image sequence $I^0(\vtr{x},t)$:
+\begin{gather}
+	I^0\!\left( \vtr{x},t+\delta t \right)=I\!\left(\vtr{x}+\vtr{u}^0\delta t, t+\delta t  \right),
+	\label{eq:warpimseq}
+\end{gather}
+where $\delta t$ is the time between consecutive frames.  Assuming that $\vtr{u}=\vtr{u}^0+\delta \vtr{u}$, from brightness constancy and Eq. \ref{eq:warpimseq} we get
+\begin{gather*}
+	I^0(\vtr{x},t)=I^0(\vtr{x}+\delta\vtr{u},t+1)
+\end{gather*}
+If $\delta\vtr{u}=0$, then clearly $I^0$ would be constant through time (assuming brightness constancy). Otherwise, we can estimate the residual flow using 
+\begin{gather}
+	\delta\hat{u}=M^{-1}\vtr{b}
+	\label{eq:compresflow}
+\end{gather}
+where $M$ and $\vtr{b}$ are computed by taking spatial and temporal derivatives (differences) of $I^0$. The refined optical flow estimate then becomes
+\begin{gather*}
+	\vtr{u}^1=\vtr{u}^0+\delta\hat{u}.
+\end{gather*}
+In an iterative manner, this new flow estimate is then used to rewarp the original sequence, and another resudual flow can be estimated.
+
+This iteration yields a sequence of approximate objective functions that converge to the desired objective function. At iteration $j$, given the estimate $\vtr{u}^j$ and the warped sequence $I^j$, our desired objective function is 
+\begin{align}
+	\scriptstyle E(\delta\vtr{u})&=\scriptstyle\sum_{\vtr{x}}^{}g(\vtr{x})\left[I(\vtr{x},t)\vphantom{\scriptstyle\quad -I(\vtr{x}+\vtr{u}^j+\delta\vtr{u},t+1)}\right.\nonumber\\
+	&\scriptstyle\left.\quad -I\left( \vtr{x}+\vtr{u}^j+\delta\vtr{u},t+1 \right)\scriptstyle\right]^2\nonumber\\
+	&=\scriptstyle\sum_{\vtr{x}}^{}g(\vtr{x})\left[I^j(\vtr{x},t)\vphantom{\scriptstyle\quad -I^j(\vtr{x}+\delta\vtr{u},t+1)}\right.\nonumber\\
+	&\scriptstyle\left.\quad -I^j\left( \vtr{x}+\delta\vtr{u}^j,t+1 \right)\scriptstyle\right]^2\nonumber\\
+	&\eqqcolon \tilde{E}(\delta\vtr{u}).
+	\label{eq:costfunction}
+\end{align}
+The gradient approximation to the difference to $E(\delta\vtr{u})$ gives the approximate objective function $\tilde{E}$. From $\abs{\tilde{d}-\delta}$ one can show that $\tilde{E}$ approximates $E$ to the seccond-order in the magnitude of the residual flow, $\delta\vtr{u}$. The approximation error vanishes as $\delta\vtr{u}$ is reduced to zero. The iterative refinement with rewarping reduces the residual motion at each iteration so that the approximate objective function converges to the desired objective function, and hence the flow estimate converges to the optimal LS estimate $E(\delta \vtr{u})$.
+
+The most expensive step at each iteration is the computation of image gradients and the matrix inverse in \ref{eq:compresflow}. One can, howover, formulatio the problem so that the spatial image derivatives used to form $M$ are taken at time $t$, and as such, do not depend on the current flow estimate $\vtr{u}^j$. To see this, note that the spatial derivatives are computed at time $t$ which leads to $I(\vtr{x},t)=I^j(\vtr{x},t)$. Of course $\vtr{b}$ in \ref{eq:compresflow} will always depend on the warped image sequence and must be recomputed at each iteration. In practice, when $M$ is not recomputed from the warped sequence then the spatial and temporal derivatives will not be centered at the same location in $(x,y,t)$ and hence more iterations may be needed.
+\section{Pyramid/Coarse-to-fine}
+Limits of the (local) gradient method:
+\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
+	\item Fails when intensity structure within window is poor\\
+	\item Fails when displacement is large (typical operating range is motion of 1 pixel per iteration!). Linearization of brightness is suitable only for small displacements. \\
+	\item Brightness is no strictly constant in images. Actually less problematic than it appears, since we can pre-filter images to make them look similar.\\
+\end{enumerate*}
+
+In practice, our images have temporal sampling rates lower than required by the sampling theorem to uniquely reconstruct the continuous signal. AS a consequence, temporal aliasing is a common problem in motion estimation.
+
+The spectrum of a translating signal is confined to a plane through the origin in the frequency domain. That is, if we construct a space-time signal $f(\vtr{x},t)$ by translating a 2D signal $f_0(\vtr{x})$ with  velocity $\vtr{u}$, i.e., $f(\vtr{x},t)=f_0(\vtr{x}-\vtr{u}t)$, one can show that the space-time Fourier transform of $f(\vtr{x},t)$ is given by
+\begin{equation}
+	\begin{split}
+		&F(\omega_x,\omega_y,\omega_t)\\
+		&\quad=F_0(\omega_x,\omega_y)\\
+		&\qquad\cdot\delta\!\left( u_1\omega_x+u_2\omega_y+\omega_t \right),
+	\end{split}
+	\label{eq:fttempalias}
+\end{equation}
+where $F_0$ is the 2D Fourier transform of $f_0$. Eq. \ref{eq:fttempalias} shows that the spectrum is nonzero only on a plane, the orientation of which gives the velocity. When the continous signal is sampled in time, replicas of the spectrum are introduced at intervals of $2\pi/T$ radians, where $T$ is the time between frames. it is easy to see how this causes problems; i.e., the derivative filterrsl may be more sensitive to the spectral replicas at high spatial frequencies than to the original spectrum on the plane through the origin.
+
+Optical flow can be estimated at the coarsest scale of a Gaussian pyramid, where the image is significantly blured, and the velocity is much slower (due to sub-sampling). The coarse-scale estimate can be used to warp the next (finer) pyramid level to \emph{stabilize} its motion. Since the velocities after warping are slower,  wider low-pass frequency band will be free of aliasing. One can therefore use derivatives at the finer scale to estimate the residual motion. This coarse-to-fine estimation continues until the finest level of the pyramid (the original image) is reached. Mathematically, this is identical to iterative refinement except that each scal's estimate must be up-sampled and interpolated before warping the next finer scale.
+
+While widely used, coarse-to-fine methods have their drawbacks, usually stemming from the fact that fine-scale estimates can only be as reliable as their coarse-scale precursors; a poor estimate at one scale provides a poor initial guess at the next finer scale, and so on. That said, when aliasing does occur, one must use some mechanism such as coarse-to-fine estimation to avoid local minima in the optimization.
+
+\section{Robust Motion Estimation}
+The LS estimator is optimal when the gradient constraint errers, i.e.,
+\begin{gather*}
+	e(\vtr{x})\coloneqq \vtr{u}\cdot \nabla I(\vtr{x},t)+I_t(\vtr{x},t)
+\end{gather*}
+are mean-zero Gaussian, and the errors in different constraints are independent and identically distributied (IID.). Not surprisingly, this is a fragile assumption. for example, brightness constancy is often violated due to changing surface orientation, specularities reflections, or time-varying shadows. When there is significant depth variation in the scene , the constant motion model will be extremely poor, especially at occlusion boundaries.
+
+LS estimators are not suitable when the distribution of gradient constraint errors is heavy-tailes, as they are sonsitive to small numbers of measurement outliers. It is therefore often crucial that the quadratic estimatior in Eq. \ref{eq:minsquarederrors} be repalced by a robust estimator, $\rho(\cdot)$, which limits the influence of constraints with larger errors:
+\begin{gather*}
+	E(\vtr{u})={\scriptstyle\sum_{\vtr{x}}}^{}g(\vtr{x})\rho\!\left( e(\vtr{x}),\sigma \right).
+\end{gather*}
+For example the redescending Geman-McClure estimator
+\begin{gather*}
+	\rho(e,\sigma)=e^2/\left( e^2+\sigma^2 \right),
+\end{gather*}
+where $\sigma^2$ determines the range of constraint errors for which influence is reduced.
+\section{Motion Models}
+Thus far we have assumed that the 2D velocity is constant in local neighbourhoods. Nevertheless, even for small regions this is often a poor assumption. We now consider generalizations to more interesting motion models.
+\item[\lp{Affine Model}]
+	General first-order affine motion is usually a better model of local motion than a tranllational model. An affine velocity field centered at location $\vtr{x}_0$ can be expressed in matrix form as
+	\begin{gather}
+		\vtr{u}(\vtr{x};\vtr{x}_0)=A\!\left( \vtr{x};\vtr{x}_0 \right)\vtr{c},
+		\label{eq:affinevelfield}
+	\end{gather}
+	where ${\!\left(\!\begin{smallmatrix}
+		c_1&c_2&c_3&c_4&c_5&c_6
+	\end{smallmatrix}\!\right)\!}^T$ are the motion model parameters, and
+	\begin{align*}
+		&A(\vtr{x};\vtr{x}_0)\\
+		&\quad=
+		\!\left(\!\begin{smallmatrix}
+			1&0&x-x_0&y-y_0&0&0\\
+			0&1&0&0&x-x_0&y-y_0
+		\end{smallmatrix}\!\right)\!.
+	\end{align*}
+	From Eq. \label{eq:brightnessconst3} and \label{eq:affinevelfield} we get the gradient constraint equation
+	\begin{gather*}
+		\nabla I(\vtr{x},t)A(\vtr{x};\vtr{x}_0)\vtr{c}+I_t(\vtr{x},t)=0,
+	\end{gather*}
+	for which the LS estimate for the neighbourhood has the form
+	\begin{gather}
+		\hat{c}=M^{-1}\vtr{b}
+		\label{eq:gradconstrlsest}
+	\end{gather}
+	where now $M$ and $\vtr{b}$ are given by 
+	\begin{align*}
+		M&={\scriptstyle\sum_{\vtr{x}}^{}}gA^{T}\nabla I^T \nabla IA,\\
+		\vtr{b}&=-{\scriptstyle\sum_{\vtr{x}}^{}}g A^T\nabla I^T I_t.
+	\end{align*}
+	When $M$ is rank deficient thecre is insufficient image structure to estimate the six unknowns. Affine models often require larger support than constant models, and one may need a robust estimator instead of the LS estimator. 
+	
+	Iterative refinement is also straightforward with affine motion models. Let the optimal affine motion be $\vtr{u}=A\vtr{c}$, and let affine estimate at iteration $j$ be $\vtr{u}^j=A\vtr{c}^{j}$. Because the flow is linear in the motion parameters, it folows that $\delta\vtr{u}=\vtr{u}-\vtr{u}^j$ and $\delta\vtr{c}=\vtr{c}-\vtr{c}^j$ satisfy
+	\begin{gather*}
+		\delta\vtr{u}=A\delta\vtr{c}.
+	\end{gather*}
+	Accordingly, defining $I^j(\vtr{x},t)$ to be the original sequence $I(\vtr{x},t)$ warped by $\vtr{u}^j$ as in Eq.  \ref{eq:warpimseq} we use the same LS estimator as in Eq. \ref{eq:gradconstrlsest}, but with $I$ and $\hat{c}$ replaced by $I^j$ and $`ð \hat{c}$.
+	\section{Low-order Parametric Deformations}
+	There ary many other polynomial and rational deformations that make useful motion models. \emph{Similarity deformations}, comprising translation $(d_1,d_2)$, 2D rotation $\theta$, and uniform scaling by $s$ are a special case of the affine model, but still very useful in practice. In a neighborhood centred at $\vtr{x}_0$ it has the form as Eq. \ref{eq:affinevelfield}, but with $\vtr{c}=
+	{\!\left(\!\begin{smallmatrix}
+		d_1,&d_2,&s\cos\theta,&s\sin\theta
+	\end{smallmatrix}\!\right)\!}^T
+	$ and
+	\begin{gather*}
+		A(\vtr{x};\vtr{x}_0)=
+		\!\left(\!\begin{smallmatrix}
+			1&0&x-x_0&-y+y_0\\
+			0&1&y-y_0&x-x_0
+		\end{smallmatrix}\!\right)\!.
+	\end{gather*}
+\section{Global Smoothing}
+While area-based regression is commonly used, some of the earliest formulations of optiacl flow estimation assumed smoothness through nonparametric motion models,rather than an explicit parametric model in each local neighbourhood. One such energy functional was porposed by Horn and Schunck in Eq. \ref{eq:2dimstreams}. A key advantage of global smoothing is that it enable propagation of information over large distances in the image. In image regions of nearly uniform intensity, such as a blank wall or tabletop, local methods will often yield singular (or poorly conditioned) systems of euations. Global methods can \emph{finn in} the optical flow from nearby gradient constrains.
+
+The equation above can be minimized directly with discrete approximations to the integral and the derivatives. This yields a large system of linear equations. The main disadvantage of global methods is computational efficiency. Another problem is in the setting of the \emph{regularization parameter} $\lambda$ that determines the amount of desired smoothing.
+\section{Probabilistic Formulations}
+One problem with the above estimators is that, althought they provide useful estimates of optical flow, they do not provide confidence bounds. Nor do they show how to incorporate any prior information one might have bout motion to further constrain the estimates. As a result, one may not be able to propagate flow estimates from one time to the next, nor know how to weight them when combining flow estimates from different information sources. THese issues can be adressed with a probabilistic formulation.
+
+The cost function \ref{eq:costfunction} has a simple probabilistic interpretation. Up to normalization constants, it corresponds to the log likelihood of a velocity under the assumption that intensity is conserved up to gaussian noise. 
+\begin{gather*}
+	I(\vtr{x},t)=I(\vtr{x}+\vtr{u},t+1)+\eta.
+\end{gather*}
+If we assume that the same velocity $\vtr{u}$ is shared by all pixels within a neighbourhood, that $\eta$ is white Gaussian noise with standard deviation $\sigma$, and uncorrelated at different pixels, we obtain the conditional density
+\begin{gather*}
+	p(I\mid \vtr{u})=\propto e^{E(\vtr{u})/2\sigma^2}.
+\end{gather*}
+%\section{Parametric motion models}
+%Global miton models offer:\\
+%\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
+%	\item More constrained solutions than smoothness (Horn-Schunck)\\
+%	\item Integration over a large area than a translation-only model can accomodate (Lucas-Kanade)
+%\end{enumerate*}
 \end{compactdesc}

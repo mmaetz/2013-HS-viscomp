@@ -1,14 +1,14 @@
 %%%\documentclass[paper,notoc,12pt]{JHEP3}
 %%%mmaetz: put a4paper
 %\documentclass[a5paper]{book}
-\documentclass[5pt,twoside,article]{memoir}
+\documentclass[8pt,twoside,article]{memoir}
 %\documentclass[8pt,twoside,article]{memoir}
 %%%mmaetz: reduce margins
 %%%mmaetz: omitted temporarily to have the margins for the change remarks.
 %\usepackage[a5paper,left=2cm, right=1cm,top=1.5cm, bottom=1.5cm]{geometry}
 %mmaetz: use tikz package
 \input{extrapackages}
-\input{theoremsetup}
+%\input{theoremsetup}
 \input{layoutsetup}
 \input{macrosetup}
 %%% New definition of square root:
@@ -25,21 +25,21 @@
 %%% Theorems. (Copied from www.mitschriften.ethz.ch template)
 
 
-\title{\Huge Quantum Mechanics I}
+%\title{\Huge Quantum Mechanics I}
 
 
-\preauthor{}
-\author{\LARGE Babis Anastasiou}
-\postauthor{\Large\\\vspace{1em}
-  Institute for Theoretical Physics, \\ 
-  ETH Zurich,\\
-  8093 Zurich, Switzerland\\
-	\vspace{1em}
-  E-mail: {\em babis@phys.ethz.ch}
-}
-\professor{}
+%\preauthor{}
+%\author{\LARGE Babis Anastasiou}
+%\postauthor{\Large\\\vspace{1em}
+%  Institute for Theoretical Physics, \\ 
+%  ETH Zurich,\\
+%  8093 Zurich, Switzerland\\
+%	\vspace{1em}
+%  E-mail: {\em babis@phys.ethz.ch}
+%}
+%\professor{}
 
-\date{\vspace{1em}\today}
+%\date{\vspace{1em}\today}
 
 %\author{Babis Anastasiou\\
 %  Institute for Theoretical Physics, \\ 
@@ -50,18 +50,17 @@
 \begin{document} 
 %\small
 %\footnotesize
-\tiny
 
-\begin{titlingpage}
+%\begin{titlingpage}
 %\maketitle
 	%\titleS
 %\vfill
 %Revision \SVNRev{} --- \SVNDate{}
-\end{titlingpage}
+%\end{titlingpage}
 
 
 %%% Color settings and plot settings. If the pictures look bad look at this file!
-\input{tikzstuff.tex}
+%\input{tikzstuff.tex}
 
 
 
@@ -79,25 +78,35 @@
 %\end{itemize}
 %\end{abstract}
 
-%\tableofcontents 
 %\listofchanges
+{
+\tiny
+\setlength{\columnsep}{1em}
 \begin{multicols*}{8}
-	\input{kap1.tex}
-	\input{kap2.tex}
-	\input{kap3.tex}
-	\input{kap4.tex}
-	\input{kap5.tex}
-	\input{kap6.tex}
-	\input{kap7.tex}
-	\input{kap8.tex}
-%	\input{kap9.tex}
+{\miniscule
+\tableofcontents 
+}
+%	\input{kap1.tex}
+%	\input{kap2.tex}
+%	\input{kap3.tex}
+%	\input{kap4.tex}
+%	\input{kap5.tex}
+%	\input{kap6.tex}
+%	\input{kap7.tex}
+%	\input{kap8.tex}
+	\input{kap9.tex}
 %	\input{kap10.tex}
 %	\input{kap11.tex}
-%	\columnbreak
-%	\input{appendix.tex}
+	\vfill
+	\columnbreak
 	\input{questions.tex}
+	\columnbreak
+	\begin{minipage}[t]{2\linewidth+\columnsep}
+		\input{appendix.tex}
+	\end{minipage}
 \end{multicols*}
+}
 \end{document}
 
 % LocalWords:  asimple
-\definecolor{chapterlinecolor}{HSB}{76,\saturation,\brightness}
+%\definecolor{chapterlinecolor}{HSB}{76,\saturation,\brightness}
