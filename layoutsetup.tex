@@ -248,6 +248,7 @@
 \setlength{\headheight}{0cm}
 \setlength{\headsep}{0cm}
 \setlength{\footskip}{0pt}
+<<<<<<< HEAD
 \setlength{\spinemargin}{0cm}
 \setlength{\foremargin}{0cm}
 \setlength{\marginparwidth}{0cm}
@@ -262,6 +263,18 @@
 \setlength{\stockwidth}{\paperwidth}
 \setlength{\textheight}{\stockheight-0.5pt}
 \setlength{\textwidth}{\stockwidth}
+=======
+\newcommand{\lrmargin}{0.25cm}
+\newcommand{\ulmargin}{0.25cm}
+\setstocksize{21.0cm}{29.7cm}
+\settrimmedsize{\stockheight}{\stockwidth}{*}
+%\settypeblocksize{\stockheight-\test*2}{\stockwidth-\margin*2}{*}
+%\setlrmargins{\margin}{*}{*}
+\setlrmarginsandblock{\lrmargin}{*}{*}
+%\setulmargins{\test}{*}{*}
+\setulmarginsandblock{\ulmargin}{*}{*}
+\setheadfoot{0pt}{4.39pt}
+>>>>>>> f6ce3346e43f8bc6520d5754d121b000737cb906
 \checkandfixthelayout
 \setsecheadstyle{\colorhrule{sectionlinecolor}{1ex}{\columnwidth}\vspace{0.1em}\scriptsize\bfseries}
 \setsubsecheadstyle{\colorhrule{subsectionlinecolor}{0.5ex}{\columnwidth}\vspace{0.05em}\tiny\bfseries}

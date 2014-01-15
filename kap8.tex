@@ -71,8 +71,13 @@ where the subindex means a derivative if and only if we are talking about $I$.
 	\item[\lp{Remarks}]\hfill
 		\begin{enumerate*}[label=\protect\circled{\arabic*}]
 			\item Coupled PDE solved using iterative methods and finite differences
+<<<<<<< HEAD
 				$\ddot{x}=\Delta \dot{x}-\lambda\!\left( \pdv{I}{x}\dot{x}+\pdv{I}{y}\dot{y}+\dot{I} \right)\!\pdv{I}{x},\\$\\
 				$\ddot{y}=\Delta \dot{y}-\lambda\!\left( \pdv{I}{x}\dot{x}+\pdv{I}{y}\dot{y}+\dot{I} \right)\!\pdv{I}{y}.$
+=======
+				$\ddot{x}=\Delta \dot{x}-\lambda\!\left( \pdv{I}{x}\dot{x}+\pdv{I}{y}\dot{y}+\dot{I} \right)\pdv{I}{x},\\$\\
+				$\ddot{y}=\Delta \dot{y}-\lambda\!\left( \pdv{I}{x}\dot{x}+\pdv{I}{y}\dot{y}+\dot{I} \right)\pdv{I}{y}.$
+>>>>>>> f6ce3346e43f8bc6520d5754d121b000737cb906
 		\item More than two frames allow a better estimation of $\dot{I}$.
 			\item Information spreads from corner-type patterns.
 			\item Errors at boundaries
@@ -104,7 +109,11 @@ Assume \emph{brightness constancy}. Let $f_1(x)$ and $f_2(x)$ be 1D signals (ima
 \begin{align}\scriptscriptstyle
 	\mkern-36mu\leadsto &f_1(x)-f_2(x)\nonumber\\
 	&=\delta f_1'(x)+\mathcal{O}\!\left( \delta^2 \right)\nonumber\\
+<<<<<<< HEAD
 	\leadsto \tilde{\delta} &=\frac{f_1(x)-f_2(x)}{f_1'(x)}\approx \delta
+=======
+	\leadsto \delta &\approx\frac{f_1(x)-f_2(x)}{f_1'(x)}
+>>>>>>> f6ce3346e43f8bc6520d5754d121b000737cb906
 	\label{eq:gradient1}
 \end{align}
 Assume displaced image well approximated by first-order Taylor series
@@ -114,6 +123,7 @@ Assume displaced image well approximated by first-order Taylor series
 		&\quad\approx I(\vtr{x},t)+\vtr{u}\cdot \nabla I(\vtr{x},t)+I_t(\vtr{x},t)\nonumber
 \end{align}
 Insert Eq. \ref{eq:gradient1} in Eq. \ref{eq:gradient2} to get
+<<<<<<< HEAD
 \begin{gather}
 	\nabla I(\vtr{x},t)\cdot\vtr{u}+I_t(\vtr{x},t)=0.
 	\label{eq:gradconstr}
@@ -210,6 +220,12 @@ This iteration yields a sequence of approximate objective functions that converg
 The gradient approximation to the difference to $E(\delta\vtr{u})$ gives the approximate objective function $\tilde{E}$. From $\abs{\tilde{d}-\delta}$ one can show that $\tilde{E}$ approximates $E$ to the seccond-order in the magnitude of the residual flow, $\delta\vtr{u}$. The approximation error vanishes as $\delta\vtr{u}$ is reduced to zero. The iterative refinement with rewarping reduces the residual motion at each iteration so that the approximate objective function converges to the desired objective function, and hence the flow estimate converges to the optimal LS estimate $E(\delta \vtr{u})$.
 
 The most expensive step at each iteration is the computation of image gradients and the matrix inverse in \ref{eq:compresflow}. One can, howover, formulatio the problem so that the spatial image derivatives used to form $M$ are taken at time $t$, and as such, do not depend on the current flow estimate $\vtr{u}^j$. To see this, note that the spatial derivatives are computed at time $t$ which leads to $I(\vtr{x},t)=I^j(\vtr{x},t)$. Of course $\vtr{b}$ in \ref{eq:compresflow} will always depend on the warped image sequence and must be recomputed at each iteration. In practice, when $M$ is not recomputed from the warped sequence then the spatial and temporal derivatives will not be centered at the same location in $(x,y,t)$ and hence more iterations may be needed.
+=======
+\begin{gather*}
+	\nabla I(\vtr{x},t)\cdot\vtr{u}+I_t(\vtr{x},t)=0.
+\end{gather*}
+This i s called the \emph{gradient constraint equation}.
+>>>>>>> f6ce3346e43f8bc6520d5754d121b000737cb906
 \section{Pyramid/Coarse-to-fine}
 Limits of the (local) gradient method:
 \begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
@@ -217,6 +233,7 @@ Limits of the (local) gradient method:
 	\item Fails when displacement is large (typical operating range is motion of 1 pixel per iteration!). Linearization of brightness is suitable only for small displacements. \\
 	\item Brightness is no strictly constant in images. Actually less problematic than it appears, since we can pre-filter images to make them look similar.\\
 \end{enumerate*}
+<<<<<<< HEAD
 
 In practice, our images have temporal sampling rates lower than required by the sampling theorem to uniquely reconstruct the continuous signal. AS a consequence, temporal aliasing is a common problem in motion estimation.
 
@@ -325,4 +342,12 @@ If we assume that the same velocity $\vtr{u}$ is shared by all pixels within a n
 %	\item More constrained solutions than smoothness (Horn-Schunck)\\
 %	\item Integration over a large area than a translation-only model can accomodate (Lucas-Kanade)
 %\end{enumerate*}
+=======
+\section{Parametric motion models}
+Global miton models offer:\\
+\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
+	\item More constrained solutions than smoothness (Horn-Schunck)\\
+	\item Integration over a large area than a translation-only model can accomodate (Lucas-Kanade)
+\end{enumerate*}
+>>>>>>> f6ce3346e43f8bc6520d5754d121b000737cb906
 \end{compactdesc}
