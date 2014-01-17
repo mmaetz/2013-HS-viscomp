@@ -66,6 +66,7 @@
 
 % Set the way pages are layed out (headers and page numbering)
 \pagestyle{empty}
+\pagenumbering{gobble}
 %\if@twoside
   %\pagestyle{Ruled}
 %\else
@@ -254,13 +255,15 @@
 \newcommand{\lrmargin}{0cm}
 \newcommand{\ulmargin}{0cm}
 \setlrmarginsandblock{\lrmargin}{\lrmargin}{*}
-\setulmarginsandblock{-0.5pt}{\ulmargin}{*}
+\setulmarginsandblock{-1.0pt}{\ulmargin}{*}
 %\setlength{\marginsep}{0cm}
-\setlength{\paperheight}{21.0cm}
-\setlength{\paperwidth}{29.7cm}
+%\setlength{\paperheight}{21.0cm}
+%\setlength{\paperwidth}{29.7cm}
+\setlength{\paperheight}{26.25cm}
+\setlength{\paperwidth}{37.125cm}
 \setlength{\stockheight}{\paperheight}
 \setlength{\stockwidth}{\paperwidth}
-\setlength{\textheight}{\stockheight-0.5pt}
+\setlength{\textheight}{\stockheight-2.9pt}
 \setlength{\textwidth}{\stockwidth}
 \checkandfixthelayout
 \setsecheadstyle{\colorhrule{sectionlinecolor}{1ex}{\columnwidth}\vspace{0.1em}\scriptsize\bfseries}

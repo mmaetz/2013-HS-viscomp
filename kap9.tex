@@ -129,7 +129,7 @@ Main addition over image compression: Exploit the temporal redundancy. Predict c
 	\item \emph{P-frame}: Predictively coded frame, coded based on previously coded frame\\
 	\item \emph{B-frame}: Bi-directionally predicted frame, coded based on both previous and future coded frames.\\
 \end{enumerate*}
-\item[\lp{MPEG Group of Pictures (GOP)}] 
+\item[\lp{MPEG Group of Pictures (GOP)}] \hfill
 		\begin{center}
 			\begin{tikzpicture}
 				\node[rectangle,draw,minimum width=2em,minimum height=2em,fill=red!50!white] (i0) at (0,0) {$\scriptstyle I_0$};
@@ -163,7 +163,11 @@ Main addition over image compression: Exploit the temporal redundancy. Predict c
 			&IBBPBBPBBI,\\
 			&IBBPBBPBBPBBI.
 		\end{align*}
-		Why not all P and B frames after initial I? (Because then the whole movie depends on the accuracy of the first frame. Data loss possible etc.)
+		Periodic I-frames enable random access into the coded bitstream. Parameters:\\
+		\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
+			\item Spacing between I frames\\
+			\item Number of B frames between I and P frames
+		\end{enumerate*}
 	\item[\lp{Example compression performance}] \hfill\\I: $\frac{1}{7}$, P: $\frac{1}{20}$, B: $\frac{1}{50}$, Average: $\frac{1}{27}$.
 \section{Summary of Temporal Processing}
 	\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
@@ -183,13 +187,69 @@ Main addition over image compression: Exploit the temporal redundancy. Predict c
 	\end{enumerate*}
 	\section{Basic Video Compression Architecture}
 	\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
-		\item Exploiting the reduncancies:
+		\item Exploiting the reduncancies:\\
 			\begin{enumerate*}[label=\quad\protect\circled{\alph*},itemjoin=]
 				\item Temporal: MC-prediction (P and B frames)\\
 				\item Spatial: Block DCT\\
-				\item Color: color space conversion
+				\item Color: color space conversion\\
 			\end{enumerate*}
 		\item Scalar quantization of DCT coefficients\\
 		\item Zigzag scanning, runlength and Huffman coding of the nonzero quantized DCT coefficients
 	\end{enumerate*}
+	\pgrr{VisComp06b_VideoCompression}{83}{-2.6}{-1.9}{2.5}{1.1}{90}
+	\pgrr{VisComp06b_VideoCompression}{84}{-2.6}{-1.65}{2.52}{0.9}{90}
+	\pgrr{VisComp06b_VideoCompression}{85}{-2.6}{-1.65}{2.52}{1.0}{90}
+	\pgrr{VisComp06b_VideoCompression}{86}{-2.6}{-1.65}{2.52}{1.0}{90}
+\item[\lp{Transimission chain}] Content Creation $\to$ Transmission $\to$ Consumption. $\Rightarrow$ Variable needs!
+\section{Scalable Video Coding}
+Produces \emph{different layers with prioritized importance}. \emph{Prioritized importance is key} for a variety of applications:\\
+\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
+	\item \emph{Adapting} to different bandwidths, or client resources such as spatial or temporal resolution or computational power.\\
+	\item \emph{Facilililates error-resilience} by explicitly identifying most important and less important bits.\\
+\end{enumerate*}
+\emph{Procedure}:\\
+\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
+	\item Decompose video into \emph{multiple layers of prioritized importance}\\
+	\item Code layers into \emph{base and enhancement} bitstreams\\
+	\item Progressively combine \emph{one or more bitstreams} to produce \emph{different levels of video quality}.\\
+\end{enumerate*}
+Example of scalable coding with base and two enhancement layers: Can produce three different qualities:
+\begin{enumerate*}[label=\protect\circled{\arabic*}]
+	\item Base layer
+	\item Base + Enh1 layers
+	\item Base + Enh1 + Enh2 layers
+\end{enumerate*}
+Scalability with respect to: Spatial or temporal resolution, bit rate, computation, memory.
+\item[\lp{Example}]
+	\begin{itemize*}[label=\colorbullet]
+		\item Encode image/video into three layers: Base, Enh1, Enh2
+		\item Low-bandwidth recoiver: Send only Base layer.
+		\item Medium-bandwidth recoiver: Send Base \& Enh1 layers
+		\item High-bandwidth receiver: Send all three layers Base, Enh1, Enh2.
+		\item Can adapt to different clients and network situations
+		\item Three basic types of scalability (refine video quality along three different dimensions):\\
+			\begin{enumerate*}[label=\quad\protect\circled{\alph*},itemjoin=]
+				\item Temporal scalability $\to$ Temporal resolution\\
+				\item Spatial scalability $\to$ Spatial resolution\\
+				\item SNR (quality) scalability $\to$ Amplitude resolution\\
+			\end{enumerate*}
+		\item Each type of scalable coding provides scalability of one dimension of the video signal. Can cambine multiple types of scalability to provide scalability along multiple dimensions
+	\end{itemize*}
+\item[\lp{Temporal Scalability}] based on the use of \emph{B-frames} to refine the \emph{temporal resolution} B-frames are dependent on other frames. Howere, no other frame depends on a B-frame. Each B-frame may be discarded without affecting other frames. 
+\item[\lp{Spatial scalability}] Based on refining the \emph{spatial resolution} \emph{Base layer} is \emph{low resolution} version of video. \emph{Enh1} contains coded \emph{difference} between upsampled base layer and original video. Also called pyramid coding.
+\item[\lp{SNR scalability}] Based on refining the \emph{amplitude resolution} \emph{Base layer} uses a \emph{coarse quantizer}. \emph{Enh1} applies a \emph{finer quantizer} to the difference between the original DCT coefficients and the coarsely quantized base layer coefficients.
+\section{Standards}
+	\item[\lp{Goal}] \emph{Ensuring interoperability}: Enbabling communication between devices made by different monufacturers. Promoting a technology or industry. Reducing costs.
+	\item[\lp{Scope of standardization}] Not the encoder, not the decoder. Just the \emph{bitstream syntax} and the \emph{decoding process} (e.g. use IDCT but not how to implement the IDCT) This enables improved encoding and decoding strategies to be employed in a standard-compatible manner.
+\section{Quality measure}
+	\item[\lp{objective: PSNR}] 
+		\begin{itemize*}[label=\colorbullet]
+			\item Error for one pixel, difference between original and decoded value\\
+				$e(v,h)=\tilde{x}(v,h)-x(v,h)$\\
+		\item Mean-squared-Error, MSE e.g. over an image\\
+			$\ds e_{\text{MSE}}=\sqrt{\frac{1}{N\cdot M}{\scriptstyle\sum\limits_{v,h=1}^{\mathclap{\quad v=N,h=M}}}e^2(v,h)}$
+		\item Peak-Signal-to-Noise-Ratio\\
+			$\text{PSNR}=[\max x]^2/e_{\text{MSE}}^{2}$\\
+			E.g. $x=2^K$ or $255$. One can use a $\log$-scale like $\si{\decibel}$.
+		\end{itemize*}
 \end{compactdesc}

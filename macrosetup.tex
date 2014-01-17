@@ -10,6 +10,16 @@
 		}
 	\end{center}
 }
+\newcommand{\pgrr}[7]{
+	\begin{center}
+		\resizebox{\linewidth}{!}{
+			\begin{tikzpicture}[rotate=90]
+				\clip[] (#3,#4) rectangle (#5,#6);
+				\node[draw] (fig) at (0,0) {\includegraphics[page=#2,width=6cm,angle=#7]{../slides/#1.pdf}};
+		\end{tikzpicture}
+		}
+	\end{center}
+}
 %Define a reference depth. 
 %You can choose either relative or absolute.
 %--------------------------
