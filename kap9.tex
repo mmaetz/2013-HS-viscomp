@@ -1,4 +1,3 @@
-\setcounter{chapter}{8}
 \chapter{Video Compression}
 \section{Perception of motion}
 Perception of motion: Human visual system is specifically sensitive to motion. Eyes follow motion automatically. Some distortions are not as percoivable as in image coding (would be if we froze frame). No good psycho-visual model avaivable. Vusal perception is limited to $<\SI{24}{\hertz}$. Asuccession of images will be perceived as continuous if frequency is sufficiely high. Cinema $24\SI{24}{\hertz}$, TV $\SI{25}{\hertz}$ or $\SI{50}{\hertz}$. We still nee to avoid aliasing (wheel effect). High-rendering frame-rates desired in computer games (needed due to absence of motion blur). Flicker can be perceived up to $>\SI{60}{\hertz}$ in particular in periphery. Issue addressed by $\SI{100}{\hertz}$ TV.
@@ -242,7 +241,7 @@ Scalability with respect to: Spatial or temporal resolution, bit rate, computati
 	\item[\lp{Goal}] \emph{Ensuring interoperability}: Enbabling communication between devices made by different monufacturers. Promoting a technology or industry. Reducing costs.
 	\item[\lp{Scope of standardization}] Not the encoder, not the decoder. Just the \emph{bitstream syntax} and the \emph{decoding process} (e.g. use IDCT but not how to implement the IDCT) This enables improved encoding and decoding strategies to be employed in a standard-compatible manner.
 \section{Quality measure}
-	\item[\lp{objective: PSNR}] 
+	\item[\lp{objective: PSNR}] \hfill\\
 		\begin{itemize*}[label=\colorbullet]
 			\item Error for one pixel, difference between original and decoded value\\
 				$e(v,h)=\tilde{x}(v,h)-x(v,h)$\\
@@ -252,4 +251,20 @@ Scalability with respect to: Spatial or temporal resolution, bit rate, computati
 			$\text{PSNR}=[\max x]^2/e_{\text{MSE}}^{2}$\\
 			E.g. $x=2^K$ or $255$. One can use a $\log$-scale like $\si{\decibel}$.
 		\end{itemize*}
+	\item[\lp{MPEG Structure}] MPEG codes video in a \emph{hierarchy of layers}. The sequence layer is not shown.
+	\item[\lp{MPEG-2}] \emph{Goal:} To enable more efficient implementations for different applications (interoperability points)\\
+		\begin{itemize*}[label=\colorbullet]
+			\item Profile: Subset of the tools applicable for a family of applications\\
+			\item Level: bounds on the complexity for any profile
+		\end{itemize*}
+	\item[\lp{MPEG-4}] Natural Video Coding\\
+		Extension of MPEG-1/2-type algorithms to code arbitrarily shaped objects.
+	\item[\lp{Sprite Coding}] Background prediction. Hypothesis: Same background exists for many frames, changes resulting from camera motion and occlusions. One possible coding strategy:
+		\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
+			\item Code \& transmit entire sprite \emph{once}\\
+			\item Only transmit camera motion parameters for each subsequent frame
+		\end{enumerate*}
+		Significant coding gain for some scenes.
+	\item[\lp{3D TV}] Requeires the transmission of multiple views (two or more). Opportunity to do better than simulateously broadcast multiple views. Besides intra-frame and temporal redundancy, also \emph{ex ploit inter-view redundancy}.
+	\pgrr{VisComp06b_VideoCompression}{121}{-2.6}{-1.25}{2.52}{1.0}{90}
 \end{compactdesc}

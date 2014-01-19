@@ -201,6 +201,7 @@
 %\theorembodyfont{\normalfont}
 %\theoremsymbol{}
 
+\numberwithin{equation}{chapter}
 \expandafter\def\expandafter\normalsize\expandafter{%
 %\normalsize
 \small
@@ -311,3 +312,17 @@
   tabsize=2,                       % sets default tabsize to 2 spaces
   title=\lstname                   % show the filename of files included with \lstinputlisting; also try caption instead of title
 }
+
+%%%tableofcontents
+%\setlength{\cftsecindent}{0mm}
+%\setlength{\cftsubsecindent}{0mm}
+%\setlength{\cftsubsubsecindent}{0mm}
+%\setlength{\cftparaindent}{0mm}
+%\cftsetindents{chapter}{0pt}
+%\dottedcontents{section}[1.5em]\left\{ 1.3em}{.6em} \right\}<++>}<++>
+\makeatletter
+\renewcommand\@pnumwidth{0em}
+\renewcommand\@tocrmarg{0em}
+\renewcommand\@dotsep{1}
+\renewcommand\@tocrmarg{0em plus1fil}
+\makeatother
