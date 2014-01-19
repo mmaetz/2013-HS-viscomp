@@ -1,4 +1,3 @@
-\setcounter{chapter}{9}
 \chapter{Radon Transform}
 \pgr{VisComp07a_Radon}{19}{-1.7}{-1.45}{1.8}{0.9}
 \begin{center}
@@ -89,3 +88,19 @@ This represents the 1D FT of the projection $P_{\theta=0}$; thus we have the fol
 	F(u,0)=S_{\theta=\,0}(u)
 \end{gather*}
 This is the simplest form of the Fourier Slice Theorem.
+\section{Reconstruction}
+\begin{compactdesc}
+\item[\lp{General}]
+The inverse of the Radon transform can be used to reconstruct the original density from tme scattering data, and thu it forms the mathematical underpinning for tomographic reconstruction, also knows asimage reconstruction. 
+\item[\lp{Sinogram}] The Radon transform data is often called a \emph{sinogram} because the Radon transform of a Dirac delta function is a distribution supported on the graph of a sine wave. Consequently the Radon transform of a number of small objects appears graphically as a number of blurred sine waves with different amplitudes and phases.
+\item[\lp{Filtered backprojection algorithm}]\hfill\\
+	\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
+		\item Sum for each of the $K$ angles, $\theta$, between $\SI{0}{\degree}$ and $\SI{180}{\degree}$. \\
+		\item Measure the projection, $P_{\theta}(t)$.\\
+		\item Multiply it by the weighting function $2\pi\abs{w}/K$.\\
+		\item Sum over the image plane the inverse Fourier transforms of the filtered porjections (the backprojection process).
+	\end{enumerate*}
+	The weighting function weights the values outside such that the final weight of the whole body is uniform.
+	\pgr{VisComp07a_Radon}{38}{-1.1}{-1.4}{0.95}{-1.1}
+	This kind of filter removes the noise around the reconstructed object. In some application the scanner can't cover the full angle $\SI{0}{\degree}$ to $\SI{180}{\degree}$ so the reconstruction has artefacts like lines in different angles. 
+\end{compactdesc}

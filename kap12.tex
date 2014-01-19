@@ -1,0 +1,44 @@
+\setcounter{chapter}{11}
+\chapter{Texture}
+\begin{compactdesc}
+\item[\lp{Key issue}] Representing texture\\
+	\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
+		\item Texture analysis/segmentation $\to$ representing texture\\
+		\item Texture synthesis: Useful, also gives some insight into quality of representation\\
+		\item Shape from texture
+	\end{enumerate*}
+	Computer graphics: texture mapping
+\item[\lp{General}]\hfill \\
+	\begin{itemize*}[label=\colorbullet]
+		\item Textures are made up of quite stylised subelements, repeated in meaningful ways.\\
+		\item Representation: Find the subelements, and represent their statistics.\\
+		\item Subelements: Normalized correlation, apply filters.\\
+		\item Filters: Spots and oriented bars at a variety of different scales (by experience), details probably don't matter\\
+		\item Statistics: Within reason, the more the merrier. At least, mean and standard deviation. Better, various conditional histograms.
+	\end{itemize*}
+\item[\lp{Oriented pyramids}] Laplacian pyramid is orientation independent. Apply an oriented filter to determine orientations at each leayer. By clever filter design, we can simplify synthesis. This represents image information at a particular scale and orientation.
+	\item[\lp{Final texture representation}] \hfill\\
+		\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]\hfill\\
+			\item Form an oriented pyramid (or equivalent set of responses to filters at different scales and orientations)\\
+			\item Square the output\\
+			\item Take statistics of responses\\
+				\begin{enumerate*}[label=\quad\protect\circled{\alph*},itemjoin=]
+					\item e.g. mean of each filter output (are there lots of spots)\\
+					\item std of each fiter output\\
+					\item mean of one scale conditioned on other scale having a particular range of values (e.g. are the spots in straight rows?)
+				\end{enumerate*}
+		\end{enumerate*}
+	\item[\lp{Texture synthesis}] \hfill\\
+		\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
+			\item Use image as a source of probability model\\
+			\item Choose pixel values by matching neighbourhood, then filling in\\
+			\item Matching process: Look at pixel differences, count only sythesized pixels
+		\end{enumerate*}
+\section{Histogram}
+	\item[\lp{Principle}] \hfill\\
+		\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
+			\item Intensity probability distribution\\
+			\item Captures global brightness information in a compact, but incomplete way\\
+			\item Doesn't capture spatial relationships
+		\end{enumerate*}
+\end{compactdesc}

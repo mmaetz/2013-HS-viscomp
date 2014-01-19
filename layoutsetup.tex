@@ -44,16 +44,14 @@
 	\setlength\midchapskip{0.0em}
 	\setlength\afterchapskip{0.2em}
 	\setlength\beforechapskip{0.0em}
-	%\setlength\beforesecskip{0cm}
-	%\setlength\aftersecskip{0cm}
 	\renewcommand{\chapterheadstart}{\colorlet{rulecolor}{chapterlinecolor}\rule{\columnwidth}{1.5ex}%\vspace{-1pt}}
 }
 	\renewcommand{\printchaptername}{}
 	%\renewcommand\colorchapnum{\color{\chapterlinecolor}}
 	\renewcommand{\chapternamenum}{}
-	\renewcommand{\chapnamefont}{\normalfont\footnotesize\bfseries}
-	\renewcommand{\chaptitlefont}{\normalfont\footnotesize\bfseries}
-	\renewcommand{\chapnumfont}{\normalfont\footnotesize\bfseries}
+	\renewcommand{\chapnamefont}{\normalfont\footnotesize\sffamily\bfseries}
+	\renewcommand{\chaptitlefont}{\normalfont\footnotesize\sffamily\bfseries}
+	\renewcommand{\chapnumfont}{\normalfont\footnotesize\sffamily\bfseries}
 	\renewcommand{\printchapternum}{\chapnumfont\space\thechapter}
 	\renewcommand{\afterchapternum}{\space}
 	\renewcommand{\afterchaptertitle}{\par\nobreak\vspace{-1ex}\rule{\columnwidth}{0.4ex}\colorlet{rulecolor}{black}\vskip\afterchapskip}
@@ -269,8 +267,8 @@
 \setlength{\textheight}{\stockheight-0.2pt}
 \setlength{\textwidth}{\stockwidth}
 \checkandfixthelayout
-\setsecheadstyle{\colorhrule{sectionlinecolor}{1ex}{\columnwidth}\vspace{0.1em}\scriptsize\bfseries}
-\setsubsecheadstyle{\colorhrule{subsectionlinecolor}{0.5ex}{\columnwidth}\vspace{0.05em}\tiny\bfseries}
+\setsecheadstyle{\colorhrule{sectionlinecolor}{1ex}{\columnwidth}\vspace{0.1em}\scriptsize\sffamily\bfseries}
+\setsubsecheadstyle{\colorhrule{subsectionlinecolor}{0.5ex}{\columnwidth}\vspace{0.05em}\tiny\sffamily\bfseries}
 \setparaheadstyle{\tiny\bfseries}
 %\setsubsubsecheadstyle{\normalsize\scshape\raggedright}
 \setbeforesecskip{-1.2ex plus -.25ex minus -.1ex}
