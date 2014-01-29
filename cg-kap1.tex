@@ -1,0 +1,198 @@
+\lstset{ %
+	language=c++
+}
+\makepart{Computer Graphics}
+\setcounter{chapter}{0}
+\chapter{The Graphics Pipeline}
+From geometry and lighting to pixels\\
+Inputs:\\
+\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
+	\item Geometry\\
+		\begin{itemize*}[label=\colorbullet,itemjoin=]
+			\item Triangles,points,lines,other primitives\\
+		\end{itemize*}
+	\item Materias and Lighting\\
+	\item Virtual Camera\\
+		\begin{itemize*}[label=\colorbullet,itemjoin=]
+			\item Camera position,Frustum\\
+		\end{itemize*}
+\end{enumerate*}
+$\to$ The Graphics Pipeline \\$\to$ Outputs: Colors for Display.
+\section{Scheme}
+Modeling Transform $\to$ Viewing Transform $\to$ 3D Clipping $\to$ Lightning, Shading, Texturing $\to$ Projection to Screen Space $\to$ Scan Conversion.
+\section{Transform}
+\begin{compactdesc}
+	\item[\lp{Modeling Transform}] FRom object to world space
+	\item[\lp{Viewing Transform}] From world to camera space
+	\item[\lp{3D Clipping}] Remove parts of objects outside the frustum. Needed to avoid unnecessary computations and numerical instabilities.
+	\item[\lp{Lighting, Shading, Texturing}] Compute color based on lighting, materials, surface normals.
+	\item[\lp{Projection to Screen Space}] Project from 3D to 2 screen space
+	\item[\lp{Scan Conversion}] \hfill\\
+		\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
+			\item Compute frament attibutes\\
+			\item  Interpolate per-vertex values\\
+			\item Discretize continuous primitives\\
+			\item Triangles, lines, polygons
+		\end{enumerate*}
+\section{Programmer's View} 
+\item[\lp{Contemporary pipeline}]\hfill\\
+\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
+	\item CPU\\ 
+	\item Vertex Processing $\leftarrow$ programmable\\
+		\begin{enumerate*}[label=\quad\protect\circled{\alph*},itemjoin=]
+			\item Per-vertex operations\\
+			\item Transforms \& Lighting\\
+			\item Flow control\\
+		\end{enumerate*}
+	\item Rasterization\\
+	\item Fragment Processing $\leftarrow$ programmable\\
+		\begin{enumerate*}[label=\quad\protect\circled{\alph*},itemjoin=]
+			\item Per-fragment operations\\
+			\item Shading \& Texturing\\
+			\item Blending\\
+		\end{enumerate*}
+	\item Display\\
+\end{enumerate*}
+\item[\lp{Programming with ``shaders''}] \hfill\\
+			Attributes (per-vertex) $\to$\\
+	\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
+		\item Vertex Shader\\
+			$\to$ Varying (per-vertex)$\to$\\
+		\item Interpolation\\
+			$\to$ Varying (per-fragment)$\to$\\
+		\item Fragment Shader\\
+			$\to$ Fragment Color (per-fragment)\\
+	\end{enumerate*}
+	With the Vertex Shader and Fragment Shader being Uniforms (constants). Attributes given per vertex. Vertex Shader computes varying. Interpolate varying values. Fragment Shader computes pixel color.
+\section{Vertex Shader}
+\begin{lstlisting}
+varying vec3 lightDirection, normal;
+void main()
+{
+	vec4 vertexPosition=gl_ModelViewMatrix*g_Vertex;
+	lightDirection=vec3(g_LightSource[0].position-vertexPosition);
+	normal=gl_Normal;
+	gl_Position=vertexPosition;
+}
+\end{lstlisting}
+where on line 1 are the variables to be interpolated and passed to the fragment shader. In the body of main() the per-vertex attributes are computed.
+\section{Fragment Shader}
+\begin{lstlisting}
+varying vec3 lightDirection, normal;
+
+void main()
+{
+	vec3 lightDirectionNormalized=normalize(lightDirection);
+	float intensity=dot(lightDirectionNormalized,normal);
+	gl_FragColor=vec4(intensity,intensity,intensity,1.0);
+}
+\end{lstlisting}
+where in line 1 are the interpolated variables passed from vertex shader. In the main() body the color of this fragment (gl-FragColor) is computed.
+\item[\lp{Fragment}] $\text{Fragment}\neq\text{Pixel}$. A Fragment can store: Color, Position, Depth, Texture Coordinates, Window ID,\ldots\\
+	\section{Graphics APIs}
+	\emph{A}pplication \emph{P}rogramming \emph{I}nterfaces. Give access to the graphics hardware. Are hardware-independent and abstract away complex details.
+	\section{OpenGL}
+\item[\lp{includes}]\hfill\\
+	\begin{lstlisting}
+	#include <GLee.h>
+	#include <GL/gl.h>
+	#include <GL,glut.h>
+	\end{lstlisting}
+\item[\lp{main application}]\hfill\\
+	\begin{lstlisting}
+	int main(int argc, char **argv)
+	{
+		// Initialize the glut environment
+		glutInit(&argc,argv);
+		glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH)
+
+		// Create a new window named Simple
+		glutCreateWindow("Simple");
+
+		// Register the display callback function
+		glutDisplayFunc(displayFunc);
+
+		// Hand over the control to GLUT server loop
+		glutMainLoop();
+
+		return 0;
+	}
+	\end{lstlisting}
+\item[\lp{display function}]\hfill\\
+	\begin{lstlisting}
+	void displayFunc(void)
+	{
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		GLuint vshader=glCreateSHader(GL_VERTEX_SHADER);
+		glCompileShader(vshader);
+
+		GLuint fshader = glCreateShader(GL_FRAGMENT_SHADER);
+		glShaderSource(fshader,1,&fragment_p,NULL);
+		glCompileShader(fshader);
+		GLuint shaderprogram=glCreateProgram();
+		glAttachShader(shaderprogram, vshader);
+		glAttachShader(shaderprogram, fshader);
+		glLinkProgram(shaderprogram);
+
+		glUseProgram(shaderprogram);
+
+		float coords[] = {-1, -1, 0, 1, -1, 0, 0, 1, 0};
+		GLint location=glGetAttribLocation(shaderprogram,"pos");
+		glEnableVertexAttribArray(location);
+		gVertexAttribPointer(location, 3, GL_FLOAT, GL_FALSE, 3*sizeof(float), coords);
+		glDrawArrays(GL_TRIANGLES, 0, 3);
+
+		glutSwapBuffers();
+	}
+	\end{lstlisting}
+\item[\lp{vertex shader}] \hfill\\
+	\begin{lstlisting}
+	attribute vec4 pos;
+	varying vec4 color_out;
+
+	void main()
+	{
+		if(pos.x == -1.0) color_out = vec(1,0,0,1);
+		if(pos.x == 1.0) color_out = vec(0,1,0,1);
+		if(pos.x == 0.0) color_out = vec(0,0,1,1);
+
+		gl_Position = pos;
+	}
+	\end{lstlisting}
+\item[\lp{fragment shader}] \hfill\\
+	\begin{lstlisting}
+	varying vec4 color_out;
+
+	void main()
+	{
+		gl_FragColor = color_out;
+	}
+	\end{lstlisting}
+\item[\lp{Integration}]
+	\begin{itemize*}[label=\colorbullet]
+		\item gl.lib: main library\\
+		\item glu.lib: utilities. Supports NURBS, complex polygons, quadric shapes, etc.\\
+		\item glut.lib: toolkit. Simplifies and abstracts window handling
+	\end{itemize*}
+\item[\lp{Primitives}]\hfill\\
+	\begin{lstlisting}
+	glDRawElements(X, count, GL_UNSIGNED_INT, 0);
+	\end{lstlisting}
+	X:\hfill\\
+	\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
+		\item GL\_POINTS,\\
+		\item GL\_LINES,\\
+		\item GL\_POLYGON,\\
+		\item GL\_TRIANGLES,\\
+		\item GL\_QUADS,\\
+		\item GL\_TRIANGLE\_STRIP,\\
+		\item GL\_TRANGLE\_FAN,\\
+	\end{enumerate*}
+\item[\lp{Extensions}] \hfill\\
+	\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
+		\item Access to hardware-specific features\\
+		\item Specified by 3D video card manufacturers and OpenGL vendors\\
+		\item Defined in \texttt{glext.h}\\
+		\item Extensions have manufacturer's postfix.
+	\end{enumerate*}
+\end{compactdesc}

@@ -1,0 +1,214 @@
+\chapter{Image segmentation}
+``Segmentation is the ultimate classification problem. Once solved, Computer Vision is solved.''
+\begin{compactdesc}
+	\item[\lp{Interim Summary}] Segmentation is hard. It is easier if you define the task carefully:
+		\begin{inparaenum}[\itshape (1)]
+			\item Segmentation task binary or continuous?
+			\item What are regions of interest?
+			\item How accurately must the algorithm locate the region boundaries?
+		\end{inparaenum}
+	\item[\lp{Definition}]
+	it partitions an image into \emph{regions of interest}. It is the first stage in many automatic image analysis systems. A \emph{complete segmentation} of an image $I$ is a finite set of regions $R_1,\ldots,R_N$, such that
+	\begin{gather*}
+		I={\scriptstyle\bigcup_{i=1}^{N}}\text{ and } R_i\cap R_j=\varnothing,\qquad \forall i\neq j.
+	\end{gather*}
+	\item[\lp{segmentation quality}] the quality of a segmentation depends on what you want to do with it. Segmentation algorithms must be chosen and evaluated with an application in mind.
+\end{compactdesc}
+\section{Thresholding}
+Is a simple segmentation process, produces a binary image $B$. It labes each pixen \emph{in} or \emph{out} of the rogion of interest by comparison of the greylevel with a threshold $T$:
+\begin{gather*}
+	B(x,y)=
+	\begin{cases}
+		1&\text{if }I(x,y)\geq T\\
+		0&\text{if }I(x,y)<T.
+	\end{cases}
+\end{gather*}
+\begin{compactdesc}
+	\item[\lp{Choosing $T$}] By trial and error. Compare results with ground truth. Automatic methods. (ROC curve)
+	\item[\lp{Chromakeying}] Control Lighting! ``Plain'' discance measure (e.g.)
+		\begin{gather*}
+			\vtr{I}_{\alpha}=\abs{\vtr{I}-\vtr{g}}>T
+		\end{gather*}
+		$T\sim 20$, $\vtr{g}=
+		\begin{pmatrix}
+			0&255&0
+		\end{pmatrix}^{T}
+		$. Problems: Variation is \emph{not} the same in all 3 channels. Hard alpha maske
+		\begin{gather*}
+			I_{\text{comp}}=I_{\alpha}I_{a}+\left( 1-I_{\alpha} \right)I_b
+		\end{gather*}
+	\item[\lp{Gaussian model per pixel}] (Like chromakeying. ) mean $\mu\to I_{\mu}$, standard deviation $\sigma\to I_{\Sigma}$. $\vtr{I}_{\alpha}=\abs{\vtr{I}-\vtr{I}_{\text{bg}}}>\vtr{T}$, $\vtr{T}=
+		\begin{pmatrix}
+			20&20&10
+		\end{pmatrix}
+		$, $\vtr{I}_{\text{bg}}=\text{background image}$. Or better (e.g.)
+		\begin{gather*}
+			\vtr{I}_{\alpha}=\sqrt{\left( \vtr{I}-\vtr{I}_{\text{bg}} \right)^T\Sigma^{-1}\left( \vtr{I}-\vtr{I}_{\text{bg}} \right)}>\vtr{T}=4
+		\end{gather*}
+	\item[\lp{ROC Analysis}] Receiver operating Characteristic. An ROC curve characterizes the performance of a binary classifier. A binary classifier distinguishes between two different types of things.
+	\item[\lp{Classification error}] Binary classifiers make errors. Two types of input to a binary classifier: Positives, negatives. Four possible outcomes in any test: True positive, true negative, false negative, false positive.
+	\item[\lp{ROC Curve}] Characterizes the error trade-off in binary classification tasks. It plots  the \emph{true positive fraction} 
+		\begin{align*}
+			\text{TP fraction }&=\text{true positive count}/P,
+			\shortintertext{$P=TP+FN$ and \emph{false positive fraction} }
+			\text{FP fraction}&=\text{false positive count}/N, 
+		\end{align*}
+$N=FP+TN$.
+	ROC curve always passes through $(0,0)$ and $(1,1)$.
+	\item[\lp{MAP}] (Maximum A Posteriori) detector
+	\item[\lp{Operating points}] choose an \emph{operating point} by assigning relative costs and values to each outcome, $V_{TN},V_{TP},C_{FN},C_{FP}$. $V$ and $C$ being values and costs. For simplicity, often $V_{TN}=V_{TP}=0$.
+	\item[\lp{Performance Assessment}]
+		In real-life, we use two or even three separate sets of test data:
+		\begin{inparaenum}[\itshape(1)]
+			\item A \emph{training set}, for tuning the algorithm,
+			\item A \emph{validation} set for tuning the porformance score,
+			\item An unseen \emph{test set} to get a final performance score on the tuned algorithm.
+		\end{inparaenum}
+	\item[\lp{Pixel connectivity}] Define neighbors, e.g. (for 2D) 4-neighborhood or 8-neighborhood
+	\item[\lp{Pixel paths}] There are e.g. 4- and 8-connected paths. ($p_i$ neighbor of $p_{i+1}$).
+	\item[\lp{Connected regions}] A region is 4- or 8-connected if it contains a(n) 4- or 8-connected path between any two of its pixels.
+\end{compactdesc}
+\section{Region Growing}
+\begin{inparaenum}[\itshape (1)]
+\item Start from a seed point or region. \item Add neighboring pixels that satisfy the criteria defining a region. \item Repeat until we can include no more pixels.
+\end{inparaenum}
+\begin{lstlisting}
+function B = RegionGrow(I, seed)
+	[X,Y] = size(I);
+	visited = zeros(X,Y);
+	visited(seed) = 1;
+	boundary = emptyQ;
+	boundary.enQ(seed);
+while(~boundary.empty())
+	nextPoint = boundary.deQ();
+	if(include(nextPoint, seed))
+		visited(nextPoint) = 2;
+			Foreach (x,y) in N(nextPoint)
+				if(visited(x,y) == 0)
+					boundary.enQ(x,y);
+					visited(x,y) = 1;
+				end
+			end
+	end
+end
+\end{lstlisting}
+\subsection{Variations}
+\begin{compactdesc}
+	\item[\lp{seed selection}] 
+		\begin{inparaenum}[\itshape (1)]
+			\item One seed point,
+			\item Seed region,
+			\item Multiple seeds.
+		\end{inparaenum}
+	\item[\lp{seed selection}] 
+		\begin{inparaenum}[\itshape (1)]
+			\item Greylevel thresholding,
+			\item Greylevel distribution model. E.g. include if $\left( I(x,y)-\mu \right)^2<(n\sigma)^2,\, n=3$. Can update $\mu$ and $\sigma$ after every iteration,
+			\item color or texture information.
+		\end{inparaenum}
+	\item[\lp{snakes}] A snake is an \emph{active contour}. It's a polygon. Each point on contour moves away from seed while its image neighborhood satisfies an inclusion criterion. Often the contour has smoothness constraints. the algorithm iteratively minimizes an energy function:
+		\begin{gather*}
+			E=E_{\text{tension}}+E_{\text{stiffness}}+E_{\text{image}}
+		\end{gather*}
+\end{compactdesc}
+\section{Spatial relations}
+\begin{compactdesc}
+\item[\lp{Markov Random Fields}] Markov chains have 1D structure. At every time, there is one state. This enabled use of dynamic programming. \emph{Markov Random fields} break this 1D structure:
+		\begin{inparaitem}
+			\item Field of sites, each of which has a label, simultaneously.
+			\item Label at one site dependend on others, no 1D structure to dependencies. 
+			\item This means no optimal, efficient algorithms, except for 2-label problems.
+		\end{inparaitem}
+	Minimize
+	\begin{align*}
+		&\text{Energy}(\vtr{y};\theta,\text{data})\\
+		&\quad={\scriptstyle\sum_{i}^{}}\psi_1(y_i;\theta,\text{data})\\
+		&\qquad+\!{\scriptstyle\sum_{\spadesuit}^{}}\psi_2(y_i,y_j;\theta,\text{data})
+	\end{align*}
+	$\spadesuit=i,j\in\text{edges}$
+\item[\lp{FG-BG segmentation}] The code does the following:
+	\begin{inparaitem}
+		\item background RGB Gaussian model training (from many images)
+		\item shadow modeling (hard shadow and soft shadow)
+		\item graphcut foreground-background segmentation
+	\end{inparaitem}
+\end{compactdesc}
+\section{Morphological Operations}
+They are local pixel transformations for processing region shapes. Most often used on binary images. Logical transformations based on comparison of pixel neighborhoods with a pattern.
+\begin{compactdesc}
+\item[\lp{8-neighbor erode}] (Minkowsky subtraction) Erase any foreground pixel that has one eight-connected neighbar that is background
+\item[\lp{8-neighbor dilate}] (Minkowsky addition) Paint any background pixel that has one eight-connected neighbor that is foreground. \emph{Applications}: Smooth region boundaries for shape analysis, remove noise and artefacts from an imperfect segmentation, match particular pixel configurations in an image for simple object recognition
+	\item[\lp{structuring elements}] morphological operations take two arguments
+		\begin{inparaenum}[1.]
+			\item a binary image
+			\item a structuring element
+		\end{inparaenum}
+	Compare the structuring element to the neighborhood of each pixel. This determines the output of the morphological operation. The structuring element is also a binary array and has an origin.
+	\begin{align*}
+		I_1\cup I_2&=\left\{ \vtr{x}:\vtr{x}\in I_1\,\text{or}\,\vtr{x}\in I_2 \right\},\\
+		I_2\cap I_2&=\left\{ \vtr{x}:\vtr{x}\in I_1\,\text{and}\,\vtr{x}\in I_2 \right\},\\
+		I^{C}&=\left\{ \vtr{x}:\vtr{x}\not\in I \right\},\\
+		I_1\setminus I_2&=\left\{ \vtr{x}:\vtr{x}\in I_2\,\text{and}\,\vtr{x}\not\in I_2 \right\}.
+	\end{align*}
+%	$S$ fits $I$ at $\vtr{x}$ if
+%	\begin{align*}
+%		\left\{ \vtr{y}:\vtr{y}=\vtr{x}+\vtr{s}\mid s\in S \right\}&\subseteq I
+%		\shortintertext{$S$ hits $I$ at $\vtr{x}$ if}
+%		\left\{ \vtr{y}:\vtr{y}=\vtr{x}-\vtr{s}\mid s\in S \right\}\cap I&\neq \varnothing
+%		\shortintertext{$S$ misses $I$ at $\vtr{x}$ if}
+%		\left\{ \vtr{y}:\vtr{y}=\vtr{x}-\vtr{s}\mid s\in S \right\}\cap I&=\varnothing
+%	\end{align*}
+	\item[\lp{Erosion}] of binary image $I$ by the structuring element $S$ is defined by
+		\begin{align*}
+			I\ominus S&=\left\{ \vtr{z}\in E\mid S_{\vtr{z}}\subset I \right\}
+		\end{align*}
+			$S_{\vtr{z}}$ translation of $S$ by vector $\vtr{z}$.
+	\item[\lp{Dilation}] is $I\oplus S={\scriptstyle\bigcup}_{\vtr{b}\in S}I_{\vtr{b}}$.
+	\item[\lp{Opening}] $I\circ S=(I\ominus S)\oplus S$.
+	\item[\lp{Closing}] $I\bullet S=(I\oplus S)\ominus S$.\\
+		To remove holes in the foreground and islands in the background, do both opening and closing. Thesize and shape of the structuring element determine which features survive. In the absence of knowledge about the shape of features to remove, use a circular structuring element.
+	\item[\lp{Granulometry}]
+		Provides a size distribution of distinct regions or ``granules'' in the image. We open (opening as above) the image with increasing structuring element size and count the number of regions after each operation. Creates ``morphological sieve''.
+		\begin{lstlisting}
+function gSpec = granulo(I, T, maxRad)
+%* \% Segment the image I.*)
+B = (I>T);
+%* \%Open the image at each structuring element size up*)
+%* \%to a maximum and count the remaining regions.*)
+for x=1:maxRad
+O = imopen(B,strel('disk',x));
+numRegions(x) = max(max(connectedComponents(O)));
+end
+gSpec = diff(numRegions);
+		\end{lstlisting}
+	\item[\lp{Hit-and-miss transform}] $H=I\otimes S$ Searches for an exact match of the structuring element. Simple form of template matching.
+	\item[\lp{Thinning}] $I\oslash S=I\setminus (I\otimes S)$
+	\item[\lp{Thickening}] $I\odot S=I\cup(I\otimes S)$
+	\item[\lp{Sequential thinning/thickening}] With structuring elements $S_1,\ldots,S_n$ and sequential thinning/thickening $\spadesuit$
+		\begin{gather*}
+			I\spadesuit\left\{ S_i:i=1,\ldots,n \right\}=\left( \left(I\spadesuit S_1  \right) \cdots \spadesuit S_n \right)
+		\end{gather*}
+		Several sequences of structuring elements are useful in practice. These are usually the set of rotations of a single stnucturing element, sometimes called the \emph{Golay alphabet}. See \lstinline{bwmorph} in matlab.
+\end{compactdesc}
+\subsection{Medial Axis Transform (MAT, skeletonization)}
+	 The skeleton and MAT are stick-figure representations of a region $X\in\mathbb{R}^2$. Start a grassfire at the boundary of the region, theskeleton is the set of points at which two fire fronts meet.
+\begin{compactdesc}
+	\item[\lp{Skeleton}] Use structuring element
+		\begin{gather*}
+			B=\left( 
+				\begin{smallmatrix}
+					0&1&0\\
+					1&1&1\\
+					0&1&0
+				\end{smallmatrix}\right).
+		\end{gather*} The $n$-th skeleton subset is 
+		\begin{gather*}
+			S_n(X)=(X\ominus_nB)\setminus \left[ (X\ominus_n B)\circ B \right],
+		\end{gather*} 
+		where $\ominus_n$ denotes $n$ successive erosions. The skeleton is the union of all the skeleton subsets $S(X)=\cup_{n=1}^{\infty}S_n(X)$.
+	\item[\lp{Reconstruction}] can reconstruct region $X$ from its \emph{skeleton subsets}.
+		\begin{gather*}
+			X=\cup_{n=0}^{\infty}S_n(X)\oplus_n B
+		\end{gather*}
+	\item[\lp{Applications and problems}] The skeleton/MAT provies a stick figure representing the rogion shap. Used in object recognition, in particula, character recognition. \emph{Problems:} Definition of a maximal disc is poorly defined on a digital grid and is sensive to noise on the boundary. Sequential thinning output sometimes preferred to skeleton/MAT.
+\end{compactdesc}

@@ -1,0 +1,103 @@
+%\pgr{VisComp01b_DigitalSensors}{25}{-1.6}{-0.72}{2.0}{0.7}
+%%% Part 1: Computer Vision
+\makepart{Computer Vision}
+\chapter{The digital image}
+Problems of digital cameras sensors
+\begin{compactitem}
+	\item transmission interference
+	\item compression artefacts
+	\item spilling
+	\item scratches, sensor noise
+	\item bad contrast
+\end{compactitem}
+\section{Image as 2D signal}
+\begin{compactdesc}
+	\item[Signal:] function depending on some variable with physical meaning
+	\item[Image: ] continuous function
+		\begin{compactdesc}
+			\item[2 variables:] $xy$-coordinates
+			\item[3 variables:] $xy+$time
+		\end{compactdesc}
+\end{compactdesc}
+Brightness is usually the value of the function, but other physical values are: Temperature, pressure, depth\ldots
+\paragraph{What is an image?}
+\begin{compactitem}
+	\item A picture or pattern of a value varying in space and/or time
+	\item Representation of a function $f:\mathbb{R}^n\to S$
+\item In digital form, e.g.: \begin{gather*}
+			I:\left\{ 1,\ldots,X \right\}\times\left\{ 1,\ldots,Y \right\}\to S.
+		\end{gather*}
+	\item For greyscale CCD images, $n=2, S=\mathbb{R}^+$
+\end{compactitem}
+\paragraph{What is a pixel?}
+\emph{Not} a little square! E.g. gaussian or cubic reconstruction filter.
+\section{Image sources}
+\begin{compactdesc}
+	\item[\lp{digital camera (CCD)}]\hfill
+		\pgr{VisComp01b_DigitalSensors}{30}{-2}{-1.67}{2.5}{0.8}
+		\pgr{VisComp01b_DigitalSensors}{31}{-2}{-1.27}{2.0}{1.6}
+	\item[\lp{analog to digital Conversion}]\hfill
+		\pgr{VisComp01b_DigitalSensors}{34}{-2.2}{-1.47}{2.3}{0.8}
+	\item[\lp{Blooming}]
+		Buckets have finite capacity. Photosite saturation causes blooming.
+	\item[\lp{bleeding or smearing}] during transit buckets still accumulate some charges. Due to tunneling and CCD Architecture. (Influenced by time ``in transit'' versus integration time. Effect is worse for short shutter times)
+	\item[\lp{dark current}] CCDs produce thermally-generated charge. They give non-zero output even in darkness. Partly, this is the \emph{dark current} and it fluctuates randomly. One can reduce it by cooling the CCD.
+	\item[\lp{CMOS}] Has same sensor elements as CCD. Each photo sensor has its \emph{own amplifier}. This leads to more nois (reduced by subtracting ``black'' image) and lower sensitivity (lower fill rate). The uses of standard CMOS technology allows to put other components on chip and ``smart'' pixels.
+	\item[\lp{CCD vs. CMOS}] \emph{CCD:} mature technology, specific technology, hight production cost, high power consumption, higher fill rate, blooming, sequential readout. \\\emph{CMOS:} recent technology, standard IC technology, cheap, low power, less sensitive, per pixel amplification, random pixel access, smart pixels, on chip integration with other components, rolling shutter (sequential read-out of lines)
+\end{compactdesc}
+\section{Sampling}
+\begin{compactdesc}
+	\item[1D] Sampling takes a function and returs a vector whose elements are values of that function at the sample points.
+	%\item[\lp{sampled representations}]\hfill
+		%\pgr{VisComp01b_DigitalSensors}{45}{-1.0}{-1.47}{1.0}{0.3}
+	\item[\lp{Undersampling}] ``Missing'' things between samples. Information lost
+	\item[\lp{aliasing}] signals ``traveling in disguise'' as other frequencies. (Can happen in undersampling.)
+\end{compactdesc}
+\section{Reconstruction}
+Inverse of sampling. Making samples back into continuous function. For output (need realizable method), for analysis or processing (need mathematical method), amounts to ``guessing'' what the function did in between.
+\begin{compactdesc}
+	\item[\lp{Bilinear interpolation}]
+		\begin{align*}
+			f(x,y)&=(1-a)(1-b)f[i,j]\\
+			&\quad+a(1-b)f[i+1,j]\\
+			&\quad+abf[i+1,j+1]\\
+			&\quad+(1-a)bf[i,j+1]
+		\end{align*}
+	\item[\lp{Nyquist frequency}] Half the sampling frequency of a discrete signal processing system. Signal's max frequency (bandwidth) must be \emph{smaller} than this.
+	\item[\lp{sampling grids}] cartesian sampling, hexagonal sampling and non-uniform sampling
+\end{compactdesc}
+\section{Quantization}
+%\pgr{VisComp01b_DigitalSensors}{63}{-2.3}{-1.65}{2.4}{0.7}
+real valued function will get digital values - integer values. Quantization is lossy and can't be reconstructed. Simple quantization uses equally spaced levels with $k$ intervals.
+\begin{compactdesc}
+\item[\lp{usual quantization intervals}] \emph{Grayscale image:} $8$ bit$=2^{8}=256$ grayvalues. \emph{Color image RGB (3 channels):} $8\,\text{bit}/\text{channel}=2^{24}=16.7\text{M}\,\text{colors}$. Nonlinear, for example log-scale.
+\end{compactdesc}
+\section{Image Properties}
+\emph{Image resolution:} Clipped when reduced. \emph{Geometric resolution:} Whole picture but crappy when reduced. \emph{Radiometric resolution:} Number of colors.
+\section{Image Noise}
+\begin{compactdesc}
+	\item[\lp{additive Gaussian Noise}] Common model $I(x,y)=f(x,y)+c$, where $c\sim \mathcal{N}(0,\sigma^2)$. So that $p(c)=(2\pi\sigma^2)^{-1}e^{-c^2/2\sigma^2}$. 
+	\item[\lp{Poisson noise:} (shot noise)] 
+		\begin{gather*}
+			p(k)=\lambda^{k}e^{-\lambda}/k!
+		\end{gather*}
+	\item[\lp{Rician noise:}] (appears in MRI) 
+		\begin{align*}
+			p(I)&=\frac{I}{\sigma^2}\exp\!\biggl(\! \frac{-\big( I^2+f^2 \big)}{2\sigma^2}\! \biggr)\\
+			&\quad I_0\!\left( \frac{If}{\sigma^2} \right)
+		\end{align*}
+	\item[\lp{Multiplicative noise:}] $I=f+fc$
+	\item[\lp{Signal to noise ration (SNR)}] $s=F/\sigma$ is an index of image quality, where
+		\begin{gather*}
+			F=\frac{1}{XY}{\scriptstyle\sum\limits_{x=1}^{X}}{\scriptstyle\sum\limits_{y=1}^{Y}}f(x,y)
+		\end{gather*}
+		Often used instead: \emph{Peak Signal to Noise Ratio (PSNR)} $s_{\text{peak}}=F_{\text{max}}/\sigma$
+\end{compactdesc}
+\section{Colour Images}
+Consist of red, green and blue channel.
+\begin{compactdesc}
+	\item[\lp{Prism (with 3 sensors)}] Separate light in three beams using dichroic prism. Requires 3 sensors and precise alignment. Gives good color separation. $\to$ high-end cameras
+	\item[\lp{Filter mosaic}] Coat filter directly on sensor. ``Demosaicing'' to obtain full colour \& full resolution image. $\to$ low-end cameras
+	\item[\lp{Filter wheel}] rotate multiple filters in front of lens. Allows more than 3 colour bands. $\to$ static scenes
+	\item[\lp{new color CMOS sensor, foveon's X3}] blue, green, red sensor, one above the other (descending) $\to$ better image quality
+\end{compactdesc}

@@ -1,0 +1,104 @@
+\chapter{Image denoising}
+\begin{align*}
+	\vtr{y}&=\vtr{x}_{\text{orig}}+\vtr{w}\\
+	\text{measurements}&=
+	\begin{smallmatrix}
+		\text{original}\\
+		\text{image}
+	\end{smallmatrix}
+	+\text{noise}
+\end{align*}
+\section{Sparse representations for image restoration}
+\begin{compactdesc}
+\item[\lp{MAP estimation}] Energy minization problem
+	\begin{align*}
+		E(\vtr{x})&=\frac{1}{2}\norm{\vtr{y}-\vtr{x}}_2^2+\Pr(\vtr{x})\\
+		&=
+		\begin{smallmatrix}
+			\text{relation to}\\
+			\text{measurements}
+		\end{smallmatrix}+
+		\begin{smallmatrix}
+			\text{image model}\\
+			\text{($-\log$ prior)}
+		\end{smallmatrix}
+	\end{align*}
+	Some \emph{classical priors}:\\
+	\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
+		\item Smoothness $\lambda\norm{\mathcal{L}x}_2^2$\\
+		\item Total variation $\lambda\norm{\nabla \vtr{x}}_{1}^{2}$\\
+		\item MRF priors\qquad etc.
+	\end{enumerate*}
+\section{Sparse linear  model}
+	\item[\lp{Signal}] $\vtr{x} \in \mathbb{R}^m$
+	\item[\lp{Dictionary}] $D=[ \vtr{d}_1,\ldots,\vtr{d}_p\! ]\in \mathbb{R}^{m\times p}$ be a set of normalized ``basis vectors''.
+	\item[\lp{sparse vector \& code}]
+		D is ``adapted'' to $\vtr{x}$ if it can represent it with a few basis vectors - that is, there exists a \emph{sparse vector} $\vtr{\upalpha}$ in $\mathbb{R}^p$ such that 
+		\begin{gather*}
+			\vtr{x}\approx D\vtr{\upalpha}.
+		\end{gather*}
+		We call $\vtr{\upalpha}$ the \emph{sparse code}.
+		\begin{gather*}
+			\!\left(\!\begin{smallmatrix}
+				x_1\\
+				\vdots\\
+				x_m\\[-1ex]
+				\\
+			\end{smallmatrix}\!\right)\!
+			\approx\!
+			\left(\!\!\!
+			\begin{array}[]{r|r|l}
+				&&\\
+				\!\!\scriptstyle\vtr{d}_1\!\!&\!\!\!\!\scriptstyle\cdots\!\!\!&\scriptstyle\!\!\vtr{d}_p\!\!\\
+				&&\\
+			\end{array}\!\!\!
+			\right)\!
+			\!\left(\!\begin{smallmatrix}
+				\alpha_1\\
+				\vdots\\
+				\alpha_p
+			\end{smallmatrix}\!\right)\!
+		\end{gather*}
+	\item[\lp{2D example}] Complete basis has 2 elements. Overcomplete sparse dictionary with 4 elements allows sparse representation.
+	\item[\lp{Idea}] A dictonary can be good for representing a class of signals, but not for representing white Gaussian noise.
+	\item[\lp{Sparse Decomposition problem}]
+		\begin{gather*}
+			\min_{\vtr{\upalpha}\in \mathbb{R}^p}\frac{1}{2}\norm{\vtr{x}-D\vtr{\upalpha}}_{2}^{2}+\lambda\psi(\vtr{\upalpha})\\
+		\begin{smallmatrix}
+			\text{data}\\
+			\text{fitting term}
+		\end{smallmatrix}
+		+
+		\begin{smallmatrix}
+			\text{sparsity-inducing}\\
+			\text{regularization}
+			\end{smallmatrix}
+		\end{gather*}
+		$\psi$ induces sparsity in $\vtr{\upalpha}$. It can be\\
+		\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
+			\item The $L^0$ ``pseudo-norm''. $\norm{\vtr{\upalpha}}_0\coloneqq\#\left\{ i\mid \alpha_i\neq 0 \right\}$ (NP-hard),\\
+			\item The $L^1$ norm (convex)\\ $\norm{\vtr{\upalpha}}_1\coloneqq {\scriptstyle\sum_{i=1}^{p}}\abs{\alpha_i}$,\\
+			\item The $L^q$ norm\\ $\norm{\vtr{\upalpha}}_q\coloneqq {\left( {\scriptstyle\sum_{i=1}^{p}} \abs{\alpha_i}^q \right)\!}^{1/q}$
+		\end{enumerate*}\\
+		This is a \emph{selection} problem. When $\psi$ is the $L^1$-norm, the problem is called Lasso or basis pursuit.
+	\item[\lp{Incucing sparsity}]\hfill\\
+		Left: $\displaystyle\min_{\vtr{\upalpha}\in\mathbb{R}^P}\frac{1}{2}\abs{\vtr{x}-D\vtr{\upalpha}}_{2}^{2}+\lambda\norm{\vtr{\upalpha}}_1$\\
+		Right: $\displaystyle\min_{\vtr{\upalpha}\in\mathbb{R}^P}\frac{1}{2}\abs{\vtr{x}-D\vtr{\upalpha}}_{2}^{2}$ s.t. $\norm{\vtr{\upalpha}}_1\leq T$.\\
+	\pgr{VisComp07a_Radon}{52}{-1.9}{-0.9}{1.8}{0.8}
+\item[\lp{Designed dictionaries}] Wavelets, Curvelets, Wedgelets, Bandlets,\ldots lets
+\item[\lp{Learned dictionaries of patches}]
+	\begin{align*}
+		&\scriptstyle\min\limits_{\vtr{\upalpha}_i,D\in\mathcal{C}}{\scriptscriptstyle\sum_{i}^{}}\frac{1}{2}\norm{\vtr{x}_i-D\vtr{\upalpha}}_{2}^{2}+\lambda\psi(\vtr{\upalpha}_i)\\
+		&\text{reconstruction}+\text{sparsity}
+	\end{align*}
+\item[\lp{solve denoising problem}] \hfill\\
+	\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
+		\item Extract all overlapping $8\times 8$ patches $\vtr{x}_i$\\
+		\item Solve a matrix factorization problem (Eq. above) with $n>100000$. Average thereconstruction of each patch.
+	\end{enumerate*}
+\item[\lp{Inpainting, Demosaicking}] 
+	\begin{gather*}
+		\min_{D\in \mathcal{C},\vtr{\upalpha}}{\scriptstyle\sum_{i}^{}}\norm{\vtr{\upbeta}_i\otimes\left( \vtr{x}_i-D\vtr{\upalpha}_i \right)}_{2}^{2}+\lambda_i\psi(\upalpha_i)
+	\end{gather*}
+\item[\lp{RAW Image Processing}] GRBG-mosaic $\to$ white balance, black substraction $\to$ denoising $\to$ demosaicking $\to$ conversion to sRGB, gamma correction $\to$ image.
+\end{compactdesc}

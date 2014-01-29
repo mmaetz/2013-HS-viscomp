@@ -205,3 +205,5 @@
 %% Enumerate
 \newcommand*\circled[1]{\tikz[baseline=(char.base)]{\node[shape=circle,fill=test,inner sep=0.2ex] (char) {#1};}}
 \newcommand*\colorbullet{\textcolor{test}{\textbullet}}
+\newcommand{\makepart}[1]{\vspace{1em}\addcontentsline{toc}{part}{#1} \begin{tikzpicture} \node[align=center,line width=5pt,rectangle,draw=chapterlinecolor,minimum width=\columnwidth-5pt,minimum height=4em] (c) at (0,0) {\normalsize\bfseries #1}; \node[line width=1.25pt,rectangle,draw=sectionlinecolor,minimum width=\columnwidth-5pt,minimum height=4em] (c1) at (0,0) {}; \end{tikzpicture} \vspace{1em}}
+\newcommand{\makepartnoskip}[1]{\addcontentsline{toc}{part}{#1} \begin{tikzpicture} \node[align=center,line width=5pt,rectangle,draw=chapterlinecolor,minimum width=\columnwidth-5pt,minimum height=4em] (c) at (0,0) {\normalsize\bfseries #1}; \node[line width=1.25pt,rectangle,draw=sectionlinecolor,minimum width=\columnwidth-5pt,minimum height=4em] (c1) at (0,0) {}; \end{tikzpicture} }
