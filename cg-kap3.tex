@@ -1,0 +1,252 @@
+\chapter{Transformations}
+\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
+	\item Change position and orientation of objects\\
+	\item Project objects to screet\\
+	\item Animate objcets
+\end{enumerate*}
+\section{Notation}
+Points and vectors are represented as
+\begin{gather*}
+	\vtr{p}=
+	\!\left(\!\begin{smallmatrix}
+		x\\
+		y
+	\end{smallmatrix}\!\right)\!
+\end{gather*}
+Matrices are represented as $A$, a point is transformed as 
+\begin{align*}
+\vtr{p}'&=A\vtr{p}, 
+\shortintertext{transpose: }
+	\vtr{p}^T&=(x,y),\\
+	{\!\left(\! \vtr{A}^T\! \right)\!}_{ij}&=\vtr{A}_{ji},
+	\shortintertext{linear maps}
+	A(\alpha x+\beta y)&=\alpha A(x)+\beta A(y),\\
+	\shortintertext{represented by matrices}
+	\vtr{A}(\alpha \vtr{x}+\beta y)&= \alpha \vtr{A}\vtr{x}+\beta \vtr{A}\vtr{y}
+	\shortintertext{affine maps}
+	\vtr{A}\vtr{x}+\vtr{b}&=\vtr{x}'.
+	\shortintertext{translation}
+	\!\left(\!\begin{smallmatrix}
+		x'\\
+		y'
+	\end{smallmatrix}\!\right)\!
+	&=
+	\!\left(\!\begin{smallmatrix}
+		x\\
+		y
+	\end{smallmatrix}\!\right)\!
+	+\!\left(\!\begin{smallmatrix}
+		t_x\\
+		t_y
+	\end{smallmatrix}\!\right)\!,
+	\\
+	\leadsto \vtr{p}'&=\vtr{p}+\vtr{t}\\
+	\shortintertext{scaling}
+	\!\left(\!\begin{smallmatrix}
+		x'\\
+		y'
+	\end{smallmatrix}\!\right)\!
+	&=
+	\!\left(\!\begin{smallmatrix}
+		s_x&0\\
+		0&s_y
+	\end{smallmatrix}\!\right)\!
+	\!\left(\!\begin{smallmatrix}
+		x\\
+		y
+	\end{smallmatrix}\!\right)\!,
+	\\
+	\vtr{p}'&=\vtr{S}\vtr{p},
+	\shortintertext{rotation by angle $\theta$}
+	\!\left(\!\begin{smallmatrix}
+		x'\\
+		y'
+	\end{smallmatrix}\!\right)\!
+	&=
+	\!\left(\!\begin{smallmatrix}
+		\cos\theta&-\sin\theta\\
+		\sin\theta&\cos\theta
+	\end{smallmatrix}\!\right)\!
+	\!\left(\!\begin{smallmatrix}
+		x\\
+		y
+	\end{smallmatrix}\!\right)\!\\
+	\leadsto \vtr{p}'&= \vtr{R}\vtr{p}
+\end{align*}
+\section{2D Transformations}
+\begin{compactdesc}
+\item[\lp{Homogeneous transformations}] 
+Affine maps are linear maps in \emph{homogeneous coordinates}
+\begin{align*}
+	\vtr{p}&=
+	\!\left(\!\begin{smallmatrix}
+		x\\
+		y\\
+		1
+	\end{smallmatrix}\!\right)\!,
+	\shortintertext{translation is represented as a matrix}
+	\!\left(\!\begin{smallmatrix}
+		x'\\
+		y'\\
+		1
+	\end{smallmatrix}\!\right)\!
+	&=
+	\!\left(\!\begin{smallmatrix}
+		1&0&t_x\\
+		0&1&t_y\\
+		0&0&1
+	\end{smallmatrix}\!\right)\!
+	\!\left(\!\begin{smallmatrix}
+		x\\
+		y\\
+		1
+	\end{smallmatrix}\!\right)\!,\\
+	\vtr{p}'&=\vtr{T}\vtr{p},
+	\shortintertext{rotation}
+	\vtr{R}&=
+	\!\left(\!\begin{smallmatrix}
+		\cos\theta&-\sin\theta&0\\
+		\sin\theta&\cos\theta&0\\
+		0&0&1
+	\end{smallmatrix}\!\right)\!,\\
+	\vtr{S}&=
+	\!\left(\!\begin{smallmatrix}
+		s_x&0&0\\
+		0&s_y&0\\
+		0&0&1
+	\end{smallmatrix}\!\right)\!,
+	\shortintertext{shear along $x$- and $y$- axis (entlang der $x$- oder $y$- Achse strecken)}
+	\vtr{SH}_x&=
+	\!\left(\!\begin{smallmatrix}
+		1&a&0\\
+		0&1&0\\
+		0&0&1
+	\end{smallmatrix}\!\right)\!
+	\\
+	\vtr{SH}&=
+	\!\left(\!\begin{smallmatrix}
+		1&0&0\\
+		b&1&0\\
+		0&0&1
+	\end{smallmatrix}\!\right)\!
+	\shortintertext{A point has infinitely many homogeneous coordinates, for any $w$}
+	\vtr{p}&=
+	\!\left(\!\begin{smallmatrix}
+		wx\\
+		wy\\
+		w
+	\end{smallmatrix}\!\right)\!,\\
+	\shortintertext{Combined rotation and translation}
+	\vtr{T}\vtr{R}&=
+	\!\left(\!\begin{smallmatrix}
+		r_{11}&r_{12}&t_x\\
+		r_{21}&r_{22}&t_y\\
+		0&0&1
+	\end{smallmatrix}\!\right)\!
+	\shortintertext{commutativity}
+	\vtr{M}_1\vtr{M}_2&=\vtr{M}_2\vtr{M}_1
+	\shortintertext{For pairs $(M_1,M_2)=$ $(\vtr{T},\vtr{T})$, $(\vtr{R},\vtr{R})$, $(\vtr{S},\vtr{S})$, $(\vtr{S},\vtr{R})$, only for 2D!}
+\end{align*}
+\section{3D Transformations}
+\item[\lp{Homogeneous coordinates}] $4\times 4$ matrices. Project 
+	\begin{gather*}
+		\vtr{p}=
+		\!\left(\!\begin{smallmatrix}
+			x\\
+			y\\
+			z\\
+			w
+		\end{smallmatrix}\!\right)\!
+		\quad\text{onto hyperplane}\quad
+		\!\left(\!\begin{smallmatrix}
+			x/w\\y/w\\z/w\\1
+		\end{smallmatrix}\!\right)\!
+	\end{gather*}
+	\begin{flalign*}
+		\text{Translation}&&\text{Scaling}\\
+		\!\left(\!\begin{smallmatrix}
+			1&0&0&t_x\\
+			0&1&0&t_y\\
+			0&0&1&t_z\\
+			0&0&0&1
+		\end{smallmatrix}\!\right)\!
+		&&
+		\!\left(\!\begin{smallmatrix}
+			s_x&0&0&0\\
+			0&s_y&0&0\\
+			0&0&s_z&0\\
+			0&0&0&1
+		\end{smallmatrix}\!\right)\!
+	\end{flalign*}
+	For following equations, use 
+	\begin{align*}
+		s_{\theta}&\coloneqq \sin\theta,&c_{\theta}&\coloneqq\cos\theta.
+	\end{align*}
+	Rotation around the $x$-,$y$-,$z$-axis
+	\begin{align*}
+		\vtr{R}_x&=\!\left(\!\begin{smallmatrix}
+			1&0&0&0\\
+			0&c_{\theta}&-s_{\theta}&0\\
+			0&s_{\theta}&c_{\theta}&0\\
+			0&0&0&1
+		\end{smallmatrix}\!\right)\!,\\
+		\vtr{R}_y&=
+		\!\left(\!\begin{smallmatrix}
+			c_{\theta}&0&s_{\theta}&0\\
+			0&1&0&0\\
+			-s_{\theta}&0&c_{\theta}&0\\
+			0&0&0&1
+		\end{smallmatrix}\!\right)\!,\\
+		\vtr{R}_z&=
+		\!\left(\!\begin{smallmatrix}
+			c_{\theta}&-s_{\theta}&0&0\\
+			s_{\theta}&c_{\theta}&0&0\\
+			0&0&1&0\\
+			0&0&0&1
+		\end{smallmatrix}\!\right)\!.
+	\end{align*}
+\begin{sideways}
+	\begin{minipage}[t]{2.2\columnwidth}
+	Rotation of angle $\theta$ around an axis $\vtr{u}$
+		\begin{align*}
+			&\vtr{R}'(\vtr{u},\theta)=\\
+				&\begin{bmatrix}
+					u_{x}^{2}+c_{\theta}\!\left( 1-u_{x}^{2} \right)\!&u_xu_y\!\left( 1-c_{\theta} \right)\!-u_zs_{\theta}&u_xu_z\!\left( 1-c_{\theta} \right)\!-u_{y}s_{\theta}\\
+					u_xu_y\!\left( 1-c_{\theta} \right)\!-u_zs_{\theta}&u_{y}^{2}+c_{\theta}\!\left( 1-u_{y}^{2} \right)\!&u_yu_z\!\left( 1-c_{\theta} \right)\!-u_xs_{\theta}\\
+					u_xu_z\!\left( 1-c_{\theta} \right)\!-u_{y}s_{\theta}&u_yu_z\!\left( 1-c_{\theta} \right)\!-u_xs_{\theta}&u_{z}^{2}+c_{\theta}\!\left( 1-u_{z}^{2} \right)\!\\
+				\end{bmatrix},\\
+				&\vtr{R}(\vtr{u},\theta)=
+				\!\left(\!\begin{smallmatrix}
+					&&&0\\
+					&\vtr{R}'&&0\\
+					&&&0\\
+					0&0&0&1
+				\end{smallmatrix}\!\right)\!.
+		\end{align*}
+	\end{minipage}
+\end{sideways}
+Shearing paralles to the principal planes.
+	\begin{align*}
+		\vtr{SH}_{xy}&=
+		\!\left(\!\begin{smallmatrix}
+			1&0&sh_x&\\
+			0&1&sh_y&0\\
+			0&0&1&0\\
+			0&0&0&1
+		\end{smallmatrix}\!\right)\!\\
+		\vtr{SH}_{xz}&=
+		\!\left(\!\begin{smallmatrix}
+			1&sh_x&0&0\\
+			0&1&0&0\\
+			0&sh_z&1&0\\
+			0&0&0&1
+		\end{smallmatrix}\!\right)\!\\
+		\vtr{SH}_{yz}&=
+		\!\left(\!\begin{smallmatrix}
+			1&0&0&0\\
+			sh_y&1&0&0\\
+			sh_z&0&1&0\\
+			0&0&0&1
+		\end{smallmatrix}\!\right)\!
+	\end{align*}
+\end{compactdesc}
