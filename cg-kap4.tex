@@ -1,0 +1,112 @@
+\chapter{Lightning and Shading}
+\section{Measuring Light}
+\begin{compactdesc}
+	\item[\lp{Measuring}] $\to$ counting photons
+	\item[\lp{Radiometry}] Studies the measurement of electromagnetic radiation, include visible light
+\section{Basic Definitions}
+Angle:
+\begin{align*}
+	\theta&=\frac{\ell}{r},&& \text{circle $2\pi$ radians}
+	\shortintertext{Solid angle}
+	\Omega&=\frac{A}{r^2},
+	&&\text{sphere: $4\pi$ steradians}
+\end{align*}
+\item[\lp{Direction}]
+	point on the unit sphere, parametrized by two angles $\vtr{\omega}(\theta,\phi)$
+	\begin{align*}
+		\omega_{\vtr{x}}&=\sin\theta\cos\phi\\
+		\omega_{\vtr{y}}&=\sin\theta\sin\phi\\
+		\omega_{\vtr{z}}&=\cos\theta
+	\end{align*}
+\item[\lp{Differential Solid Angle}]
+	\begin{align*}
+		\dd{A}&=(r\dd{\theta})\left( r\sin\theta\dd{\phi} \right)\\
+		\dd{\vtr{\omega}}&=\frac{\dd{A}}{r^2}=\sin\theta\dd{\theta}\dd{\phi}\\
+		\Omega&={\scriptstyle\int_{S^2}^{}}\dd{\vtr{\omega}}\\
+		&={\scriptstyle\int_{0}^{2\pi}}\dd{\phi}{\scriptstyle\int_{0}^{\pi}}\dd{\theta}\, \sin\theta=4\pi
+	\end{align*}
+	Assume light consists of photons with 
+	\begin{align*}
+		\vtr{x}:&\quad\text{Position},\\
+		\vtr{\omega}:&\quad\text{Direction of motion},\\
+		\lambda:&\quad\text{Wavelength}.
+	\end{align*}
+	Each photon has an energy of:
+	\begin{gather*}
+		\frac{hc}{\lambda}
+	\end{gather*}
+	\begin{align*}
+		\shortintertext{Plack's constant}
+		h&\approx \SI{6.63e-34}{\meter\squared\kilogram\per\second}\\
+		\shortintertext{speed of light in vacuum}
+		c&=\SI{299790458}{\meter\per\second}
+		\shortintertext{Unitof energy}
+		J&=\si{\kilogram\meter\squared\per\second\squared}
+	\end{align*}
+	\section{Radiometry}
+		\item[\lp{flux}]
+			total amonut of energy passing through surface or space per unit time
+			\begin{align*}
+				\Phi(A)&&\left[ \frac{J}{s} \right]=[ W ]
+			\end{align*}
+			examples: Number of photons hitting a wall per secound, number of photons leaving a lightbulb per second.
+			\begin{gather*}
+				E(\vtr{x})=\dv{\Phi(A)}{A(\vtr{x})}\\
+				{\scriptstyle\int_{A}^{}}\dd{A(\vtr{x})}\,E(\vtr{x})=\Phi(A)\\
+				{\scriptstyle\int\limits_{A}^{}}\dd{A}(\vtr{x}){\scriptstyle\int\limits_{H^2}^{}}\dd{\vtr{\omega}}\, L(\vtr{x},\vtr{\omega})\cos\theta=\Phi(A)
+			\end{gather*}
+		\item[\lp{irradiance}]
+			Flux per unit area \emph{arriving} at a surface $\to$ area density of flux
+			\begin{align*}
+				E(\vtr{x})=\dv{\Phi(A)}{A(\vtr{x})} &&\left[ \frac{W}{m^2} \right].
+			\end{align*}
+			Example: Number of photons hitting a small patch of a wall per second, diivded by the size of the patch.
+	\pgr{3-1_LightingAndShadingI}{12}{-2.4}{-0.5}{-0.5}{0.15}
+	\begin{gather*}
+		E=\frac{\Phi}{A}
+	\end{gather*}
+	\pgr{3-1_LightingAndShadingI}{12}{0.2}{-0.8}{2.2}{0.15}
+	Lambert's cosine law
+	\begin{gather*}
+		E=\frac{\Phi}{A/\cos\theta}=\frac{\Phi}{A}\cos\theta
+	\end{gather*}
+	\begin{align*}
+		\mathcal{L}(\vtr{x},\vtr{\omega})&=\dvt{\Phi(A)}{\cos\theta\dd{A}(\vtr{x})\dd{\vtr{\omega}}}\\\\
+		\leadsto\mathcal{L}(\vtr{x},\vtr{\omega})&=\dv{E(\vtr{x})}{\cos\theta \dd{\vtr{\omega}}}
+	\end{align*}
+	\begin{gather*}
+		\leadsto\mathcal{L}(\vtr{x},\vtr{\omega})\cos\theta\dd{\vtr{\omega}}=\dd{E(\vtr{x})}
+	\end{gather*}
+	Integrate radiance over the hemisphere. Same for radiosity.
+		\item[\lp{radiosity}]
+			Flux per unit area \emph{leaving} at a surface $\to$ area density of flux
+			\begin{align*}
+				B(\vtr{x})=\dv{\Phi(A)}{A(\vtr{x})} &&\left[ \frac{\si{\watt}}{\si{\meter\squared}} \right].
+			\end{align*}
+			Example: Number of photons reflecting off a small patch of a wall per second, divided by the size of the patch. 		\item[\lp{Radiant intensity}]
+			Power (flux) per solid angle$=$directional density of flux
+			\begin{align*}
+				I(\vtr{\omega})&=\dv{\Phi}{\vtr{\omega}}&& \left[ \frac{\si{\watt}}{\si{\steradian}} \right]\\
+				\Phi&={\scriptstyle\int_{S^2}^{}}\dd{\vtr{\omega}}\, I(\vtr{\omega})
+			\end{align*}
+			Example: Power per unit solid angle emanating from a point source.
+			\begin{gather*}
+				\Phi=4\pi I,
+			\end{gather*}
+			isotropic point source.
+		\item[\lp{Radiance}]
+			Intensity per unit area$=$flux density per unit solid angle, per perpendicular unit area
+			\begin{align*}
+				\mathcal{L}(\vtr{x},\vtr{\omega})&=\dv{I(\vtr{\omega})}{A(\vtr{x})}
+				=\pdvv{\Phi}{\vtr{\omega}}{A^{\perp}(\vtr{x},\vtr{\omega})}\\
+				&=\pdvv{\Phi(A)}{\vtr{\omega}}{A(\vtr{x})\cos\theta}\quad \left[ \frac{\si{\watt}}{\si{\meter\squared\steradian}} \right]
+			\end{align*}
+			Most fundamental for raytracing. Remains constant along a ray.
+\section{Reflection Models}
+\item[\lp{BRDF}] \emph{B}idirectional \emph{R}eflectance \emph{D}istribution \emph{F}unction.
+	\begin{align*}
+		f_r(\vtr{x},\omega_i,\omega_r)&=\dv{L_r(\vtr{x},\vtr{\omega}_r)}{E_i(\vtr{x},\vtr{\omega}_i)}\\
+		&=\frac{\dd{L_r(\vtr{x},\vtr{\omega}_r)}}{L_i(\vtr{x},\vtr{\omega}_i)\cos\theta_i\dd{\vtr{\omega}}_i}
+	\end{align*}
+	Differential irradiance due to a cone of directions around $\vtr{\omega}_i$.
+\end{compactdesc}
