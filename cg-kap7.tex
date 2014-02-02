@@ -1,0 +1,74 @@
+\chapter{Textures}
+\section{Texture mapping}
+Enhance details without increasing geometric complexity
+\begin{gather*}
+	\text{texture}+\text{geometry}=\text{rendering}
+\end{gather*}
+\begin{compactdesc}
+	\item[\lp{Issues}]
+\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
+	\item Mapping between texture and geometry\\
+	\item Anti-aliasing and filtering\\
+	\item Level-of detail\\
+	\item One-to-one mapping between texture and geometry\\
+\end{enumerate*}
+\section{Parametrization}
+	\item[\lp{sphere}] 
+		\begin{gather*}
+			\!\left(\!\begin{smallmatrix}
+				u\\
+				v
+			\end{smallmatrix}\!\right)\!
+			\to
+			\!\left(\!\begin{smallmatrix}
+				\sin u\sin v\\
+				\cos v\\
+				\cos u \sin v
+			\end{smallmatrix}\!\right)\!
+		\end{gather*}
+	\item[\lp{Desirable properties}]\hfill\\
+		\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
+			\item Low distortion\\
+			\item Bijective mapping\\
+			\item Efficient to compute
+		\end{enumerate*}
+	\item[\lp{Issues}] Finding cuts, texture atlases.
+	\item[\lp{OBJ files}]\hfill\\
+		\begin{lstlisting}
+OBJ Files
+v 0.131171 -0.113469 0.178314
+v 0.130945 -0.114951 0.182474
+...
+vt 0.538446 0.4275
+vt 0.550132 0.41427
+...
+vn 0.609697 0.486474 0.625789
+vn 0.799934 0.334347 0.498315
+...
+f 22/209/22 220/210/220
+221/211/221
+f 21/213/21 219/214/219
+220/210/229
+...
+		\end{lstlisting}
+		With ``v'' the vertex positions, ``vt'' the texture coordinates, ``f'' the faces (triagles) coor\#/tex\#/normal\#.
+	\item[\lp{OpenGL}]\hfill\\
+		Load and bind texture
+		\begin{lstlisting}
+loadImage(&texture_data);
+glGenTextures(1, &texId);
+glBindTexture(GL_TEXTURE_2D, texId);
+glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, w, h, 0, GL_RGB, GL_UNSIGNED_BYTE, texture_data);
+...
+		\end{lstlisting}
+		Fragment shader: texture lookup
+		\begin{lstlisting}
+uniform sampler2D texWood;
+varying vec2 texCoords; // [u, v]
+void main(void) {
+gl_FragColor = texture2D(texWood,
+texCoords);
+}	
+		\end{lstlisting}
+		\section{Texture Filtering}
+\end{compactdesc}

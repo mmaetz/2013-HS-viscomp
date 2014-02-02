@@ -1,0 +1,73 @@
+\chapter{Geometry}
+\section{Geometric representations}
+\begin{compactdesc}
+	\item[\lp{Parametric surfaces}]
+	\item[\lp{Subdivision surface}]
+	\item[\lp{Point set surface}]
+	\item[\lp{Implicit surface}]\hfill\\
+\section{Polygonal Meshes} (Don't get confused by the sectioning, it is also a geometric representation.)
+	\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
+		\item Boundary of objects\\
+		\item Geometry + connectivity\\
+		\item Fast rendering with optimized GPU pipeline
+	\end{enumerate*}
+	\item[\lp{Polygon definition}]\hfill\\
+		\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
+			\item Vertices $v_0,v_1,\ldots,v_{n-1}$\\
+			\item Edges\hfill\\ $\left\{ (v_0,v_1),\ldots,(v_{n-2},v_{n-1}) \right\}$\\
+			\item Planar and non-self-intersecting\\
+			\item Set of connected polygons $M=\left\{ V,E,F \right\}$,\\
+				where $V=\text{vertices}$, $E=\text{edges}$, $F=\text{faces}$.
+		\end{enumerate*}
+		Every edge belongs to at least one polygon. The intersection of two polygons in $M$ is either empty, a vertex, or an edge.
+	\item[\lp{Vertex degree (valence)}] Number of edges incident to a vertex.
+	\item[\lp{Boundary}] The set of al edges that belong to only one polygon.
+\section{Manifolds}
+Surface is locally homeomorphic to a disk. Closed manifolds divides space into two. In a amanifold mesh, things as this are not allowed.
+	\pgr{4-1_GeometryAndTexturesI}{15}{-2}{-0.6}{2}{0.3}
+\section{Mesh data structures}
+	\item[\lp{Geometry}] Vertex locations
+	\item[\lp{Topology}] How vertices are connected (edges/faces)
+	\item[\lp{Attributes}] Normal, color, etc.
+	\item[\lp{Operations to be supported}] \hfill\\
+		\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
+			\item Rendering\\
+			\item Geometry queries. E.g. What are the vertices of face $F$?\\
+			\item Modifications. E.g. Remove vertex $v$.
+		\end{enumerate*}
+	\item[\lp{Triangle List}]\hfill\\
+		Triangles:
+		\begin{center}
+			\begin{tabular}[]{c@{\hskip +0.15ex}c@{\hskip +0.15ex}c@{\hskip +0.15ex}}
+				Ver. coord.&Ver. coord.&Ver. Coord.\\
+				\toprule
+				\!\!\!$\scriptscriptstyle(x_0,y_0,z_0)$&$\scriptscriptstyle(x_1,y_1,z_1)$&$\scriptscriptstyle(x_2,y_2,z_2)$\\
+				\!\!\!$\scriptscriptstyle(x_3,y_3,z_3)$&$\scriptscriptstyle(x_4,y_4,z_4)$&$\scriptscriptstyle(x_5,y_5,z_5)$\\
+				\!\!\!$\scriptscriptstyle\ldots$&$\scriptscriptstyle\ldots$&$\scriptscriptstyle\ldots$\\
+				\bottomrule
+			\end{tabular}
+			\end{center}
+			Simple, no connectivity, redundant, stl file format.
+		\item[\lp{Indexed face set}]\hfill\\
+		\begin{center}
+			\begin{tabular}[]{c@{\hskip +0.3ex}c@{\hskip +0.3ex}c@{\hskip +0.3ex}}
+				V. index&V. index&V. index\\
+				\toprule
+				\!\!\!1&2&3\\
+				\!\!\!\ldots&\ldots&\ldots\\
+				\bottomrule
+			\end{tabular}
+		\end{center}\hfill\\
+		\begin{center}
+			\begin{tabular}[]{c@{\hskip +0.3ex}c@{\hskip +0.3ex}}
+				Index&Coord.\\
+				\toprule
+				\!\!\!0&$(x_0,y_0,z_2)$\\
+				\!\!\!1&$(x_1,y_1,z_2)$\\
+				\!\!\!2&$(x_2,y_1,z_2)$\\
+				\ldots&\ldots\\
+				\bottomrule
+			\end{tabular}
+		\end{center}
+		Avoids redundancy. OBJ, OFF, WRfile formats. Stores connectivity, but: Costly geometric queries, costly mesh modifications.
+\end{compactdesc}
