@@ -6,20 +6,20 @@ In Visual Computing, people seem like to use
 \end{align*}
 where the subindex means a derivative if and only if we are talking about $I$.
 \section{Applications}
-\begin{enumerate*}[label=\protect\circled{\arabic*}]
-	\item tracking
-	\item structure from motion
-	\item stabilization
-	\item compression
-	\item Mosaicing
+\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
+	\item tracking\\
+	\item structure from motion\\
+	\item stabilization\\
+	\item compression\\
+	\item Mosaicing\\
 \end{enumerate*}
 \section{Brightness constancy}
 \begin{compactdesc}
 	\item[\lp{Definition of Optical Flow}]\hfill ``Apparent motion of brightness patterns''. Ideally, the optical flow is the projection of the three-dimensional velocity vectors on the image.
-	\item[\lp{Caution required}]
-		\begin{enumerate*}[label=\protect\circled{\arabic*}]
-			\item Uniform, rotating sphere $\mathcal{OF}=0$
-			\item No motion, but changing lighting $\mathcal{OF}\neq0$
+	\item[\lp{Caution required}]\hfill\\
+		\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
+			\item Uniform, rotating sphere $\mathcal{OF}=0$\\
+			\item No motion, but changing lighting $\mathcal{OF}\neq0$\\
 		\end{enumerate*}
 		\section{Mathematical formulation}
 		\begin{align*}
@@ -39,22 +39,32 @@ where the subindex means a derivative if and only if we are talking about $I$.
 		The motion of an edge seen through an aperture is (in some cases) inherently ambiguous. E.g. the edge is physically moving upwards, but the edge motion alone is consistent with many other possible motions, and in this case the edge e.g. appears to move diagonally.
 		\section{Optical Flow meaning}
 		Estimate of observed projected motion field. Not always well defined! Compare:
-		\begin{enumerate*}[label=\protect\circled{\arabic*}]
-			\item Motion Field (or Scene Flow), projection of 3-D motion field
-			\item Normal Flow: observed tangent motion
-			\item Optic Flow: Apparent motion of the brightness pattern: Apparent motion of the brightness pattern (hopefully equal to motion field)
+		\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
+			\item Motion Field (or Scene Flow), projection of 3-D motion field\\
+			\item Normal Flow: observed tangent motion\\
+			\item Optic Flow: Apparent motion of the brightness pattern: Apparent motion of the brightness pattern (hopefully equal to motion field)\\
 			\item Consider barber pole illusion
 		\end{enumerate*}
 	\item[\lp{Planar motion}]
-		Ideal motions of a plane, $X,Y$ being the horizontal and vertical direction and $Z$ normal to the image plane:
-		\begin{enumerate*}[label=\protect\circled{\arabic*}]
-			\item translation in $X$
-			\item translation in $Z$
-			\item rotation around $Z$
-			\item rotation around $Y$
+		Ideal motions of a plane, $X,Y$ being the horizontal and vertical direction and $Z$ normal to the image plane:\\
+		\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
+			\item translation in $X$\\
+			\item translation in $Z$\\
+			\item rotation around $Z$\\
+			\item rotation around $Y$\\
 		\end{enumerate*}
 		\section{Regularization: Horn \& Schunck algorithm} 
-		The Horn-Schunck algorithm assumes smoothness in the flow over the whole image. thus, it tries to minimize distortions in flow and prefers solutions which show more smoothness. The flow is formulated as a global energy functional which is the sought to be minimized. This function is given for two-dimensional image streams as Eq. \ref{eq:2dimstreams}:
+		The Horn-Schunck algorithm assumes smoothness in the flow over the whole image. thus, it tries to minimize distortions in flow and prefers solutions which show more smoothness. The flow is formulated as a global energy functional which is the sought to be minimized. This function is given for two-dimensional image streams as \\
+		\begin{sideways}
+			\begin{minipage}[t]{1.2\columnwidth}
+				\begin{align}
+						E&=\iint_{}^{}\!\dd{x}\!\dd{y}\left[\left( \pdv{I}{x}\dv{x}{t}+\pdv{I}{y}\pdv{y}{t}+\pdv{I}{t} \right)^2\right.\nonumber\\
+							&\hphantom{\iint_{}^{}\!\dd{x}\!\dd{y}\left[\right.\quad}\left.\vphantom{\iint_{}^{}\!\dd{x}\!\dd{y}\left[\left( \pdv{I}{x}\dv{x}{t}+\pdv{I}{y}\pdv{y}{t}+\pdv{I}{t} \right)^2\right.}
+					+\alpha^2\!\left( \norm{\nabla \dot{x}} +\norm{\nabla\dot{y}}\right)^2  \right]
+				\label{eq:2dimstreams}
+				\end{align}
+			\end{minipage}
+		\end{sideways}\\
 		The associated ELE are 
 		\begin{align*}
 			\pdv{L}{\dot{x}}-\pdv{}{x}\pdv{L}{\pdv{\dot{x}}{x}}-\pdv{}{y}\pdv{L}{\pdv{\dot{x}}{y}}&=0,\\
@@ -68,15 +78,15 @@ where the subindex means a derivative if and only if we are talking about $I$.
 			&\quad=0.
 		\end{align*}
 		with $\ds\Delta=\pddv{}{x}+\pddv{}{y}.$
-	\item[\lp{Remarks}]\hfill
-		\begin{enumerate*}[label=\protect\circled{\arabic*}]
-			\item Coupled PDE solved using iterative methods and finite differences
+	\item[\lp{Remarks}]\hfill\\
+		\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
+			\item Coupled PDE solved using iterative methods and finite differences\\
 				$\ddot{x}=\Delta \dot{x}-\lambda\!\left( \pdv{I}{x}\dot{x}+\pdv{I}{y}\dot{y}+\dot{I} \right)\!\pdv{I}{x},\\$\\
-				$\ddot{y}=\Delta \dot{y}-\lambda\!\left( \pdv{I}{x}\dot{x}+\pdv{I}{y}\dot{y}+\dot{I} \right)\!\pdv{I}{y}.$
-		\item More than two frames allow a better estimation of $\dot{I}$.
-			\item Information spreads from corner-type patterns.
-			\item Errors at boundaries
-			\item Example of \emph{regularisiation}: selection principle for the solution of illposed problems.
+				$\ddot{y}=\Delta \dot{y}-\lambda\!\left( \pdv{I}{x}\dot{x}+\pdv{I}{y}\dot{y}+\dot{I} \right)\!\pdv{I}{y}.$\\
+		\item More than two frames allow a better estimation of $\dot{I}$.\\
+			\item Information spreads from corner-type patterns.\\
+			\item Errors at boundaries\\
+			\item Example of \emph{regularisiation}: selection principle for the solution of illposed problems.\\
 		\end{enumerate*}
 		\section{Lucas-Kanade: Integrate over a Patch}
 %		Assume a single velocity for all pixels within a image patch $I=I(x,y)$
@@ -98,7 +108,24 @@ where the subindex means a derivative if and only if we are talking about $I$.
 			\shortintertext{where $\vtr{x}={\!\left(\! \begin{smallmatrix} x&y \end{smallmatrix} \!\right)\!}^T\!\!,\quad \vtr{v}= {\!\left(\! \begin{smallmatrix} \dot{x}&\dot{y} \end{smallmatrix} \!\right)\!}^T$ and}
 			A_{ij}&=\pdv{I(q_i)}{x_j},&\vtr{b}_i&=-\pdv{I(q_i)}{t}.\nonumber
 		\end{align}
-		Eq. \ref{eq:lucaskanade1} is overdetermined, so do compromise solution by the least squares principle Eq. \ref{eq:lucaskanade2}
+		Eq. \ref{eq:lucaskanade1} is overdetermined, so do compromise solution by the least squares principle Eq.\\
+		\begin{sideways}
+			\begin{minipage}[t]{1.5\columnwidth}
+\begin{align*}
+		\vtr{v}&=
+		\!{\left(\!\begin{smallmatrix}
+			\sum_{i}^{}w_iI_x(q_i)^2&\sum_{i}^{}w_iI_x(q_i)I_y(q_i)\\
+			\sum_{i}^{}w_iI_x(q_i)I_y(q_i)&\sum_{i}^{}w_iI_y(q_i)^2
+		\end{smallmatrix}\!
+	\right)\!}^{-1}\\
+	&\quad\cdot 
+	\!\left(\!\begin{smallmatrix}
+		-\sum_{i}^{}w_iI_x(q_i)I_t(q_i)\\
+		-\sum_{i}^{}w_iI_y(q_i)I_t(q_i)
+	\end{smallmatrix}\!\right)\!
+\end{align*}
+			\end{minipage}
+		\end{sideways}\\
 \section{Gradient-Based Estimation}
 Assume \emph{brightness constancy}. Let $f_1(x)$ and $f_2(x)$ be 1D signals (images) at two time instants. Let $f_2=f_1(x-\delta)$, where $\delta$ denotes translation.
 \begin{align}\scriptscriptstyle
@@ -210,7 +237,6 @@ This iteration yields a sequence of approximate objective functions that converg
 The gradient approximation to the difference to $E(\delta\vtr{u})$ gives the approximate objective function $\tilde{E}$. From $\abs{\tilde{d}-\delta}$ one can show that $\tilde{E}$ approximates $E$ to the seccond-order in the magnitude of the residual flow, $\delta\vtr{u}$. The approximation error vanishes as $\delta\vtr{u}$ is reduced to zero. The iterative refinement with rewarping reduces the residual motion at each iteration so that the approximate objective function converges to the desired objective function, and hence the flow estimate converges to the optimal LS estimate $E(\delta \vtr{u})$.
 
 The most expensive step at each iteration is the computation of image gradients and the matrix inverse in \ref{eq:compresflow}. One can, howover, formulatio the problem so that the spatial image derivatives used to form $M$ are taken at time $t$, and as such, do not depend on the current flow estimate $\vtr{u}^j$. To see this, note that the spatial derivatives are computed at time $t$ which leads to $I(\vtr{x},t)=I^j(\vtr{x},t)$. Of course $\vtr{b}$ in \ref{eq:compresflow} will always depend on the warped image sequence and must be recomputed at each iteration. In practice, when $M$ is not recomputed from the warped sequence then the spatial and temporal derivatives will not be centered at the same location in $(x,y,t)$ and hence more iterations may be needed.
-=======
 \begin{gather*}
 	\nabla I(\vtr{x},t)\cdot\vtr{u}+I_t(\vtr{x},t)=0.
 \end{gather*}
@@ -330,7 +356,6 @@ If we assume that the same velocity $\vtr{u}$ is shared by all pixels within a n
 %	\item More constrained solutions than smoothness (Horn-Schunck)\\
 %	\item Integration over a large area than a translation-only model can accomodate (Lucas-Kanade)
 %\end{enumerate*}
-=======
 \section{Parametric motion models}
 Global miton models offer:\\
 \begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]

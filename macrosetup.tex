@@ -13,7 +13,7 @@
 \newcommand{\pgrr}[7]{
 	\begin{center}
 		\resizebox{\linewidth}{!}{
-			\begin{tikzpicture}[rotate=90]
+			\begin{tikzpicture}[rotate=#7]
 				\clip[] (#3,#4) rectangle (#5,#6);
 				\node[draw] (fig) at (0,0) {\includegraphics[page=#2,width=6cm,angle=#7]{../slides/#1.pdf}};
 		\end{tikzpicture}
@@ -206,5 +206,5 @@
 %% Enumerate
 \newcommand*\circled[1]{\tikz[baseline=(char.base)]{\node[shape=circle,fill=test,inner sep=0.2ex] (char) {#1};}}
 \newcommand*\colorbullet{\textcolor{test}{\textbullet}}
-\newcommand{\makepartnoskip}[1]{\addcontentsline{toc}{part}{#1} \begin{tikzpicture} \node[fill=chapterlinecolor,align=center,line width=6pt,rectangle,draw=black,minimum width=\columnwidth-6pt,minimum height=4em,text=white] (c) at (0,0) {\normalsize\bfseries #1};\node[line width=2pt,rectangle,draw=white,minimum width=\columnwidth-6pt,minimum height=4em,text=white] (c) at (0,0) {\normalsize\bfseries \phantom{#1}};\end{tikzpicture} }
-\newcommand{\makepart}[1]{\vspace{1em}\makepartnoskip{#1}}
+\newcommand{\makepartnoskip}[2]{\addcontentsline{toc}{part}{#1} \begin{tikzpicture} \node[fill=chapterlinecolor,align=center,line width=6pt,rectangle,draw=black,minimum width=\columnwidth-6pt,minimum height=4em,text=white] (c) at (0,0) {\normalsize\bfseries #2};\node[line width=2pt,rectangle,draw=white,minimum width=\columnwidth-6pt,minimum height=4em,text=white] (c) at (0,0) {\normalsize\bfseries \phantom{#2}};\end{tikzpicture} }
+\newcommand{\makepart}[2]{\vspace{1em}\makepartnoskip{#1}{#2}}

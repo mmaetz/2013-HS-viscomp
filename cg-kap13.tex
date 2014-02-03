@@ -1,0 +1,216 @@
+\chapter{Geometry Processing}
+\section{Geometry in graphics}
+\pgr{6-1_GeometryProcessing}{2}{-2.7}{-1.35}{2.7}{0.57}
+\section{Applications}
+Games, movies, engineering, product design, medicine, biology, architecture.
+\section{Sources of geometry}
+\begin{compactdesc}
+	\item[\lp{Acquired real-world objects}] 3D scanning, point clouds, 3D modeling
+	\item[\lp{procedural modeling}]\mbox\\
+\section{Geometric representations}
+	\item[\lp{Considerations}]\hfill\\
+		\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
+			\item storage\\
+			\item acqisition of shapes\\
+			\item editing shapes\\
+			\item Rendering shapes
+		\end{enumerate*}
+	\item[\lp{Parametric curves \& surfaces}]
+		\begin{gather*}
+			f: X\to Y,\, X\subseteq \mathbb{R}^m,\, Y\subseteq \mathbb{R}^n.
+		\end{gather*}
+	\item[\lp{planar curve}] $m=1,n=2$,
+		\begin{gather*}
+			(t)=(x(t),y(t)).
+		\end{gather*}
+	\item[\lp{circle}] $m=1,n=2$,
+		\begin{align*}
+			t\mapsto \vtr{p}(t)&=(x(t),y(t)),\\
+			\vtr{p}(t)&=r(\cos(t),\sin(t)),
+		\end{align*}
+	 $t\in[0,2\pi)$.
+	\item[\lp{Bezier curves}]\mbox\\
+	\pgr{6-1_GeometryProcessing}{14}{0.2}{-1.35}{2.9}{0.2}
+		\begin{align*}
+			s(t)&={\scriptstyle\sum_{i=0}^{n}}\vtr{p}_iB_{i}^{n}(t)\\
+			B_{i}^{n}(t)&={n\choose i}t^i(1-t)^{n-i}
+		\end{align*}
+	\item[\lp{Space curves in 3D}] $m=1,n=3$,
+		\begin{gather*}
+			s(t)=(x(t),y(t),z(t)).
+		\end{gather*}
+	\item[\lp{surfaces}] $m=2,n=3$
+		\begin{gather*}
+			s(u,v)=(x(u,v),y(u,v),z(u,v)).
+		\end{gather*}
+	\item[\lp{sphere}] $m=2,n=3$
+		\begin{align*}
+			s(u,v)&=r
+			\!\left(\!\begin{smallmatrix}
+				\cos(u)\cos(v)\\
+				\sin(u)\cos(v)\\
+				\sin(v)
+			\end{smallmatrix}\!\right)\!,\\
+			(u,v)&\in [0,2\pi)\times [-\pi/2,\pi/2].
+		\end{align*}
+	\item[\lp{Bezier surfaces}]\mbox\\
+	\pgr{6-1_GeometryProcessing}{18}{1.2}{-1.35}{2.9}{0.2}
+		\begin{gather*}
+			s(u,v)={\scriptstyle\sum\limits_{i=0}^m}{\scriptstyle\sum\limits_{j=0}^n}\,
+			\vtr{p}_{ij}B_{i}^{m}(u)B_{j}^{n}(v).
+		\end{gather*}
+	\item[\lp{Normal and tangent plane}]
+		\begin{align*}
+			s_u&=\pdv{s(u,v)}{u}&s_v&=\pdv{s(u,v)}{v}\\
+			\vtr{n}&=\frac{s_u\equiv s_v}{\norm{s_u\equiv s_v}}.
+		\end{align*}
+	\item[\lp{Volumetric representations}] $m=3,n=1$.
+	\item[\lp{Advantages}] \hfill\\
+		\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
+			\item Easy to generate points on a curve/surface\\
+			\item Easy point-wise differential properties\\
+			\item Easy to control by hand
+		\end{enumerate*}
+	\item[\lp{Disadvantages}] \hfill\\
+		\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
+			\item Hard to determine inside/outside\\
+			\item Hard to determine if a point is on a curve/surface\\
+			\item Hard to generate by reverse engineering\\
+		\end{enumerate*}
+\section{Polygonal meshes} (see ``geometry'')
+\section{Implicit surfaces} 
+$f:\mathbb{R}^m\to\mathbb{R}^{m-k}$, where $k$ is the number of independent constraints.
+	\item[\lp{Planar curves}]
+		\begin{gather*}
+			S=\{ x\in \mathbb{R}^2\mid f(x)=0 \}
+		\end{gather*}
+	\item[\lp{Surfaces in 3D}]
+		\begin{gather*}
+			S=\{ x\in \mathbb{R}^3\mid f(x)=0 \}
+		\end{gather*}
+	\item[\lp{Implicit curves \& surfases}]\mbox\\
+			\begin{center}
+				\begin{tikzpicture}[]
+					\node[rectangle,draw,thick,text=white,fill=sectionlinecolor,minimum width=1.75cm,minimum height=1.75cm,align=center] (c2) at (0,0) {$f(x)>0$\\ \\ \\ \\ \\ \\};
+					\node[circle,draw,thick,fill=subsectionlinecolor,minimum size=1cm] (c1) at (0,0) {$f(x)<0$};
+				\end{tikzpicture}
+			\end{center}
+			\begin{align*}
+				\{ x\in\mathbb{R}^m\mid f(x)>0 \}&&\!\!\!\!\text{\textcolor{sectionlinecolor}{outside}}\\
+				\{ x\in\mathbb{R}^m\mid f(x)=0 \}&&\!\!\!\!\text{curve/surface}\\
+				\{ x\in\mathbb{R}^m\mid f(x)<0 \}&&\!\!\!\!\textcolor{subsectionlinecolor}{\text{inside}}
+			\end{align*}
+		\item[\lp{Circle}]\mbox\\
+			\begin{gather*}
+				f(x,y)=x^2+y^2-r^2
+			\end{gather*}
+		\item[\lp{Sphere}]\mbox\\
+			\begin{gather*}
+				f(x,y,z)=x^2+y^2+z^2-r^2
+			\end{gather*}
+		\item[\lp{Surface normal}]\mbox\\
+			\begin{gather*}
+				\nabla f(x,y,z)=(\partial_xf,\partial_yf,\partial_zf)^T
+			\end{gather*}
+			E.g. for circle
+			\begin{gather*}
+				\nabla f(x,y,z)=(2x,2y,2z)^T
+			\end{gather*}
+		\item[\lp{Advantages}]\hfill\\
+			\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
+				\item Easy to determine inside/outside\\
+				\item Easy to determine if a pointis on a curve/surface\\
+				\item Easy to combine
+			\end{enumerate*}
+		\item[\lp{Disadvantages}]\hfill\\
+			\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
+				\item Hard to generate points on a curve/surface\\
+				\item Limited set of surfaces\\
+				\item Does not  lend itself to (real-time) rendering
+			\end{enumerate*}
+			\section{Point set surfaces}
+	\pgr{6-1_GeometryProcessing}{29}{-2.9}{-1.35}{2.9}{0.7}
+	Only point-wise attributes, approximation methods, smooth surfaces, wokrs on acquired data. Local fitting
+	\pgr{6-1_GeometryProcessing}{31}{-2.9}{-1.362}{2.9}{0.3}
+	Implicit representation and fast projection
+	\pgr{6-1_GeometryProcessing}{32}{-2.9}{-1.362}{2.9}{0.2}
+	\item[\lp{Properties}] Robust to nois, direct rendering, conversion to meshes.
+	\item[\lp{Advantages}]\hfill\\
+	\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
+		\item Easy to determine inside/outside\\
+		\item Easy to determine if a point is on the curve/surface\\
+		\item Easy to generate points on the curve/surface\\
+		\item Suitable for reconstruction from general data\\
+		\item Direct real-time rendering\\
+		\item Not efficient to use in some modilng tasks
+	\end{enumerate*}
+	\section{Shape acquisition}
+	\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
+		\item 3D scanning\\
+			\begin{enumerate*}[label=\quad\protect\circled{\alph*},itemjoin=]
+				\item Touch probes\\
+					\mbox{\qquad}+ precise, - small objects\\
+				\item optical scanning: active or passive\\
+					\mbox{\qquad}+ fast, -glossy objects\\
+			\end{enumerate*}
+		\item registration\\
+		\item pre-processing\\
+		\item reconstruction
+	\end{enumerate*}
+\item[\lp{optical scanning - active systems}]\mbox\\
+	\emph{LIDAR}: Measures the time it takes the laser beam to hit the object and come back\\
+	\emph{Triangulation laser} Projected laser beam is photographe, giving the distance of the pattern.
+\item[\lp{Optical scanning - passive systems}]
+	Multi-view stereo: Left and right camera with different focal points and projection planes. Epipolar line.
+	\section{Registration}
+	Bringing scans into a common coordinate frame.
+\item[\lp{Iterative closest point algorithms}]\mbox\\
+	\pgr{6-1_GeometryProcessing}{41}{-2.9}{-0.95}{2.9}{0.2}
+	f.l.t.r. Patches to be aligned, correspondences, rigid motion, iterate, alignment.
+\item[\lp{Feature-based methods}]\mbox\\
+	\pgr{6-1_GeometryProcessing}{42}{-2.9}{-0.95}{2.9}{0.29}
+	f.l.t.r. Patches to be aligned, compute descriptors, match descriptors, alignment.
+\item[\lp{Pre-processing}] cleaning, repairing, resampling. Sampling for accurate reconstructions. 
+\item[\lp{Reconstruction}] Mathematical representation for a shape.
+	\emph{Connect-the-points methods}:
+	\pgr{6-1_GeometryProcessing}{46}{-2.7}{-0.7}{-0.2}{0.29}
+	+ Theoretical error bounds, - expensive, - not robust to noise\\
+	\emph{Approximation-based methods}:
+	\pgr{6-1_GeometryProcessing}{46}{0.2}{-0.7}{2.7}{0.29}
+	+ efficient to compute, + robust to noise, no theoretical error bounds.
+\section{Editing geometry}
+	\item[\lp{modeling tools}] Sculpting, CAD/CAM, procedural.
+	\item[\lp{Interactive \& sketch-based interfaces}]
+	\item[\lp{Deformations}] Free-form, elastic, skeletal, structure-aware.
+	\item[\lp{Cutting \& fracturing}]
+	\item[\lp{Smoothing \& filtering}]\hfill\\
+		\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
+			\item Laplace-Beltrami operator analogue of Laplace\\
+			\item Operatos on functions on a manifold\\
+			\item EAch manifold $M$ has a different LB operator\\
+			\item Described by the eigenvalues/eigenfunctions\\
+				$\Delta_M\phi(x)=\lambda\phi(x)$\\
+		\end{enumerate*}
+		In differential geometry, the Laplace operator, named after Pierre-Simon Laplace, can be generalized to operate on functions defined on surfaces in Euclidean space and, more generally, on Riemannian and pseudo-Riemannian manifolds. The operator can be extended to operate on tensors as the divergence of the covariant derivative. Alternatively, the operator can be generalized to operate on differential forms using the divergence and exterior derivative. The resulting operator is called the Laplace–de Rham operator (named after Georges de Rham).
+		\begin{gather*}
+			\Delta e^{i2\pi wx}=\pddv{e^{i2\pi wx}}{x}=-(2\pi w)^2e^{i2\pi wx}
+		\end{gather*}
+		Filtering with the Laplace-Beltrami operator is analogue of Fourier transform on manifolds.
+		\begin{gather*}
+			c_k={\scriptstyle\int\limits_{}^{}}\dd{x}\, f(x)\phi_k(x)
+		\end{gather*}
+		Filter in the ``frequency'' domain. It allaws multi-scale analysis on manifolds. Coordinate functions:
+		\begin{align*}
+			f_i(x\in M)&=\vtr{x}_{q},\text{with pairs}\\
+			(i,q)&=(1,x),(2,y),(3,z).
+		\end{align*}
+		Filter coordinate functions (coordinates of the points) on the manifold.
+	\pgr{6-1_GeometryProcessing}{59}{-2.7}{-1.35}{2.7}{0.3}
+	\pgr{6-1_GeometryProcessing}{60}{-2.7}{-1.35}{2.7}{0.3}
+\item[\lp{Compression \& Simplification}] (Belongs to Laplace-Beltrami?)
+\item[\lp{Differential properties}] Mean absolute curvature.
+\item[\lp{Segmentation}]
+\item[\lp{Symmetry and structure detection}]
+\item[\lp{Saliency}]
+\item[\lp{Feature extraction}]
+\end{compactdesc}

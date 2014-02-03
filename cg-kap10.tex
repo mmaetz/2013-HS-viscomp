@@ -1,0 +1,64 @@
+\chapter{Visibility}
+The visibility problem: Some parts of some surfaces are occluded.
+\section{Painter's algorithm}
+Render objects/poygons from furthest to nearest. Problems: Cyclic overlaps and intersections.
+\section{Z-Buffering}
+Store depth to the nearest object for each pixel
+\begin{compactdesc}
+\item[\lp{Algorithm}] \hfill\\
+	\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
+		\item Initialize all $z$ values to $\infty$.\\
+		\item For each polygon: If value of a piel for this polygon is smaller than the stored $z$ value, replace the stored $z$ value.
+	\end{enumerate*}
+			\begin{gather*}
+				\begin{smallmatrix}
+					\infty&\infty&\infty&\infty&\infty\\
+					\infty&\infty&\infty&\infty&\infty\\
+					\infty&\infty&\infty&\infty&\infty\\
+					\infty&\infty&\infty&\infty&\infty\\
+					\infty&\infty&\infty&\infty&\infty
+				\end{smallmatrix}
+				+
+				\begin{smallmatrix}
+					\textcolor{black!50!green}{5}&\textcolor{black!50!green}{5}&\textcolor{black!50!green}{5}&\textcolor{black!50!green}{5}&\textcolor{black!50!green}{5}\\
+					\textcolor{black!50!green}{5}&\textcolor{black!50!green}{5}&\textcolor{black!50!green}{5}&\textcolor{black!50!green}{5}&\\
+					\textcolor{black!50!green}{5}&\textcolor{black!50!green}{5}&\textcolor{black!50!green}{5}&&\\
+					\textcolor{black!50!green}{5}&\textcolor{black!50!green}{5}&&&\\
+					\textcolor{black!50!green}{5}&&&&
+				\end{smallmatrix}\\
+				=
+				\begin{smallmatrix}
+					\textcolor{black!50!green}{5}&\textcolor{black!50!green}{5}&\textcolor{black!50!green}{5}&\textcolor{black!50!green}{5}&\textcolor{black!50!green}{5}\\
+					\textcolor{black!50!green}{5}&\textcolor{black!50!green}{5}&\textcolor{black!50!green}{5}&\textcolor{black!50!green}{5}&\infty\\
+					\textcolor{black!50!green}{5}&\textcolor{black!50!green}{5}&\textcolor{black!50!green}{5}&\infty&\infty\\
+					\textcolor{black!50!green}{5}&\textcolor{black!50!green}{5}&\infty&\infty&\infty\\
+					\textcolor{black!50!green}{5}&\infty&\infty&\infty&\infty
+				\end{smallmatrix},
+			\end{gather*}
+			\begin{gather*}
+				\begin{smallmatrix}
+					\textcolor{black!50!green}{5}&\textcolor{black!50!green}{5}&\textcolor{black!50!green}{5}&\textcolor{black!50!green}{5}&\textcolor{black!50!green}{5}\\
+					\textcolor{black!50!green}{5}&\textcolor{black!50!green}{5}&\textcolor{black!50!green}{5}&\textcolor{black!50!green}{5}&\infty\\
+					\textcolor{black!50!green}{5}&\textcolor{black!50!green}{5}&\textcolor{black!50!green}{5}&\infty&\infty\\
+					\textcolor{black!50!green}{5}&\textcolor{black!50!green}{5}&\infty&\infty&\infty\\
+					\textcolor{black!50!green}{5}&\infty&\infty&\infty&\infty
+				\end{smallmatrix}
+				+
+				\begin{smallmatrix}
+					&&&&\\
+					\textcolor{blue}{6}&&&&\\
+					\textcolor{blue}{6}&\textcolor{blue}{7}&&&\\
+					\textcolor{blue}{9}&\textcolor{blue}{9}&\textcolor{blue}{9}&&\\
+					\textcolor{blue}{9}&\textcolor{blue}{9}&\textcolor{blue}{9}&\textcolor{blue}{9}&\\
+				\end{smallmatrix}\\
+				=
+				\begin{smallmatrix}
+					\textcolor{black!50!green}{5}&\textcolor{black!50!green}{5}&\textcolor{black!50!green}{5}&\textcolor{black!50!green}{5}&\textcolor{black!50!green}{5}\\
+					\textcolor{black!50!green}{5}&\textcolor{black!50!green}{5}&\textcolor{black!50!green}{5}&\textcolor{black!50!green}{5}&\infty\\
+					\textcolor{black!50!green}{5}&\textcolor{black!50!green}{5}&\textcolor{black!50!green}{5}&\infty&\infty\\
+					\textcolor{black!50!green}{5}&\textcolor{black!50!green}{5}&\textcolor{blue}{9}&\infty&\infty\\
+					\textcolor{black!50!green}{5}&\textcolor{blue}{9}&\textcolor{blue}{9}&\textcolor{blue}{9}&\infty
+				\end{smallmatrix}.
+			\end{gather*}
+		\item[\lp{Problem}] Limited resolution. Resolution is non-linear. Set near plan far from the camera.
+\end{compactdesc}
