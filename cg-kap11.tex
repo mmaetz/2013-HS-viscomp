@@ -1,0 +1,68 @@
+\chapter{Shadows}
+\section{Why important}
+\begin{compactdesc}
+	\item[\lp{depth cue}] 
+	\item[\lp{Scene lighting}] Light position, Point vs. Area light.
+	\item[\lp{Realism}]
+\section{Basic shadows}
+	\item[\lp{planar shadows}] draw projection of the object on the ground.\\
+		Limitations: \\
+		\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
+			\item self shadows\\
+			\item shadows on other objects\\
+			\item curved surfaces
+		\end{enumerate*}
+	\item[\lp{projective tetxure shadows}] Separate obstacle and receiver. Compute b/w  image of the obstacle from light. Use image as projective texture. Limitations: Need to specify obstactle \& receiver, no self-shadows.
+\section{Shadow maps}
+In high-end production software and games. \\
+\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
+	\item Compute the depths from the light\\
+	\item Compute the depths from the camera
+\end{enumerate*}
+\item[\lp{Algorithm}]
+For each pixel on the camera plane\\
+\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
+	\item Comptue the point in world coordinates\\
+	\item Project point onto the light plane\\
+	\item Compare $d(\vtr{x}_L)$ (shadow map) and $z_L$\\
+	\item If $d(\vtr{x}_L)<z_L$, $\vtr{x}$ is in shadow
+\end{enumerate*}
+\pgr{5-1_VisibilityAndShadows}{17}{0.65}{-1.32}{3.0}{0.45}
+Depth map rendered from the light
+\pgr{5-1_VisibilityAndShadows}{18}{-2.5}{-1.32}{0.2}{0.27}
+Rendering from the camera
+\pgr{5-1_VisibilityAndShadows}{18}{-0.2}{-1.32}{2.5}{0.27}
+	\item[\lp{Limitations}]\hfill \\
+		\emph{Bias}:\\
+		For a visible point $d(\vtr{x}_L)<z_L$, how to avoid self-shadowing? Add bias
+		\begin{gather*}
+			d(\vtr{x}_L)+\text{bias}<z_L.
+		\end{gather*}
+		Choosing a good bias can be very tricky.
+		\emph{Field of view:} \\A point to shadow can be outside the field of view of the shadow map. $\to$ Use cubical shadow map or spot lights.\\
+		\emph{Aliasing:}\\
+		Undersampling of the shadow map
+	\item[\lp{Filtering}] Should we filter depth? No. Instead, filter the result of the test
+		\begin{gather*}
+			d(\vtr{x}_L)+\text{bias}<z_L
+		\end{gather*}
+		Take a weighted average of comparisons. Bigger filter produces fake soft shadown. Setting bias is tricky.
+\section{Shadow volumes}
+Explicitly represent the volume of space in shadow. If a polygon is inside the volume, it is in shadow. Similar to clipping. Naive implementation $\mathcal{O}(\#polygons\times\#lights)$.
+\item[\lp{Algorithm}]\hfill\\
+	\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
+		\item Shoot a ray from the eye\\
+		\item Incre-/decrement a counter each time boundary of shadow volume is intersected\\
+		\item If counter$>0$, primitive is in shadow.
+		\item If counter$=0$, primitive is not in shadow
+	\end{enumerate*}
+	Optimization: Use silhouette edges only (where a back-facing \& front-facing polygon meet).
+\item[\lp{Limitations}]\hfill\\
+	\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
+		\item Introduces a lot of new geometry\\
+		\item Expensive to rasterize long skinny triangles\\
+		\item Objects must be watertight to use the silhouette optimization\\
+		\item Rasterization of polygons sharing an edge must not overlap and not have a gap
+	\end{enumerate*}
+	\pgrr{5-1_VisibilityAndShadows}{30}{-3}{-1.6}{3}{1.5}{90}
+\end{compactdesc}

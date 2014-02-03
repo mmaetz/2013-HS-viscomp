@@ -1,0 +1,165 @@
+\chapter{Clipping}
+Removing parts of objects outside the viewing frustum.
+\pgr{5-1_Clipping}{2}{-0.2}{-1.3}{2.8}{0.2}
+Why clip?\\
+\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
+	\item Save computation\\
+	\item Memory consistency\\
+	\item Stability: Division by 0
+\end{enumerate*}
+\begin{compactdesc}
+	\item[\lp{Culling}] Rejects via bounding volumes.
+	\item[\lp{Clipping}] Partially visible objects need to be clipped.
+\section{Parametric clipping}
+Parametric clipping (Liang-Barsky Algorithm). Idea: Compute intersection in 1D parameter space of the line
+	\begin{gather*}
+		\vtr{p}(t)=\vtr{p}_0+(\vtr{p}_1-\vtr{p}_0)t,\qquad t\in[0,1]
+	\end{gather*}
+	Outside of clip region
+	\begin{gather*}
+		\vtr{n}_{i}^{T}\!\left( \vtr{p}(t)-\vtr{p}_{E_i} \right)>0.
+	\end{gather*}
+\pgr{5-1_Clipping}{4}{-0.7}{-1.3}{3}{0.15}
+Intersection point
+\begin{gather*}
+	\vtr{n}_{i}^{T}\!\left(\vtr{p}(t)-\vtr{p}_{E_i}  \right)=0.
+\end{gather*}
+Insert
+\begin{align*}
+	t&=\frac{\vtr{n}_{i}^{T}(\vtr{p}_0-\vtr{p}_{E_i})}{-\vtr{n}_{i}^{T}\vtr{d}},\\
+	\vtr{d}&=\vtr{p}_1-\vtr{p}_0.
+\end{align*}
+Classification of entry points (PE) and leaving points (PL)
+		\pgr{5-1_Clipping}{6}{-2.3}{-1.3}{2.4}{0.4}
+	\item[\lp{Algorithm}]\hfill\\
+		\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
+			\item Test for all $t\in[0,1]$\\
+			\item Entry and leaving points computed by 
+				$\centering
+				\begin{aligned}
+					\vtr{n}^{T}&<0 \Rightarrow \text{PE}\\
+					\vtr{n}^{T}\vtr{d}&>0\Rightarrow\text{PL}
+				\end{aligned}
+				$
+			\item Compute maximum and minimum
+				$
+				\begin{aligned}
+					t_{E}&=\max(t_{E_i},\vtr{p}_{E_i}),\\
+					t_{L}&=\min(t_{L_i},\vtr{p}_{L_i}).
+				\end{aligned}
+				$\\
+			\item If $t_{E}>t_L \Rightarrow$ no relevant intersection. 
+		\end{enumerate*}
+		\pgrr{5-1_Clipping}{8}{-1.5}{-1.3}{1.3}{0.4}{90}
+		\begin{lstlisting}
+void Clip2D (float *x0, float *y0, float *x1, float *y1, boolean *visible)
+{
+	float tE, tL;
+	float dx, dy;
+	dx = *x1 - *x0;
+	dy = *y1 - *y0;
+	*visible = F\leftarrowE;
+	if (dx &=&  0 && dy &=&  0 && ClipPoint(*x0, *y0))
+	*visible = TRUE;
+	else {
+		tE = 0;
+		tL = 1;
+		if (CLIPt(dx, xmin - *x0, &tE, &tL))
+		if (CLIPt(-dx, *x0 - xmax, &tE, &tL))
+		if (CLIPt(dy, ymin - *y0, &tE, &tL))
+		if (CLIPt(-dy, *y0-ymax, &tE, &tL)) {
+			*visible = TRUE;
+			if (tL < 1) {
+				*x1 = *x0 + tL * dx;
+				*y1 = *y0 + tL * dy;
+			}
+			if (tE > 0) {
+				*x0 = *x0 + tE * dx;
+				*y0 = *y0 + tE * dy;
+			}
+		}
+	}
+}
+		\end{lstlisting}
+		\begin{lstlisting}
+boolean CLIPt (float denom, float num, float *tE, float *tL) {
+float t;
+boolean accept;
+accept = TRUE;
+if (denom > 0) {
+/* entry */
+t = num/denom;
+if (t > *tL)
+accept = FALSE;
+else if (t > *tE)
+*tE = t;
+}
+else if (denom < 0) {
+/* leave */
+t = num/denom;
+if (t < *tE)
+accept = FALSE;
+else if (t < *tL)
+*tL = t;
+}
+else
+/* parallel */
+if (num > 0)
+accept = FALSE;
+return accept;
+}
+		\end{lstlisting}
+	\item[\lp{Polygon clipping}] Extension of Liang-Barsky line clipping algorithm: Liang-Barsky polygon clipping algorithm\\
+		\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
+			\item Walk around polygon\\
+			\item For each edge, output endponts of visible part\\
+			\item Sometimes turning vertex is needed!
+		\end{enumerate*}
+\pgr{5-1_Clipping}{11}{0.2}{-1.3}{3}{0.7}
+		Uses subdivision of the window plane. Turning vertex needed when polygon touches an ``inside 2'' region. Unnecessary vertices do not cause artifacts inside visible window. Segment in parametric form
+		\begin{gather*}
+			\vtr{p}(t)=\vtr{p}_0+(\vtr{p}_1-\vtr{p}_0)t
+		\end{gather*}
+		In general, corresponding line cuts 4 times.
+\pgr{5-1_Clipping}{15}{-2.7}{-1.45}{3}{0.1}
+(Talking about left image above with upper right corner colored blue.) Part of segment visible
+\begin{gather*}
+	t_{\text{out}1}>0\quad t_{\text{in}2}\leq 2,
+\end{gather*}
+Enter ``inside 2'' region
+\begin{gather*}
+	0<t_{\text{out}2}\leq 1.
+\end{gather*}
+(Talking about right image above with upper and bottom right and corner colored blue.)
+Segment not visible. Enter ``inside 2'' region
+\begin{gather*}
+	0<t_{\text{out}1}\leq 1,\qquad 0<t_{\text{out}2}\leq 1.
+\end{gather*}
+Liang-Barsky polygon clipping algorithm. C-Code:
+\begin{lstlisting}
+for each edge e {
+compute tin1, tin2, tout1, tout2;
+if (tin2 > tout1) { /* kein sichtbares Segment */
+if (0 < tout1 <= 1) Output_vert(turning vertex);
+}
+else {
+if ((0 < tout1) && (1 >= tin2)) { /* sichtbares Segment vorhanden */
+if (0 <= tin2)
+Output_vert(appropriate side intersection);
+else
+Output_vert(starting vertex);
+if (1 >= tout1)
+Output_vert(appropriate side intersection);
+else
+Output_vert(ending vertex);
+}
+}
+if (0 < tout2 <= 1) Output_vert(appropriate corner);
+}
+\end{lstlisting}
+\item[\lp{3D clipping}] Clipping algorithms work for rectangular windows. But: View frustum is not rectangular. Solution: CLip after perspective division in homogeneous coordinates.
+	For $\xi\in\left\{ x,y,z \right\}$
+	\begin{gather*}
+		-1\leq \frac{\xi}{w}\leq 1.
+	\end{gather*}
+\end{compactdesc}

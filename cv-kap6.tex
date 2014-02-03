@@ -19,13 +19,13 @@ Digital image as a matrix:
 	\end{pmatrix}
 \end{align*}
 \begin{compactdesc}
-	\item[\lp{General approach}] 
-		\begin{inparaenum}[\itshape(1)]
-			\item Sort samples $f(x,y)$ of an $M\times N$ image (or rectangular block in the image) into column vector of length $M\times N$.
-			\item Compute transform coefficients $\vtr{c}=A\vtr{f}$ where $A$ is a matrix of size $(MN)^2$.
-			\item Transform $A$ is unitary, iff $A^{-1}=A^{*}$
-			\item If $A$ is real-valued, i.e. $A=\overline{A}$, transform is orthonormal.
-		\end{inparaenum}
+	\item[\lp{General approach}] \hfill\\
+		\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
+			\item Sort samples $f(x,y)$ of an $M\times N$ image (or rectangular block in the image) into column vector of length $M\times N$.\\
+			\item Compute transform coefficients $\vtr{c}=A\vtr{f}$ where $A$ is a matrix of size $(MN)^2$.\\
+			\item Transform $A$ is unitary, iff $A^{-1}=A^{*}$\\
+			\item If $A$ is real-valued, i.e. $A=\overline{A}$, transform is orthonormal.\\
+		\end{enumerate*}
 	\item[\lp{Energy conservation}] $\norm{\vtr{c}}^2=\vtr{c}^*\vtr{c}=\vtr{f}^*A^*A\vtr{f}=\norm{\vtr{f}}^2$
 	\item[\lp{Image collection}] $f_i$ one image, $F=f_1,\ldots,f_n$,
 	\item[\lp{Auto-correltion function}] 
@@ -33,54 +33,60 @@ Digital image as a matrix:
 			R_{ff}=E[f_if_i^*]=FF^*/n
 		\end{gather*}
 	\item[\lp{energy distribution}] Energy is conserved, but often will be unevely distributed among coefficients. Autocorrelation matrix:
-		\begin{gather*}
-			R_{\vtr{c}\vtr{c}}=E[\vtr{c}\vtr{c}^*]=E[A\vtr{f}\,\vtr{f}^*A^*]=AR_{\vtr{f}\vtr{f}}A^*
-		\end{gather*}
+		\begin{align*}
+			R_{\vtr{c}\vtr{c}}&=E[\vtr{c}\vtr{c}^*]=E[A\vtr{f}\,\vtr{f}^*A^*]\\
+			&=AR_{\vtr{f}\vtr{f}}A^*
+		\end{align*}
 		Mean squared values (``average energies'') of the coefficients $c_i$ are on the diagonal of $R_{\vtr{c}\vtr{c}}$.
 		\begin{gather*}
 			E[c_{i}^{2}]=[R_{\vtr{c}\vtr{c}}]=\left[ AR_{\vtr{f}\vtr{f}}A^* \right]_{ii}
 		\end{gather*}
-	\item[\lp{Eigenmatrix of autocorrelation matrix}] Definition: Eigenmatrix $\Phi$ of autocorrelation matrix $R_{ff}$. 
-		\begin{inparaenum}[\itshape(1)]
-			\item $\phi$ is unitary
-			\item The columns of $\Phi$ form a set of eigenvectors of $R_{ff}$, i.e., 
-				\begin{gather*}
-					R_{ff}\Phi=\Phi\Lambda,
-				\end{gather*}
+	\item[\lp{Eigenmatrix of autocorrelation matrix}] Definition: Eigenmatrix $\Phi$ of autocorrelation matrix $R_{ff}$. \hfill\\
+		\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
+			\item $\phi$ is unitary\\
+			\item The columns of $\Phi$ form a set of eigenvectors of $R_{ff}$, i.e., \\
+					$R_{ff}\Phi=\Phi\Lambda,$\\
 				where $\Lambda=\diag(\lambda_0,\ldots,\lambda_{MN-1})$.
 			\item $R_{ff}$ is symmetric nonnegative definite, hence $\lambda_i\geq 0$ for all $i$
 			\item $R_{ff}$ is normal matrix, i.e. $R_{ff}^*R_{ff}=R_{ff}R_{ff}^{*}$, hence unitary eigenmatrix exists.
-		\end{inparaenum}
-		\section{Karhunen-Loeve Transform}
+		\end{enumerate*}
+\section{Karhunen-Loeve Transform}
 		Strongly correlated samples with equal energies $\xrightarrow{A}$ uncorrelated samples, most of the energy in first coefficient.
-	\item[\lp{Properties}]
-		\begin{inparaenum}[\itshape(1)]
+	\item[\lp{Properties}]\hfill\\
+		\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
 			\item Unitary transform with matrix $A=\Phi^*$ where the columns of $\phi$ are ordered according to decreasing eigenvalues.
-			\item Transform coefficients are pairwise uncorrelated
-				\begin{gather*}
-					R_{\vtr{c}\vtr{c}}=AR_{\vtr{f}\vtr{f}}A^*=\Phi^*R_{\vtr{f}\vtr{f}}=\Phi^*\Phi\Lambda=\Lambda
-				\end{gather*}
+			\item Transform coefficients are pairwise uncorrelated\\
+				$
+				\begin{aligned}
+					R_{\vtr{c}\vtr{c}}&=AR_{\vtr{f}\vtr{f}}A^*=\Phi^*R_{\vtr{f}\vtr{f}}\\
+					&=\Phi^*\Phi\Lambda=\Lambda
+				\end{aligned}
+				$\\
 			\item Energy concentration property: No other unitary transform packs as much energy into the first $J$ coefficients, where $J$ is arbitrary. Mean squared approximation error by choosing only first $J$ coefficients is minimized.
-		\end{inparaenum}
-	\item[\lp{Optimal energy concentration}]
-		\begin{inparaenum}[\itshape(1)]
-		\item To show optimum energy concentration property, consider the truncated coefficient vector $\vtr{b}=I_j\vtr{c}$, where $I_J$ contain ones on the first $J$ diagonal positions, else zeros.
-		\item Energy in first $J$ coefficients for arbitrary transform $A$
-			\begin{align*}
+		\end{enumerate*}
+	\item[\lp{Optimal energy concentration}]\hfill\\
+		\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
+		\item To show optimum energy concentration property, consider the truncated coefficient vector $\vtr{b}=I_j\vtr{c}$, where $I_J$ contain ones on the first $J$ diagonal positions, else zeros.\\
+		\item Energy in first $J$ coefficients for arbitrary transform $A$\\
+			$
+			\begin{aligned}
 				E&=\tr(R_{\vtr{b}\vtr{b}})=\tr(I_JR_{cc}I_J)\\
-				&=\tr(I_jAR_{\vtr{f}\vtr{f}}A^*I_j)={\scriptstyle\sum\limits_{k=0}^{J-1}}a_{k}^TR_{\vtr{f}\vtr{f}}\overline{a}_k
-			\end{align*}
-			where $a_k^T$ is the $k$-th row of $A$.
-		\item Lagrangian cost function to enforce unit-length basis vectors
-			\begin{align*}
+				&=\tr(I_jAR_{\vtr{f}\vtr{f}}A^*I_j)\\
+				&={\scriptstyle\sum\limits_{k=0}^{J-1}}a_{k}^TR_{\vtr{f}\vtr{f}}\overline{a}_k
+			\end{aligned}
+			$\\
+			where $a_k^T$ is the $k$-th row of $A$.\\
+		\item Lagrangian cost function to enforce unit-length basis vectors\\
+			$
+			\begin{aligned}
 				L&=E+{\scriptstyle\sum\limits_{k=0}^{J-1}}\lambda_k\left( 1-a_{k}^{T}\overline{a}_k \right)\\
-				&={\scriptstyle\sum\limits_{k=0}^{J-1}}a_{k}^{T}R_{\vtr{f}\vtr{f}}\overline{a}_k+{\scriptstyle\sum\limits_{k=0}^{J-1}}\lambda_k\left( 1-a_{k}^{T}\overline{a}_{k} \right)
-			\end{align*}
-			Differentiating L with respect to $a_j$ yields necessary condition
-			\begin{gather*}
-				R_{\vtr{f}\vtr{f}}\overline{a}_{j}=\lambda_j\overline{a}_j,\qquad \forall j<J
-			\end{gather*}
-		\end{inparaenum}
+				&={\scriptstyle\sum\limits_{k=0}^{J-1}}a_{k}^{T}R_{\vtr{f}\vtr{f}}\overline{a}_k\\
+				&\quad+{\scriptstyle\sum\limits_{k=0}^{J-1}}\lambda_k\left( 1-a_{k}^{T}\overline{a}_{k} \right)
+			\end{aligned}
+			$\\
+			Differentiating L with respect to $a_j$ yields necessary condition\\
+				$R_{\vtr{f}\vtr{f}}\overline{a}_{j}=\lambda_j\overline{a}_j,\qquad \forall j<J$\\
+		\end{enumerate*}
 	\section{Basis images and eigenimages (EI)}
 	For a unitary transform, the inverse transform $\vtr{f}=A^*\vtr{c}$ can be interpreted in terms of the superpositions of ``basis images'' (columns of $A^*$) of size $MN$. If the trasnform is a KL transform, the basis images, which are the eigenvectors of the autocorrelation matrix $R_{\vtr{f}\vtr{f}}$, are called ``eigenimages''. If energy concentration works well, only a limited number of eigenimages is needed to approximate a set of images with small error. These eigenimages form an optimal linear subspace of dimensionality $J$.
 \item[\lp{EI for recogition}] To recognize complex patterns (e.g., faces), large portions of an image (say of  size $MN$) might have to be considered. High dimensionality of ``image space'' means high computatonal burden for many recognition techniques. Transform $\vtr{c}=W\vtr{f}$ can reduce dimensionality from $MN$ to $J$ by representing the image by $J$ coefficients. Idea: tailor a KLT to the specific set of images of the recognition task to preserve the salient features.
@@ -91,7 +97,8 @@ Digital image as a matrix:
 	Computationally expensive, i.e. requires presented image to be correlated with every image in the database!
 \item[\lp{Eigenspace matching}] Let $I_i$ be the input image, $I$ the database. The ``character'' of the face $\hat{J}=J-\mean{I}$, with $J$ being any image (set). Do KLT (aka PCA) transformation 
 	\begin{align*}
-		\hat{I}_i\mapsto p_i, \quad E^*\hat{I}_i&=p_i. \\
+		\hat{I}_i&\mapsto p_i, \\
+		E^*\hat{I}_i&=p_i. \\
 		\leadsto \hat{I}_i&\approx Ep_i,\\
 		\leadsto I_i-I&=  \hat{I_i}-\hat{I}\approx  E(p_i-p),\\
 		\leadsto\norm{I_i-I}&\approx \norm{p_i-p},
@@ -100,17 +107,17 @@ Digital image as a matrix:
 	\end{align*}
 	\section{Eigenfaces (EF)}
 	Concatenate face pixels into ``observation vector'', $\vtr{x}$.
-\item[\lp{EI for recognition}]
-	\begin{inparaenum}[\itshape(1)]
-		\item Input image,
-		\item normalize,
-		\item subtract mean face,
-		\item KLT,
-		\item Find most similar $p_i$,
-		\item similarity measure,
-		\item rejection system,
-		\item result of identificiation.
-	\end{inparaenum}
+\item[\lp{EI for recognition}]\hfill\\
+	\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
+		\item Input image,\\
+		\item normalize,\\
+		\item subtract mean face,\\
+		\item KLT,\\
+		\item Find most similar $p_i$,\\
+		\item similarity measure,\\
+		\item rejection system,\\
+		\item result of identificiation.\\
+	\end{enumerate*}
 \item[\lp{Limitations of EFs}] Differences due to varying illumination can be much larger than differences between faces!
 	\section{Fisherfaces/LDA}
 	Training data: For eigenfaces distance of difference of illumination are within indivual variance. Key idea: Find directions where ratio of between/within individual variance are maximized. Linearly project to basis where dimension with good signal to nois ration ar maximized.
@@ -134,15 +141,15 @@ Digital image as a matrix:
 		\end{gather*}
 		$a(x,y)$ surface albedo, $L$ light source intensity. Superposition of arbitrary number of point sources at infinity is still in same 3D linear subspace, due to linear superposition of each contribution to image. Fisher images can eliminate withi-class scatter.
 	\item[\lp{Appearance manifold approach}]
-			\item For everyobject,
-		\begin{inparaenum}[\itshape(1)]
-			\item sample the set of viewing conditions
-			\item use these images as feature vectors
-			\item apply a PCA over all the images
-			\item keep the dominant PCs
-			\item sequence of views for one object represent a manifold in space of projections
+			\item For everyobject,\hfill\\
+				\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
+			\item sample the set of viewing conditions\\
+			\item use these images as feature vectors\\
+			\item apply a PCA over all the images\\
+			\item keep the dominant PCs\\
+			\item sequence of views for one object represent a manifold in space of projections\\
 			\item what is the nearest manifold for a given view?
-		\end{inparaenum}
+				\end{enumerate*}
 	\item[\lp{Object-pose manifold}] Appearance changes projected on PCs (1D pose changes). Sufficient characterization for recognition and pose estimation.
 		\section{JPEG image compression}
 		We don't resolve high frequencies too well\ldots let's use this to compress images \ldots JPEG! 
@@ -152,11 +159,11 @@ Digital image as a matrix:
 		\pgr{VisComp05a_OtherTransforms}{42}{-1.6}{-0.22}{1.4}{0.70}
 		Decoding:\hfill
 		\pgr{VisComp05a_OtherTransforms}{42}{-1.7}{-1.3}{1.42}{-0.4}
-	\item[\lp{DCT}] A variant of discrete fourier transform: Real numbers, fast implementation. Block sizes:
-		\begin{inparaenum}[\itshape(1)]
+	\item[\lp{DCT}] A variant of discrete fourier transform: Real numbers, fast implementation. Block sizes:\hfill
+		\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
 			\item small block: faster, correlation exists between neighboring pixels
 			\item better compression in smooth regions
-		\end{inparaenum}
+		\end{enumerate*}
 		The first coefficient $B(0,0)$ is the DC component, the average intensity. The top-left coefficients represent low frequencies, the bottom right hight frequencies.
 	\item[\lp{Entropy Coding (Huffman code)}]\hfill
 		\begin{center}

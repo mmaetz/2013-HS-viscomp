@@ -48,37 +48,6 @@
 %  E-mail: {\em babis@phys.ethz.ch}}
 
 \begin{document} 
-%\small
-%\footnotesize
-
-%\begin{titlingpage}
-%\maketitle
-	%\titleS
-%\vfill
-%Revision \SVNRev{} --- \SVNDate{}
-%\end{titlingpage}
-
-
-%%% Color settings and plot settings. If the pictures look bad look at this file!
-%\input{tikzstuff.tex}
-
-
-
-%\begin{abstract}
-%The subject of the course an  introduction to  quantum 
-%field theory. The following topics are discussed: 
-%\begin{itemize}
-%\item Theory of classical fields.  
-%\item Canonical quantization of free fields.
-%\item The  Dirac equation and  quantization of the Dirac field
-%\item Field Propagation, interacting fields and perturbation theory. 
-%\item Cross-sections  and decay rates.
-%\item Introduction to QED and the problem of infinities.
-%\item One-loop renormalization of QED. 
-%\end{itemize}
-%\end{abstract}
-
-%\listofchanges
 {
 \tiny
 \setlength{\columnsep}{1em}
@@ -86,30 +55,41 @@
 {\miniscule
 \tableofcontents* 
 }
-	\input{kap1.tex}
-	\input{kap2.tex}
-	\input{kap3.tex}
-	\input{kap4.tex}
-	\input{kap5.tex}
-	\input{kap6.tex}
-	\input{kap7.tex}
-	\input{kap8.tex}
-	\input{kap9.tex}
-	\input{kap10.tex}
-	\input{kap11.tex}
-	\input{kap12.tex}
+\makepart{Computer Vision}{\!\!\!Computer Vision\,\,\,}
+	\input{cv-kap1.tex}
+	\input{cv-kap2.tex}
+	\input{cv-kap3.tex}
+	\input{cv-kap4.tex}
+	\input{cv-kap5.tex}
+	\input{cv-kap6.tex}
+	\input{cv-kap7.tex}
+	\input{cv-kap8.tex}
+	\input{cv-kap9.tex}
+	\input{cv-kap10.tex}
+	\input{cv-kap11.tex}
+	\input{cv-kap12.tex}
 	\vfill
 	\columnbreak
-	\input{todo.tex}
-	\columnbreak
-	\input{questions.tex}
-	\columnbreak
-	\begin{minipage}[t]{2\linewidth+\columnsep}
-		\input{appendix.tex}
-	\end{minipage}
+\lstset{ %
+	language=c++
+}
+\makepart{Computer Graphics}{\!\!\!Computer Graphics\,\,\,}
+\setcounter{chapter}{0}
+	\input{cg-kap1.tex}
+	\input{cg-kap2.tex}
+	\input{cg-kap3.tex}
+	\input{cg-kap4.tex}
+	\input{cg-kap5.tex}
+	\input{cg-kap6.tex}
+	\input{cg-kap7.tex}
+	\input{cg-kap8.tex}
+	\input{cg-kap9.tex}
+	\input{cg-kap10.tex}
+	\input{cg-kap11.tex}
+	\input{cg-kap12.tex}
+	\input{cg-kap13.tex}
+%	\columnbreak
+%	\input{questions.tex}
 \end{multicols*}
 }
 \end{document}
-
-% LocalWords:  asimple
-%\definecolor{chapterlinecolor}{HSB}{76,\saturation,\brightness}

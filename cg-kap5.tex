@@ -1,0 +1,66 @@
+\chapter{Shading}
+\section{Shading Models}
+\begin{compactdesc}
+\item[\lp{Flat shading}] One color per primitive.
+	\pgr{3-2_LightingAndShadingII}{2}{-2}{-1.3}{2}{0.2}
+\item[\lp{Gouraud shading}] Linear interpolation of vertex intensities.\\
+	\pgr{3-2_LightingAndShadingII}{3}{-2}{-1.3}{2}{0.2}
+	\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=,noitemsep,nosep]
+		\item Calculate face normals\\
+		\item Calculate vertex normals by averaging\\
+		\item Evaluate illumination model for each vertex\\
+		\item Interpolate vertex colors bilinearly o the current scan line.
+			$
+			\begin{aligned}\scriptstyle
+				\scriptstyle I_a&=I_1-\left( I_1-I_2 \right)\frac{( y_1-y_s )}{( y_1-y_2 )}\scriptstyle\\
+				\scriptstyle I_b&=I_1-\left( I_1-I_3 \right)\frac{( y_1-y_s )}{( y_1-y_3 )}\scriptstyle\\
+				\scriptstyle I_p&=I_b-\left( I_b-I_a \right)\frac{( x_b-x_p )}{( x_b-x_a )}\scriptstyle
+			\end{aligned}
+			$
+				\end{enumerate*}
+	\pgr{3-2_LightingAndShadingII}{10}{-2.5}{-1.35}{0.8}{0.3}
+				Problems with scan line interpolation: \\
+				\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
+					\item Perspective distortion. (Projection plane)\\
+					\item Problems with scan line interpolation: Orientation dependence. E.g. interpolatiing between $AB$ and $AD$ is not the same as interpolating between $CD$ and $AD$ in general.\\
+					\item Shared vertices.
+				\end{enumerate*}
+				Quality depends on size of primitives.
+\item[\lp{Phong shading}] Linear interpolation of vertex normals.
+	\pgr{3-2_LightingAndShadingII}{4}{-2}{-1.3}{2}{0.2}
+	Barycentric interpolation of normalon the triangles
+	\begin{align*}
+		\vtr{n}_{\vtr{x}}&=\lambda_{a}\vtr{n}_{\vtr{a}}+\lambda_{\vtr{b}}\vtr{n}_{\vtr{b}}+\lambda_{\vtr{c}}\vtr{n}_{\vtr{c}}
+	\end{align*}
+	\begin{gather*}
+		\lambda_{\vtr{a}}=\frac{\text{blue}}{\text{all}},\;\lambda_{\vtr{b}}=\frac{\text{red}}{\text{all}},\;\lambda_{\vtr{c}}=\frac{\text{green}}{\text{all}}.
+	\end{gather*}
+	\pgr{3-2_LightingAndShadingII}{17}{-2}{-1.3}{2}{0.2}
+	Properties: Lagrange
+	\begin{align*}
+		\vtr{x}=\vtr{a}\quad\Rightarrow \quad\vtr{n}_{\vtr{x}}&=\vtr{n}_{\vtr{a}},
+		\shortintertext{Partition of unity}
+		\lambda_{\vtr{a}}+\lambda_{\vtr{b}}+\lambda_{\vtr{c}}&=1,
+		\shortintertext{Reproduction}
+		\lambda_{\vtr{a}} \vtr{a}+\lambda_{\vtr{b}} \vtr{b}+\lambda_{\vtr{c}} \vtr{c}&=\vtr{x}.
+	\end{align*}
+	Barycentric interpolation of normals on the triangles. Color of $\vtr{x}$ is determined by the interpolated normal.\\
+	Problem (just one!): Normal not defined/representative\\
+\item[\lp{Space dependent shading models}] \hfill\\
+	\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
+		\item In screen space: Flat shading, Gouraud shading.\\
+		\item In object space: Phong shading
+	\end{enumerate*}
+	Impacts performance.
+	\section{Transparency} Composite transparent objects. 
+\item[\lp{Alpha blending}] Alpha blending: RGB\emph{A} channels. Linearizes exponential attenuation of intensity.
+	\begin{align*}
+		I_{\lambda}&=I_{\lambda_1}\alpha_1\Delta t+I_{\lambda_2}e^{-\alpha_1\Delta t}
+		\shortintertext{Linearization}
+		I_{\lambda_2}'&=I_{\lambda_2}\left( 1-\alpha_1\Delta t \right)
+		\shortintertext{Result}
+		I_{\lambda}&=I_{\lambda_1}\alpha_1+I_{\lambda_2}\left( 1-\alpha_1 \right)
+	\end{align*}
+	Problem: Back to front rendering. Depth peeling.
+\item[\lp{Further Lightning Models}] Cook-Torrence: Metal ojbects. Ashikhmin (anisotropic)
+\end{compactdesc}

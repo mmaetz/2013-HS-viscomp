@@ -41,12 +41,12 @@ Take advantage of redundancy. Spatial correlation between neighboring pixels. Te
 		\end{enumerate*}
 		$\to$  No object identification required and good, robust performance.
 \section{Block-matching motion estimation}
-\item[\lp{Assumptions:}]
+\item[\lp{Assumptions:}]\hfill\\
 \begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
 	\item Translational motion within block:\\
 		$f(n_1,n_2,k_{\text{cur}})$\\$\quad=f(n_1-mv_1,n_2-mv_2,k_{\text{ref}}).$
 \end{enumerate*}
-\item[\lp{ME Algorithm}] 
+\item[\lp{ME Algorithm}]\hfill\\ 
 	\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
 		\item Divide current frame into non-overlapping $N_1\times N_2$ blocks.\\
 		\item For each block, find the best matching block in reference frame.
@@ -219,13 +219,13 @@ Example of scalable coding with base and two enhancement layers: Can produce thr
 	\item Base + Enh1 + Enh2 layers
 \end{enumerate*}
 Scalability with respect to: Spatial or temporal resolution, bit rate, computation, memory.
-\item[\lp{Example}]
+\item[\lp{Example}]\hfill\\
 	\begin{itemize*}[label=\colorbullet]
-		\item Encode image/video into three layers: Base, Enh1, Enh2
-		\item Low-bandwidth recoiver: Send only Base layer.
-		\item Medium-bandwidth recoiver: Send Base \& Enh1 layers
-		\item High-bandwidth receiver: Send all three layers Base, Enh1, Enh2.
-		\item Can adapt to different clients and network situations
+		\item Encode image/video into three layers: Base, Enh1, Enh2\\
+		\item Low-bandwidth recoiver: Send only Base layer.\\
+		\item Medium-bandwidth recoiver: Send Base \& Enh1 layers\\
+		\item High-bandwidth receiver: Send all three layers Base, Enh1, Enh2.\\
+		\item Can adapt to different clients and network situations\\
 		\item Three basic types of scalability (refine video quality along three different dimensions):\\
 			\begin{enumerate*}[label=\quad\protect\circled{\alph*},itemjoin=]
 				\item Temporal scalability $\to$ Temporal resolution\\
@@ -259,7 +259,7 @@ Scalability with respect to: Spatial or temporal resolution, bit rate, computati
 		\end{itemize*}
 	\item[\lp{MPEG-4}] Natural Video Coding\\
 		Extension of MPEG-1/2-type algorithms to code arbitrarily shaped objects.
-	\item[\lp{Sprite Coding}] Background prediction. Hypothesis: Same background exists for many frames, changes resulting from camera motion and occlusions. One possible coding strategy:
+	\item[\lp{Sprite Coding}] Background prediction. Hypothesis: Same background exists for many frames, changes resulting from camera motion and occlusions. One possible coding strategy:\\
 		\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
 			\item Code \& transmit entire sprite \emph{once}\\
 			\item Only transmit camera motion parameters for each subsequent frame

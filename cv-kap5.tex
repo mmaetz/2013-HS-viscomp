@@ -1,31 +1,27 @@
 \chapter{Fourier Transform}
 \section{Aliasing}
 One can't shrink an image by taking every second pixel. If we do, characteristic errors appear. Typically, small phenomena look bigger; fast phenomena can look slower. Common phenomenons
-\begin{inparaenum}[\itshape(1)]
-	\item Wagon wheels rolling the wrong way in movies.
-	\item Checkerboards misrepresented in ray tracing
-	\item Striped shirts look funny on color television.
-\end{inparaenum}
+\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
+	\item Wagon wheels rolling the wrong way in movies.\\
+	\item Checkerboards misrepresented in ray tracing\\
+	\item Striped shirts look funny on color television.\\
+\end{enumerate*}
 \section{Definition}
 Represent function on a new basis. Basis elements have the form $e^{-i2\pi(ux+vy)}$. The Fourier transform is
-\begin{gather*}
-	\hat{f}(u,v)={\scriptstyle\iint_{\mathbb{R}^2}}^{}\rd x\rd y\, f(x,y) e^{-i2\pi (ux+vy)}.
-\end{gather*}
+\begin{align*}
+	&\hat{f}(u,v)\\&={\scriptstyle\iint_{\mathbb{R}^2}}^{}\rd x\rd y\, f(x,y) e^{-i2\pi (ux+vy)}.
+\end{align*}
 Basis functions of Fourier transform are eigenfunctions of linear systems.
 \begin{compactdesc}
-	\item[\lp{Important functions}]\hfill
+	\item[\lp{Important functions}]\mbox\\
 	\pgr{VisComp04_FourierTransform}{26}{-0.55}{-1.67}{1.95}{1.80}
-\item[\lp{Convolution theorem}] 
-	\begin{inparaenum}[\itshape(1)]
-		\item The Fourier transform of the convolution of two functions is the product of their Fourier transforms
-			\begin{gather*}
-				\hat{f}\cdot\hat{g}=\widehat{f* g}
-			\end{gather*}
-			The Fourier transform of the product of two functions is the convolution of the Fourier transforms
-			\begin{gather*}
-				\hat{f}*\hat{g}=\mathcal{F}(f\cdot g)
-			\end{gather*}
-	\end{inparaenum}
+\item[\lp{Convolution theorem}] \hfill\\
+	\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
+		\item The Fourier transform of the convolution of two functions is the product of their Fourier transforms\\
+				$\hat{f}\cdot\hat{g}=\widehat{f* g}$\\
+			The Fourier transform of the product of two functions is the convolution of the Fourier transforms\\
+				$\hat{f}*\hat{g}=\mathcal{F}(f\cdot g)$\\
+	\end{enumerate*}
 	\section{Sampling}
 	Go from continuous world to discrete world, from function to vector. Samples are typically measured on regular grid. We want to be able to approximate integrals sensibly $\to$ Delta function
 	\begin{align*}
@@ -77,23 +73,32 @@ Basis functions of Fourier transform are eigenfunctions of linear systems.
 		\begin{gather*}
 			\mathcal{F}\!\left[ \tilde{h} \right]\!(u,v)\cdot\mathcal{F}[h](u,v)=1
 		\end{gather*}
-		To determine $\mathcal{F}\!\left[ \tilde{h} \right]\!$, we need to estimate
-		\begin{inparaenum}[\itshape(1)]
-			\item the distortion model $h(\vtr{x})$ (point spread function) or $\mathcal{F}[h](u,v)$ (modulation transfer function)
-			\item the parameters of $h(\vtr{x})$, e.g. for defocussing
-		\end{inparaenum}
-	\item[\lp{Motion Blur FT}] Eq. \ref{eq:motionblur1}
+		To determine $\mathcal{F}\!\left[ \tilde{h} \right]\!$, we need to estimate\hfill\\
+		\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
+			\item the distortion model $h(\vtr{x})$ (point spread function) or $\mathcal{F}[h](u,v)$ (modulation transfer function)\\
+			\item the parameters of $h(\vtr{x})$, e.g. for defocussing\\
+		\end{enumerate*}
+	\item[\lp{Motion Blur FT}]
+		\begin{sideways}
+			\begin{minipage}[t]{1.3\columnwidth}
+				\begin{align*}
+					\mathcal{F}[h](u,v)&=\frac{1}{2\ell}{\scriptstyle\int\limits_{-\ell}^{\ell}}\rd x_1\,\big( \exp\!\left( -i2\pi ux_1 \right)\\
+					&\quad\cdot\underbrace{{\scriptstyle\int\limits_{-\infty}^{\infty}}\rd x_2\, \delta(x_2)\exp\!\left( -i2\pi vx_2 \right)\!}_{=1}\,\big)\\
+					&=\sinc\!\left(2\pi u\ell  \right)
+				\end{align*}
+			\end{minipage}
+		\end{sideways}
 		Problem: $\mathcal{F}[\tilde{h}](u)=1/\hat{h}(u)$. $\sinc$ has many zeroes and these frequencies can't be recovered! Solution: Regularized reconstruction filter
 		\begin{gather*}
 			\tilde{F}[\tilde{h}](u,v)=\frac{\mathcal{F}[h]}{\norm{\mathcal{F}}^2+\varepsilon}
 		\end{gather*}
 		Singularities are avoided by the rugelarization $\varepsilon$.
 	\item[\lp{Space-time super-resolution}] One can put two movies of the same thing and merge their frames for space and time super-resolution.
-	\item[\lp{Spatial super-resolution}] 
-		\begin{inparaitem}
-			\item $\text{lens}+\text{pixel}=\text{low-pass filter}$ (edisered to avoid aliasing)
-			\item Low-res images $=D*H*G*\text{(desired high-res-image)}$. D:decimate, H:lens+pixel, G: Geometric warp
-			\item Smplified case for translation: $LR=(D*G)*(H*HR)$. G is shift-invariant and commutes with H. First compute H HR, then deconvolve HR with H.
+	\item[\lp{Spatial super-resolution}] \hfill\\
+		\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
+			\item $\text{lens}+\text{pixel}=\text{low-pass filter}$ (edisered to avoid aliasing)\\
+			\item Low-res images $=D*H*G*\text{(desired high-res-image)}$. D:decimate, H:lens+pixel, G: Geometric warp\\
+			\item Smplified case for translation: $LR=(D*G)*(H*HR)$. G is shift-invariant and commutes with H. First compute H HR, then deconvolve HR with H.\\
 			\item Super-resolution needs to restore attenuated frequencies. Many images improve $S/N$ ration $\sim\sqrt{n}$, which helps. Eventually Gaussian's double exponential always dominates.
-		\end{inparaitem}
+		\end{enumerate*}
 \end{compactdesc}

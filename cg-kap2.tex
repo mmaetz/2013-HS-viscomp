@@ -1,0 +1,189 @@
+\chapter{Light and Colors}
+\begin{align*}
+\text{Computer graphics}&=\text{generating images},\\
+\text{Image}&=\text{array of pixels},
+\end{align*}
+each pixel represents one light ray (or more).
+\begin{compactdesc}
+	\item[\lp{What is light}] A form of electromagnetic (EM) radiation. Amplitude determies intensity. We perceive a limited section of the spectrum as ``visible light''
+	\item[\lp{What is color}] Different wavelengths give different colors.
+	\item[\lp{Spectral Distribution of Illumination}]
+		Light can be a mixture of many wavelegths. Spectral power distribution (SPD) 
+		\begin{gather*}
+			P(\lambda)=\text{intensity at wavelegth }\lambda
+		\end{gather*}
+		We perceive these distributions as colors.
+	\item[\lp{Measuring Light}] Each ray carries a spectrum $P(\lambda)$. $P(\lambda)$ contains more information than humans can and need to process. Humans ``project'' this sepctrum onto a lower-dimensional subspace.
+	\item[\lp{Vector repetition}]
+		\begin{align*}
+			x&=x_1\vtr{n}_1+x_2\vtr{n}_2+x_3\vtr{n}_3\\
+			x&=(\vtr{x}\cdot \vtr{n}_1)\vtr{n}_1+(\vtr{x}\cdot \vtr{n}_2)\vtr{n}_2\\
+			&\quad+(\vtr{x}\cdot \vtr{n}_3)\vtr{n}_3
+			\shortintertext{Projection onto 2D subspace}
+			\vtr{x}^{\text{proj}}&=(\vtr{x}\cdot \vtr{n}_1)\vtr{n}_1+(\vtr{x}\cdot \vtr{n}_2)\vtr{n}_2
+		\end{align*}
+		An infinite dimensional vector is a function 
+		\begin{align*}
+			\vtr{x}^{\text{3D}}&=(x_1,x_2,x_3)\\
+			\to\vtr{x}^{\text{inf}}&=x(\lambda)
+			\shortintertext{Infinite number of basis functions needed. Projection onto 3D subspace with $\vtr{n}_1(\lambda),\vtr{n}_2(\lambda),\vtr{n}_3(\lambda)$ orthonormal basis functions}
+			\vtr{x}^{\text{proj}}(\lambda)&=x_1\vtr{n}_1(\lambda)+x_2\vtr{n}_2(\lambda)\\
+			&\quad+x_3\vtr{n}_3(\lambda)
+			\shortintertext{Coordinates are continuous inner products}
+			x_i&={\scriptstyle\int\limits_{}^{}}\dd{\lambda} \, x(\lambda)\vtr{n}_i(\lambda)
+		\end{align*}
+		\section{Human Color Perception}
+		Humans project $P(\lambda)$ into a 3D subspace. Most mammals have 2 types of cones (2D subspace. (Mantis Shrimp use an 8D subspace.) We project infinite dimensional space onte 3D. Some information must be lost! Two completely different SPDs might look the same to us.
+	\item[\lp{The CIE Primary System (1931)}] \emph{C}ommission \emph{I}nternationale de l'\emph{E}clairage. Setup for measuring human color sensitivity. Three light sources at: $\SI{435.8}{\nano\meter},\SI{546.1}{\nano\meter}$ and $\SI{700.0}{\nano\meter}$.
+\section{Color Matching as Matrix Multiplication}
+\begin{gather*}
+	\!\left(\!\begin{smallmatrix}
+		\text{Intensities for}\\
+		\text{the three}\\
+		\text{primary lights}
+	\end{smallmatrix}\!\right)\!
+	=
+	\!\left(\!\begin{smallmatrix}
+		\text{Color}\\
+		\text{matching}\\
+		\text{functions}
+	\end{smallmatrix}\!\right)\!
+	\!\left(\!\!\begin{smallmatrix}
+		\text{SPD}\\
+		\text{of test}\\
+		\text{light}
+	\end{smallmatrix}\!\!\right)\!\\
+	\!\left[\!\begin{smallmatrix}
+		R\\
+		G\\
+		B
+	\end{smallmatrix}\!\right]\!\!
+	=
+	\!\!\left[\!\begin{smallmatrix}
+		\overline{r}(\lambda_1)&\cdots&\overline{r}(\lambda_N)\\
+		\overline{g}(\lambda_1)&\cdots&\overline{g}(\lambda_N)\\
+		\overline{b}(\lambda_1)&\cdots&\overline{b}(\lambda_N)\\
+	\end{smallmatrix}\!\right]\!\!
+	\!\left[\!\begin{smallmatrix}
+		P(\lambda_1)\\
+		P(\lambda_2)\\
+		P(\lambda_3)
+	\end{smallmatrix}\!\right]\!
+\end{gather*}
+With $ { \!\left(\!\begin{smallmatrix} P(\lambda_1)&\cdots&P(\lambda_N) \end{smallmatrix}\!\right)\!}^T={\!\left(\!\begin{smallmatrix} 1&0&\cdots&0 \end{smallmatrix}\!\right)\!}^T$ for monochromatic test light.
+	\pgr{2-1_LightAndColors}{18}{-1.75}{-1.3}{1.8}{0.8}
+	Some colors \emph{cannot} be written as a combination of red, green and blue! Add ret tothe reference light.
+\item[\lp{RGB Color Space}] Unit cube with $R,G,B$ basis vectors
+	\pgr{2-1_LightAndColors}{20}{-1.75}{-1.3}{1.95}{0.6}
+\item[\lp{Other Color Spaces}] Our choiceof RGB color space is fairly arbitrary, based on our perceptual system. We could in principle select any 3 primaries we like: Different basis vectors, linear transformation. The new basis spans same 3D subspace. We can also construct other 3D color spaces.
+\item[\lp{CIE XYZ Color Space}] There are infinitely many ways to obtain non-negative matching functions. Lets call ours XYZ. It represents all perceptible colors.The vector $ {\!\left(\!\begin{smallmatrix} X&Y&Z \end{smallmatrix}\!\right)\!}^T$ quantifies any spectral color stimulus $P(\lambda)$ we perceive. Compute by inner products of $P(\lambda)$ with matching functions.
+	\begin{align*}
+		X&={\scriptstyle\int_{0}^{\infty}}\dd{\lambda}\, P(\lambda)\overline{x}(\lambda),\\
+		Y&={\scriptstyle\int_{0}^{\infty}}\dd{\lambda}\, P(\lambda)\overline{y}(\lambda),\\
+		Z&={\scriptstyle\int_{0}^{\infty}}\dd{\lambda}\, P(\lambda)\overline{z}(\lambda).
+	\end{align*}
+	Linear combinations: XYZ and RGB spat the same 3D subspace:
+	\begin{gather*}
+	\!\left[\!\begin{smallmatrix}
+			\overline{x}(\lambda)\\
+			\overline{y}(\lambda)\\
+			\overline{z}(\lambda)
+	\end{smallmatrix}\!\right]\!\!
+	=
+	\!\!\left[\!\begin{smallmatrix}
+		2.36&-0.515&0.005\\
+		-0.89&1.426&0.014\\
+		-0.46&0.088&1.009
+	\end{smallmatrix}\!\right]\!\!
+	\!\left[\!\begin{smallmatrix}
+			\overline{r}(\lambda)\\
+			\overline{g}(\lambda)\\
+			\overline{b}(\lambda)
+	\end{smallmatrix}\!\right]\!\!
+	\end{gather*}
+	The \emph{chromaticity} $(x,y)$ can be derived by normalizing the XYZ color components
+	\begin{align*}
+		x&=\frac{X}{x+y+z},\\
+		y&=\frac{Y}{x+y+z}.
+	\end{align*}
+	$(x,y)$ characterize \emph{color}, $Y$ characterizes \emph{brightness}.Plot on $xy$-plane: all colors of a single brightness.
+\item[\lp{CIE Chromaticity Chart}] The primary colors along curved boundary. Linear combination of two colors: line connecting two points. Linear combination of 3 colors span a tringle (Color Gamut). 
+	\pgr{2-1_LightAndColors}{26}{-2.8}{-1.3}{-0.7}{1}
+\item[\lp{CIE Chromaticity Chart Features}] There is a white point, a dominant wavelength, an inverse color, non-spectral purples.
+	\pgr{2-1_LightAndColors}{27}{-1.1}{-1.3}{1.1}{1}
+	\section{Other Color spaces}
+\item[\lp{CMY Color Space}] Used in passive color systems (printers). Inverse to RGB. Transform is given by
+	\begin{gather*}
+	\!\left[\!\begin{smallmatrix}
+			R\\
+			G\\
+			B
+	\end{smallmatrix}\!\right]\!\!
+	=
+	\!\left[\!\begin{smallmatrix}
+			1\\
+			1\\
+			1
+	\end{smallmatrix}\!\right]\!\!
+	-
+	\!\left[\!\begin{smallmatrix}
+			R\\
+			G\\
+			B
+	\end{smallmatrix}\!\right]\!\!
+	\end{gather*}
+	CMYK: add black as color.
+	\pgr{2-1_LightAndColors}{31}{-2.1}{-1.3}{2.1}{1}
+\item[\lp{YIQ Color Space}] Luminance $Y$, In-phase $I$ (orange-blue), Quadrature $Q$ (purple-green) components. Advantages for natural and skin colors. NTSUS-color TV standard
+	\begin{gather*}
+	\!\left[\!\begin{smallmatrix}
+			Y\\
+			I\\
+			Q
+	\end{smallmatrix}\!\right]\!\!
+	=
+	\!\!\left[\!\begin{smallmatrix}
+			0.299&0.587&0.114\\
+			0.596&-0.275&-0.321\\
+			0.212&-0.528&0.311
+	\end{smallmatrix}\!\right]\!\!
+	\!\left[\!\begin{smallmatrix}
+			R\\
+			G\\
+			B
+	\end{smallmatrix}\!\right]\!\!
+	\end{gather*}
+\item[\lp{HSV and HSL/HSB Color Spaces}] User-orinted color spaces. Intuitive for interactive color picking. Dimensions no longer primaries:\\
+	\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
+		\item hue: base colors\\
+		\item saturation: purity of color\\
+		\item value/lightness/brightness\\
+	\end{enumerate*}
+	Take RGB, CMY cubes and project to hexagon.
+\item[\lp{Conversion procedure RGB$\to$HSV}] \hfill\\
+	\begin{lstlisting}
+	min=min(R, G, B);
+	max=max(R, G, B);
+	if (max != 0)
+		S = (max - min)/max;
+	else
+		S = 0;
+	H = Hue (V, S, R, G, B); // procedural comp.
+	\end{lstlisting}
+\item[\lp{Perceptually-Uniform Color Spaces}] Color spaces so far are perceptually non-uniform: Two colors close together in space ar not necessarily visiually similar. Two colors far apart are not necessarily very different! Measuring ``perceptual distance'' in color spaces is important. Experiments by MacAdams.
+\item[\lp{MacAdamns color ellipses}]
+	\pgr{2-1_LightAndColors}{36}{-1.1}{-1.3}{1.1}{1}
+\item[\lp{CIELAB and CIELUV Color Spaces}]
+	\pgr{2-1_LightAndColors}{37}{-1}{-1.3}{1}{0.3}
+\item[\lp{OpenGL Color}] 4-vector in vertex- and fragment-shader
+	\begin{lstlisting}
+	void main() {
+		float r=1.0;
+		float g=0.7;
+		float b=0.2;
+		float a=1.0;
+		gl_FragColor= vec4(r, g, b, a);
+	}
+	\end{lstlisting}
+	Normalized to $[0,\ldots,1]$. $8\,\text{bits}/\text{component}\to\text{true color}$.
+\end{compactdesc}

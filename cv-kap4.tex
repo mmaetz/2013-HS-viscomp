@@ -10,14 +10,16 @@
 		\end{align*}
 		Equivalently, maximize \emph{area correlation}
 		\begin{align*}
-			r(p,q)&={\scriptstyle\sum_{x,y=-\infty}^{\infty}}s(x,y)\cdot t(x-p,y-q)\\
+			r(p,q)&={\scriptstyle\sum\limits_{\mathclap{x,y=-\infty}}^{\infty}}(s(x,y)\\
+			&\quad\hphantom{{\scriptstyle\sum\limits_{\mathclap{x,y=-\infty}}^{\infty}}}\cdot t(x-p,y-q))\\
 			&=s(p,q)*t(-p,-q)\\
-			\!\!\!\!\leq&\sqrt{\!\!\left[\! {\scriptstyle\sum} \abs{s(x,y)}^2 \!\right]\!\!\cdot\!\!\left[\! {\scriptstyle\sum} \abs{t(x,y)}^2 \!\right]\!\!},
+			\!\!\!\!\leq&\big(\!\!\left[\! {\scriptstyle\sum} \abs{s(x,y)}^2 \!\right]\!\!\\&\quad\cdot\!\!\left[\! {\scriptstyle\sum} \abs{t(x,y)}^2 \!\right]\!\!\big),
 		\end{align*}
 		where in the last step the Cauchy-Schwarz inequality was used. Equality $\Leftrightarrow$
 		\begin{gather*}
-			s(x,y)=\alpha\cdot t(x-p,y-q)\quad \text{with }\alpha\geq0
+			s(x,y)=\alpha\cdot t(x-p,y-q)
 		\end{gather*}
+		with $\alpha\geq0$.
 		Area correlation is equivalent to convolution of image $s(x,y)$ with impulse response $t(-x,-y)$. 
 	\item[\lp{Diagram of template matcher}] $\xrightarrow{s(x,y)}t(-x,-y)\xrightarrow{r(x,y)}\displaystyle
 		\begin{matrix}
@@ -33,20 +35,21 @@
 \end{compactdesc}
 \section{Edge detection}
 	 Idea (continuous-space): Detect local gradient
-		\begin{gather*}
-			\norm{\nabla(f(x,y))}=\sqrt{\left( \partial_{x}f \right)^2+\left( \partial_{y}f \right)^2}
-		\end{gather*}
+		\begin{align*}
+			&\norm{\nabla(f(x,y))}\\
+			&\quad=\sqrt{\left( \partial_{x}f \right)^2+\left( \partial_{y}f \right)^2}
+		\end{align*}
 		Digital image: Use finite differences instead:\\
-		\begin{inparadesc}
-			\item[difference] 
+		\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
+			\item difference\\
 				$\left(\begin{smallmatrix}
 					-1&1
-				\end{smallmatrix}\right)$,
-			\item[central difference] 
+				\end{smallmatrix}\right)$,\\
+			\item central difference\\
 				$\left(\begin{smallmatrix}
 					-1&[0]&1
-				\end{smallmatrix}\right)$;
-			\item[Prewitt] 
+				\end{smallmatrix}\right)$;\\
+			\item Prewitt\\
 				$\left(\begin{smallmatrix}
 					-1&0&1\\
 					-1&[0]&1\\
@@ -56,8 +59,8 @@
 					-1&-1&1\\
 					0&[0]&0\\
 					-1&-1&1
-				\end{smallmatrix}\right)$;
-			\item[Sobel]
+				\end{smallmatrix}\right)$;\\
+			\item Sobel\\
 				$\left(\begin{smallmatrix}
 					-1&0&1\\
 					-2&[0]&2\\
@@ -67,8 +70,8 @@
 					-1&-2&1\\
 					0&[0]&0\\
 					-1&-2&1
-				\end{smallmatrix}\right)$;
-			\item[Roberts]
+				\end{smallmatrix}\right)$;\\
+			\item Robert\\
 				$\left(\begin{smallmatrix}
 					[0]&1\\
 					-1&0\\
@@ -76,12 +79,12 @@
 				$\left(\begin{smallmatrix}
 					[1]&0\\
 					0&-1\\
-				\end{smallmatrix}\right)$,
-		\end{inparadesc}
+				\end{smallmatrix}\right)$.
+		\end{enumerate*}
 \begin{compactdesc}
 	\item[\lp{Laplacian operator}] Detects discontinuities by considering second derivative
 		\begin{gather*}
-			\nabla^2 f(x,y)=\partial_{x}^{2}f(x,y)+\partial_{y}^{2}f(x,y).
+			\nabla^2 f(x,y)\!=\!\partial_{x}^{2}f(x,y)\!+\!\partial_{y}^{2}f(x,y).
 		\end{gather*}
 		Isotropic (rotationally invariant) operator, zero-crossings mark edge location, discrete-space approximation by convolution with $3\times 3$ impulse response
 		$\left(\begin{smallmatrix}
@@ -103,17 +106,19 @@
 		\end{align*}
 \end{compactdesc}
 \subsection{Canny edge detector}
-\begin{inparaenum}[\itshape(1)]
-	\item Smooth image with a gaussian filter
-	\item Compute gradient magnitude and angle (Sobel, Prewitt,\ldots)
-		\begin{align*}
+\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
+	\item Smooth image with a gaussian filter\\
+	\item Compute gradient magnitude and angle (Sobel, Prewitt,\ldots)\\
+		$
+		\begin{aligned}
 			M(x,y)&=\sqrt{\left( \partial_xf \right)^2+\left( \partial_yf \right)^2},\\
 			\alpha(x,y)&=\arctan\left( \partial_yf/\partial_xf \right)
-		\end{align*}
-	\item Apply nonmaxima suppression to gradient magnitude image
-	\item Double tresholding to detect strong and weak edge pixels
-	\item Reject weak edge pixels not connected with strong edge pixels
-\end{inparaenum}
+		\end{aligned}
+		$\\
+	\item Apply nonmaxima suppression to gradient magnitude image\\
+	\item Double tresholding to detect strong and weak edge pixels\\
+	\item Reject weak edge pixels not connected with strong edge pixels\\
+\end{enumerate*}
 \begin{compactdesc}
 	\item[\lp{Canny nonmaxima suppression}] Quantize edge normal to one of four directions: horizontal, $\SI{-45}{\degree}$, vertical, $\SI{+45}{\degree}$. If $M(x,y)$ is smaller than either of its neighbors in edge normal direction $\to$ suppress; else keep
 	\item[\lp{Double-thresh. of grad. magn.}]\mbox{}
@@ -125,34 +130,36 @@
 \end{compactdesc}
 \section{Feature detection}
 \subsection{Hough transform}
-\emph{Problem:} fit a straight line (or curve) to a set of edge pixels. Hough transform (1962): generalized template matching technique. 
-\begin{inparaenum}[\itshape(1)]
-	\item Consider detection of straight lines $y=mx+c$.
-	\item draw a line in the parameter space $m,c$ for each edge pixel $x,y$ and increment bin counts along line. Detect peak(s) in $(m,c)$ plane.
-	\item Alternative parametrization avoids infinite-slope problem $x\cos\theta+y\sin\theta=\rho$
-\end{inparaenum}
+\emph{Problem:} fit a straight line (or curve) to a set of edge pixels. Hough transform (1962): generalized template matching technique. \\
+\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
+	\item Consider detection of straight lines $y=mx+c$.\\
+	\item draw a line in the parameter space $m,c$ for each edge pixel $x,y$ and increment bin counts along line. Detect peak(s) in $(m,c)$ plane.\\
+	\item Alternative parametrization avoids infinite-slope problem $x\cos\theta+y\sin\theta=\rho$\\
+\end{enumerate*}
 \begin{compactdesc}
 	\item[\lp{circle detection}] find circles of fixed radius $r$. For circles of undetermined radius, use 3d Hough transform for parameters $(x_0,y_0,r)$
 \end{compactdesc}
 \subsection{Detecting corner points}
 Many applications benefit from features localized in $(x,y)$. Edges well localized only in one direction $\to$ detect corners. Desirable properties of corner detector:
-\begin{inparaenum}[\itshape(1)]
-	\item Accurate localization,
-	\item	invariance against shift, rotation, scale, brightness change, 
-	\item robust against noise, high repeatability
-\end{inparaenum}
+\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]\hfill\\
+	\item Accurate localization,\\
+	\item	invariance against shift, rotation, scale, brightness change,\\ 
+	\item robust against noise, high repeatability\\
+\end{enumerate*}
 \subsection{Most accurately localizable patterns}
 \begin{compactdesc}
 \item[\lp{Local displacement sensitivity}] 
-	\begin{gather*}
-		S(\Delta x,\Delta y) ={\scriptstyle\sum\limits_{\mathclap{x,y\in \text{window}}}}^{}\left[ f(x,y)-f(x-\Delta x,y+\Delta y) \right]^2
-	\end{gather*}
+	\begin{align*}
+		&S(\Delta x,\Delta y) \\
+		&={\scriptstyle\sum\limits_{\mathclap{x,y\in \text{window}}}}^{}\left[ f(x,y)\!-\!f(x\!-\!\Delta x,y\!+\!\Delta y) \right]^2
+	\end{align*}
 \item[\lp{Linear approximation for small $\Delta x,\Delta y$}]
 	\begin{multline*}
 		f(x+\Delta x,y+\Delta x)\\\approx f(x,y)+\partial_x f(x,y)\Delta x+\partial_y(x,y)\Delta y
 	\end{multline*}
 	\begin{align*}
-		S(\Delta x,\Delta y)&\approx{\scriptstyle\sum\limits_{\mathclap{(x,y)\in\text{window}}}}^{}
+		&S(\Delta x,\Delta y)\\
+		&\quad\approx{\scriptstyle\sum\limits_{\mathclap{(x,y)\in\text{window}}}}^{}
 		\left[
 		\begin{pmatrix}
 			\partial_x f&\partial_y f
@@ -204,35 +211,35 @@ Many applications benefit from features localized in $(x,y)$. Edges well localiz
 			\end{pmatrix}
 		\end{align*}
 		Compute subpixel localization by fitting parabola to \emph{cornerness function}
-	\item[\lp{Robustness of Harris corner detector}]
-		\begin{inparaenum}[\itshape(1)]
-			\item Invariant to brightness offset: $f(x,y)\to f(x,y)+c$
-			\item Invariant to shift and rotation
-			\item Not invariant to scaling
-		\end{inparaenum}
+	\item[\lp{Robustness of Harris corner detector}]\hfill\\
+		\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
+			\item Invariant to brightness offset: $f(x,y)\to f(x,y)+c$\\
+			\item Invariant to shift and rotation\\
+			\item Not invariant to scaling\\
+		\end{enumerate*}
 		\subsection{Lowe's SIFT features}
 		Recover features with position, orientation and scale. 
-	\item[\lp{Position}] 
-		\begin{inparaenum}[\itshape(1)]
-		\item Look for strong responses of DoG filter,
-		\item only consider local maxima.
-		\end{inparaenum}
-	\item[\lp{Scale}] 
-		\begin{inparaenum}[\itshape(1)]
-			\item Look for strong responses of DoG filter over scale space. 
-			\item only consider local maxima in both position and scale. 
-			\item Fit quadratic around maxima for subpixel accuracy.
-		\end{inparaenum}
-	\item[\lp{Orientation}] 
-		\begin{inparaenum}[\itshape(1)]
-			\item Create histogram of local gradient directions computed at selected scale.
-			\item Assign canonical orientation at peak of smoothed histogram.
-			\item Each key specifies stable 2D coordinates ($x$,$y$,scale,orientation)
-		\end{inparaenum}
-	\item[\lp{SIFT descriptior}]
-		\begin{inparaenum}[\itshape(1)]
-			\item Thresholded image gradients are sampled over $16\times16$ array of locations in scale space.
-			\item Create array of orientation histograms
-			\item 8 orientations $\times$ $4\times4\text{ histogram array}=128$ dimensions
-		\end{inparaenum}
+	\item[\lp{Position}] \hfill\\
+		\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
+		\item Look for strong responses of DoG filter,\\
+		\item only consider local maxima.\\
+		\end{enumerate*}
+	\item[\lp{Scale}] \hfill\\
+		\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
+			\item Look for strong responses of DoG filter over scale space. \\
+			\item only consider local maxima in both position and scale. \\
+			\item Fit quadratic around maxima for subpixel accuracy.\\
+		\end{enumerate*}
+	\item[\lp{Orientation}] \hfill\\
+		\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
+			\item Create histogram of local gradient directions computed at selected scale.\\
+			\item Assign canonical orientation at peak of smoothed histogram.\\
+			\item Each key specifies stable 2D coordinates ($x$,$y$,scale,orientation)\\
+		\end{enumerate*}
+	\item[\lp{SIFT descriptior}]\hfill\\
+		\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
+			\item Thresholded image gradients are sampled over $16\times16$ array of locations in scale space.\\
+			\item Create array of orientation histograms\\
+			\item 8 orientations $\times$ $4\times4\text{ histogram array}=128$ dimensions\\
+		\end{enumerate*}
 \end{compactdesc}

@@ -1,0 +1,199 @@
+\chapter{Lightning}
+\section{Measuring Light}
+\begin{compactdesc}
+	\item[\lp{Measuring}] $\to$ counting photons
+	\item[\lp{Radiometry}] Studies the measurement of electromagnetic radiation, include visible light
+\section{Basic Definitions}
+Angle:
+\begin{align*}
+	\theta&=\frac{\ell}{r},&& \text{circle $2\pi$ radians}
+	\shortintertext{Solid angle}
+	\Omega&=\frac{A}{r^2},
+	&&\text{sphere: $4\pi$ steradians}
+\end{align*}
+\item[\lp{Direction}]
+	point on the unit sphere, parametrized by two angles $\vtr{\omega}(\theta,\phi)$
+	\begin{align*}
+		\omega_{\vtr{x}}&=\sin\theta\cos\phi\\
+		\omega_{\vtr{y}}&=\sin\theta\sin\phi\\
+		\omega_{\vtr{z}}&=\cos\theta
+	\end{align*}
+\item[\lp{Differential Solid Angle}]
+	\begin{align*}
+		\dd{A}&=(r\dd{\theta})\left( r\sin\theta\dd{\phi} \right)\\
+		\dd{\vtr{\omega}}&=\frac{\dd{A}}{r^2}=\sin\theta\dd{\theta}\dd{\phi}\\
+		\Omega&={\scriptstyle\int_{S^2}^{}}\dd{\vtr{\omega}}\\
+		&={\scriptstyle\int_{0}^{2\pi}}\dd{\phi}{\scriptstyle\int_{0}^{\pi}}\dd{\theta}\, \sin\theta=4\pi
+	\end{align*}
+	Assume light consists of photons with 
+	\begin{align*}
+		\vtr{x}:&\quad\text{Position},\\
+		\vtr{\upomega}:&\quad\text{Direction of motion},\\
+		\lambda:&\quad\text{Wavelength}.
+	\end{align*}
+	Each photon has an energy of:
+	\begin{gather*}
+		\frac{hc}{\lambda}
+	\end{gather*}
+	\begin{align*}
+		\shortintertext{Plack's constant}
+		h&\approx \SI{6.63e-34}{\meter\squared\kilogram\per\second}\\
+		\shortintertext{speed of light in vacuum}
+		c&=\SI{299790458}{\meter\per\second}
+		\shortintertext{Unitof energy}
+		J&=\si{\kilogram\meter\squared\per\second\squared}
+	\end{align*}
+	\section{Radiometry}
+		\item[\lp{flux}]
+			total amonut of energy passing through surface or space per unit time
+			\begin{align*}
+				\Phi(A)&&\left[ \frac{J}{s} \right]=[ W ]
+			\end{align*}
+			examples: Number of photons hitting a wall per secound, number of photons leaving a lightbulb per second.
+			\begin{gather*}
+				E(\vtr{x})=\dv{\Phi(A)}{A(\vtr{x})}\\
+				{\scriptstyle\int_{A}^{}}\dd{A(\vtr{x})}\,E(\vtr{x})=\Phi(A)\\
+				{\scriptstyle\int\limits_{A}^{}}\dd{A}(\vtr{x}){\scriptstyle\int\limits_{H^2}^{}}\dd{\vtr{\omega}}\, L(\vtr{x},\vtr{\omega})\cos\theta=\Phi(A)
+			\end{gather*}
+		\item[\lp{irradiance}]
+			Flux per unit area \emph{arriving} at a surface $\to$ area density of flux
+			\begin{align*}
+				E(\vtr{x})=\dv{\Phi(A)}{A(\vtr{x})} &&\left[ \frac{W}{m^2} \right].
+			\end{align*}
+			Example: Number of photons hitting a small patch of a wall per second, diivded by the size of the patch.
+	\pgr{3-1_LightingAndShadingI}{12}{-2.4}{-0.5}{-0.5}{0.15}
+	\begin{gather*}
+		E=\frac{\Phi}{A}
+	\end{gather*}
+	\pgr{3-1_LightingAndShadingI}{12}{0.2}{-0.8}{2.2}{0.15}
+	Lambert's cosine law
+	\begin{gather*}
+		E=\frac{\Phi}{A/\cos\theta}=\frac{\Phi}{A}\cos\theta
+	\end{gather*}
+	\begin{align*}
+		\mathcal{L}(\vtr{x},\vtr{\omega})&=\dvt{\Phi(A)}{\cos\theta\dd{A}(\vtr{x})\dd{\vtr{\omega}}}\\\\
+		\leadsto\mathcal{L}(\vtr{x},\vtr{\omega})&=\dv{E(\vtr{x})}{\cos\theta \dd{\vtr{\omega}}}
+	\end{align*}
+	\begin{gather*}
+		\leadsto\mathcal{L}(\vtr{x},\vtr{\omega})\cos\theta\dd{\vtr{\omega}}=\dd{E(\vtr{x})}
+	\end{gather*}
+	Integrate radiance over the hemisphere. Same for radiosity.
+		\item[\lp{radiosity}]
+			Flux per unit area \emph{leaving} at a surface $\to$ area density of flux
+			\begin{align*}
+				B(\vtr{x})=\dv{\Phi(A)}{A(\vtr{x})} &&\left[ \frac{\si{\watt}}{\si{\meter\squared}} \right].
+			\end{align*}
+			Example: Number of photons reflecting off a small patch of a wall per second, divided by the size of the patch. 		\item[\lp{Radiant intensity}]
+			Power (flux) per solid angle$=$directional density of flux
+			\begin{align*}
+				I(\vtr{\omega})&=\dv{\Phi}{\vtr{\omega}}&& \left[ \frac{\si{\watt}}{\si{\steradian}} \right]\\
+				\Phi&={\scriptstyle\int_{S^2}^{}}\dd{\vtr{\omega}}\, I(\vtr{\omega})
+			\end{align*}
+			Example: Power per unit solid angle emanating from a point source.
+			\begin{gather*}
+				\Phi=4\pi I,
+			\end{gather*}
+			isotropic point source.
+		\item[\lp{Radiance}]
+			Intensity per unit area$=$flux density per unit solid angle, per perpendicular unit area
+			\begin{align*}
+				&\mathcal{L}(\vtr{x},\vtr{\omega})=\dv{I(\vtr{\omega})}{A(\vtr{x})}
+				=\pdvv{\Phi}{\vtr{\omega}}{A^{\perp}(\vtr{x},\vtr{\omega})}\\
+				&\quad=\pdvv{\Phi(A)}{\vtr{\omega}}{A(\vtr{x})\cos\theta}\quad \left[ \frac{\si{\watt}}{\si{\meter\squared\steradian}} \right]
+			\end{align*}
+			Most fundamental for raytracing. Remains constant along a ray.
+\section{Reflection Models}
+\item[\lp{BRDF}] \emph{B}idirectional \emph{R}eflectance \emph{D}istribution \emph{F}unction.
+	\begin{align*}
+		&f_r(\vtr{x},\omega_i,\omega_r)=\dv{\mathcal{L}_r(\vtr{x},\vtr{\omega}_r)}{E_i(\vtr{x},\vtr{\omega}_i)}\\
+		&\quad=\frac{\dd{\mathcal{L}_r(\vtr{x},\vtr{\omega}_r)}}{\mathcal{L}_i(\vtr{x},\vtr{\omega}_i)\cos\theta_i\dd{\vtr{\omega}}_i}
+	\end{align*}
+	Differential irradiance due to a cone of directions around $\vtr{\omega}_i$.
+\item[\lp{Reflection Equation}] The BRDF provides a relation between incident radiance and differential reflected radiance. From this we can derive the \emph{reflection equation}
+	\begin{align}
+		&f_r\!\left( \vtr{x},\vtr{\upomega},\vtr{\upomega} \right)=\frac{\dd{\mathcal{L}_r\left( \vtr{x},\vtr{\upomega} \right)}}{\mathcal{L}_i\!\left( \vtr{x},\vtr{\upomega}_i \right)\cos \theta_i \dd{\vtr{\upomega}_i}},\nonumber\\
+		&f_r\!\left( \vtr{x}, \vtr{\upomega}_i,\vtr{\upomega}_r \right)\mathcal{L}_i\!\left( \vtr{x},\vtr{\upomega}_i \right)\cos \theta_i\nonumber\\
+		&= \dv{\mathcal{L}_i\!\left( \vtr{x},\vtr{\upomega}_r \right)}{\vtr{\upomega}_i},\nonumber\\
+		&{\scriptstyle\int_{H_2}^{}}\dd{\vtr{\upomega}_i} f_r\!\left( \vtr{x},\vtr{\upomega}_i,\vtr{\upomega}_r \right)\nonumber\\
+		&\quad\cdot \mathcal{L}_i\left( \vtr{x},\vtr{\upomega}_i \right)\cos\theta_i =\mathcal{L}_r(\vtr{x},\vtr{\upomega}_r).
+	\end{align}
+	The reflection equation describes a \emph{local illumination model}. Reflected radiance due to incident illumination from all directions.
+\item[\lp{simpler reflections}] \hfill\\
+	\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
+		\item Diffuse e.g. common wall\\
+			Light is reflected in all directions.\\
+		\item Specular e.g. mirror.\\
+			Light is reflected in \emph{precisely} one direction\\
+		\item glossy e.g. metallic surface.\\
+			Light is reflected in \emph{approximately} one direction\\
+	\end{enumerate*}
+	For diffuse reflection, the BRDF is a constant:
+	\begin{align*}
+		&\mathcal{L}_r\!\left( \vtr{x},\vtr{\upomega}_r \right)=\\
+		& {\scriptstyle\int\limits_{H^2}^{}}\dd{\vtr{\upomega}}\, f_r(\vtr{x},\vtr{\upomega}_i,\vtr{\omega}_r)\mathcal{L}_i(\vtr{x},\vtr{\upomega}_i)\cos\theta_i,
+	\end{align*}
+	\begin{align*}
+		\mathcal{L}_i(\vtr{x})&=f_r{\scriptstyle\int_{H_2}^{}}\dd{\vtr{\upomega}_i}\, \mathcal{L}_i(\vtr{x},\vtr{\upomega}_i)\cos\theta_i,\\
+		\mathcal{L}_r&=f_rE_i(\vtr{x}).
+	\end{align*}
+	Exact computation is too slow. OpenGL uses simplified reflection models. $\to$ Phong illumination.
+\item[\lp{Ambient Light}] Is scattered by environment. Coming from all directions. Reflection independent of:\\
+	\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
+		\item Camera position\\
+		\item Light position (no light position)\\
+		\item Surface orientation\\
+	\end{enumerate*}
+	Reflected intensity:
+	\begin{gather*}
+		I=I_ak_a,
+	\end{gather*}
+	where $I_a$ is the light source and $k_a$ the material parameter.
+\item[\lp{diffuse reflection}] Directed light $I_p$. Reflection dependent on orientation of surface, light source position. Independent of: Camera positions (reflected equally in all directions). Reflected intensity:
+	\begin{align*}
+		I&=I_pk_d\cos\theta\\
+		I&=I_pk_d\left( \vtr{N}\cdot \vtr{L} \right)
+	\end{align*}
+\item[\lp{Sum ambient and  diffuse reflection}]
+	\begin{gather*}
+		I=I_ak_a+I_pk_d\left( \vtr{N}\cdot\vtr{L} \right)
+	\end{gather*}
+\item[\lp{Attenuation}] Quadratic attenuation due to spatial radiation
+	\begin{gather*}
+		f_{\text{att}}=\frac{1}{d_{L}^{2}}
+	\end{gather*}
+	A model often used in Graphics  (OpenGL)
+	\begin{gather*}
+		f_{\text{att}}=\min\left( \frac{1}{c_1+c_2d_L+c_3d_L^2},1 \right)
+	\end{gather*}
+	Include attenuation
+	\begin{gather*}
+		I=I_ak_a+f_{\text{att}}I_pk_d(\vtr{N}\cdot \vtr{L})
+	\end{gather*}
+\item[\lp{Specular Reflection}] Depends on the angle between the reflection and viewing ray. Reflected ray is computed using simple vector algebra
+	\begin{align*}
+		\vtr{R}&=\vtr{N}\cos\theta+\vtr{S}\\
+		\vtr{R}&=2\vtr{N}\cos\theta-\vtr{L}\\
+		&* 2\vtr{N}\left( \vtr{N}\cdot \vtr{L} \right)-\vtr{L}\\
+		\cos\alpha&=\vtr{R}\cdot \vtr{V}\\
+		&= \left( 2\vtr{N}\left( \vtr{N}\cdot \vtr{L} \right)-\vtr{L} \right)\cdot \vtr{V}
+	\end{align*}
+\item[\lp{Ambient + Diffuse + Specular}] One can combine ambient and diffuse and specular.
+\item[\lp{Phong illumination model}]
+	Approximates specular reflection by cosine powers
+	\begin{align*}
+		&I_{\lambda}=I_{a_{\lambda}}k_aO_{d_{\lambda}}+f_{\text{att}}I_{p_{\lambda}}\\
+		&\cdot
+		\!\left[ k_dO_{d_{\lambda}}\left( \vtr{N}\cdot \vtr{L} \right)+k_s\left( \vtr{R}\cdot \vtr{V} \right)^n \right]\!
+	\end{align*}
+	\item[\lp{Extensions}] \hfill\\
+		\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
+			\item Specular colors\hfill
+				$I_{\lambda}=I_{a_{\lambda}}k_a+f_{\text{att}}I_{p_{\lambda}}$\\
+				\quad$\cdot \!\left[ k_d(\vtr{N}\cdot \vtr{L})+k_s(\vtr{R}\cdot \vtr{V})^n \right]\!$\\
+			\item Halfway vector (faster)\hfill
+				$\cos^n\beta=(\vtr{N}\cdot \vtr{H})^n$,\\
+				$\vtr{H}=\displaystyle \frac{\vtr{L}+\vtr{V}}{\norm{\vtr{L}+\vtr{V}}}$.\\
+			\item[\lp{Multiple light sources}]\hfill\\
+				$I_{\lambda}=I_{a_{\lambda}}+{\scriptstyle\sum_{1\leq 1\leq m}^{}}f_{\text{att}}I_{p_{\lambda_i}}$ $\left[ k_d\left( \vtr{N}\cdot \vtr{L}_i \right)+k_s\left( \vtr{R}_i\cdot \vtr{V} \right)^n \right]$
+		\end{enumerate*}
+\end{compactdesc}

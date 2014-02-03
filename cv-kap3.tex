@@ -12,33 +12,33 @@ About modifying pixels based on \emph{neighborhood}. Local methods simplest. Lin
 			I_j'={\scriptstyle \sum_{i=1}^{N}}\alpha_{ij}I_i,\qquad j=1\cdots N
 		\end{gather*}
 	\item[\lp{Linear Filtering}] Linear operations can be written:
-		\begin{gather*}
-			I'(x,y)={\scriptstyle\sum_{i,j\in N(x,y)}^{}}K(x,y;i,j)I(i,j)
-		\end{gather*}
+		\begin{align*}
+			I'(x,y)={\scriptstyle\sum\limits_{\mathclap{i,j\in N(x,y)}}^{}}K(x,y;i,j)I(i,j)
+		\end{align*}
 		$I=\text{input image}$; $I'=\text{output of operation}$. $k$ is \emph{kernel} of the operation. $N(m,n)$ is a neighbourhood of $(m,n)$.
 	\item[\lp{Correlation}] e.g. template matching. Linear operation: $I'=KI$ 
 		\begin{gather*}
-			I'(x,y)={\scriptstyle \sum_{i,j\in N(x,y)}^{}}K(i,j)I(x+i,y+j)
+			I'(x,y)={\scriptstyle \sum\limits_{\mathclap{i,j\in N(x,y)}}^{}}K(i,j)I(x\!+\!i,y\!+\!j)
 		\end{gather*}
 	\item[\lp{Convolution}] e.g. point spread function
 		\begin{align*}
-			I'(x,y)={\scriptstyle\sum}_{i,j\in N(x,y)}^{} K(i,j)I(x-i,y-j)
+			I'(x,y)={\scriptstyle\sum\limits_{\mathclap{i,j\in N(x,y)}}^{}} K(i,j)I(x\!-\!i,y\!-\!j)
 		\end{align*}
-	\item[\lp{Edge}] The filter window falls off the edge of the image, we need to extrapolate, methods:
-		\begin{inparaenum}[\itshape(1)]
-			\item clip filter (black)
-			\item wrap around
-			\item copy edge
-			\item reflect across edge
-			\item vary filter near edge
-		\end{inparaenum}
-	\item[\lp{Filter at boundary}]
-		\begin{inparaenum}[\itshape(1)]
-			\item ignore, copy or trucate. No processing of boundary pixels. Pad image with zeros (matlab). Pad image with copies of edge rows/columns
-			\item truncate kernel
-			\item reflected indexing
-			\item circular indexing
-		\end{inparaenum}
+	\item[\lp{Edge}] The filter window falls off the edge of the image, we need to extrapolate, methods:\\
+		\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
+			\item clip filter (black)\\
+			\item wrap around\\
+			\item copy edge\\
+			\item reflect across edge\\
+			\item vary filter near edge\\
+		\end{enumerate*}
+	\item[\lp{Filter at boundary}]\hfill\\
+		\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
+			\item ignore, copy or trucate. No processing of boundary pixels. Pad image with zeros (matlab). Pad image with copies of edge rows/columns\\
+			\item truncate kernel\\
+			\item reflected indexing\\
+			\item circular indexing\\
+		\end{enumerate*}
 	\item[\lp{Separable Kernels}] Separable filters can be written 
 		\begin{gather*}
 			K(m,n)=f(m)g(n)
@@ -46,19 +46,20 @@ About modifying pixels based on \emph{neighborhood}. Local methods simplest. Lin
 		for a rectangular neighbourhood with size $(2M+1)\times (2N+1)$,
 		\begin{align*}
 			I'(m,n)&=f*(g*I(N(m,n))),\\
-			I''(m,n)&={\scriptstyle\sum}_{j=-N}^{N}g(j)I(m,n-j),\\
-			I'(m,n)&={\scriptstyle\sum}_{i=-M}^{M}f(i)I''(m-i,n).
+			I''(m,n)&={\scriptstyle\sum\limits_{\mathclap{j=-N}}^{\mathclap{N}}}g(j)I(m,n-j),\\
+			I'(m,n)&={\scriptstyle\sum\limits_{\mathclap{i=-M}}^{\mathclap{M}}}f(i)I''(m-i,n).
 		\end{align*}
 		$\to (2M+1)+(2N+1)$ operations!
 	\item[\lp{Smoothing kernels (low-pass filters)}] 
-		\begin{inparaitem}
-		\item Mean filter: $\displaystyle\frac{1}{9} \left(
+		\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
+		\item Mean filter:\\ 
+			$\displaystyle\frac{1}{9} \left(
 				\begin{smallmatrix}
 					1&1&1\\
 					1&1&1\\
 					1&1&1
-				\end{smallmatrix} \right)$,
-			\item Weighted smoothing filters: $\displaystyle\frac{1}{10} \left(
+				\end{smallmatrix} \right)$,\\
+			\item Weighted smoothing filters:\\ $\displaystyle\frac{1}{10} \left(
 				\begin{smallmatrix}
 					1&1&1\\
 					1&2&1\\
@@ -70,7 +71,7 @@ About modifying pixels based on \emph{neighborhood}. Local methods simplest. Lin
 					2&4&2\\
 					1&2&1
 				\end{smallmatrix} \right)$.
-		\end{inparaitem}
+		\end{enumerate*}
 	\item[\lp{Gaussian Kernel}]
 	 Idea: Weight contributions of neighboring pixels:
 		\begin{gather*}\scriptstyle
@@ -78,49 +79,49 @@ About modifying pixels based on \emph{neighborhood}. Local methods simplest. Lin
 		\end{gather*}
 		Smoothing with a Gaussian instead of a box filter removes the artefact of the vertical and horizontal lines. Gaussian smoothing Kernel is \emph{separable}! $\mathcal{N}(x,y)=\mathcal{N}(x)\mathcal{N}(y)$. Amount of smoothing depends on $\sigma$ and window size. $\text{Width}>3\sigma$.
 	\item[\lp{Scale space}] Convolution of a Gaussian with $\sigma$ with itself is a gaussian with $\sigma\sqrt{2}$. Repeated convolution by a Gaussian filter produces the scale space of an image.
-	\item[\lp{Gaussian filter top-5}] 
-		\begin{inparaenum}[\itshape(1)]
-			\item Rotationally symmetric.
-			\item Has a single lobe. $\to$ Neighbor's influence decreases monotonically.
-			\item Still one lobe in frequency domain. $\to$ No corruption from high frequencies
-			\item Simple relationship to $\sigma$
+	\item[\lp{Gaussian filter top-5}] \hfill\\
+		\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
+			\item Rotationally symmetric.\\
+			\item Has a single lobe. $\to$ Neighbor's influence decreases monotonically.\\
+			\item Still one lobe in frequency domain. $\to$ No corruption from high frequencies\\
+			\item Simple relationship to $\sigma$\\
 			\item Easy to implement efficiently
-		\end{inparaenum}
-	\item[\lp{Differential filters}]
-	\begin{inparaitem}
+		\end{enumerate*}
+	\item[\lp{Differential filters}]\hfill\\
+		\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
 			\item Prewitt operator: $\displaystyle \left(
 					\begin{smallmatrix}
 						-1&0&1\\
 						-1&0&1\\
 						-1&0&1
-					\end{smallmatrix} \right)$,
+					\end{smallmatrix} \right)$,\\
 				\item Sobel operator: $\displaystyle \left(
 					\begin{smallmatrix}
 						-1&0&1\\
 						-2&0&2\\
 						-1&0&1
-					\end{smallmatrix} \right)$.
-			\end{inparaitem}
-		\item[\lp{High-pass filters}] 
-	\begin{inparaitem}
+					\end{smallmatrix} \right)$.\\
+		\end{enumerate*}
+		\item[\lp{High-pass filters}] \hfill\\
+			\begin{enumerate*}[label=\protect\circled{\arabic*},itemjoin=]
 			\item Laplacian operator: $\displaystyle \left(
 					\begin{smallmatrix}
 						0&1&0\\
 						1&-4&1\\
 						0&1&0
-					\end{smallmatrix} \right)$,
+					\end{smallmatrix} \right)$,\\
 				\item High-pass filter: $\displaystyle \left(
 					\begin{smallmatrix}
 						-1&-1&-1\\
 						-1&8&-1\\
 						-1&-1&-1
-					\end{smallmatrix} \right)$.
-			\end{inparaitem}
+					\end{smallmatrix} \right)$.\\
+			\end{enumerate*}
 		\item[\lp{Differentiation and convolution}]
 			\begin{align*}
 				&\pdv{f}{x}\\
 				&\quad=\lim_{\varepsilon\to0}\left( \frac{f(x+\varepsilon,y)}{\varepsilon}-\frac{f(x,y)}{\varepsilon} \right)\\
-				&\pdv{f}{x}
+				&\pdv{f}{x}\\
 				&\quad\approx\frac{f\!\left( x_{n+1},y \right)-f\!\left( x_n,y \right)}{\Delta x},
 			\end{align*}
 			which is obviously a convolution $\left( \begin{smallmatrix}-1&1\end{smallmatrix} \right)$

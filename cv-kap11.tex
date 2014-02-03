@@ -97,8 +97,9 @@
 		\item Solve a matrix factorization problem (Eq. above) with $n>100000$. Average thereconstruction of each patch.
 	\end{enumerate*}
 \item[\lp{Inpainting, Demosaicking}] 
-	\begin{gather*}
-		\min_{D\in \mathcal{C},\vtr{\upalpha}}{\scriptstyle\sum_{i}^{}}\norm{\vtr{\upbeta}_i\otimes\left( \vtr{x}_i-D\vtr{\upalpha}_i \right)}_{2}^{2}+\lambda_i\psi(\upalpha_i)
-	\end{gather*}
+	\begin{align*}
+		&\min_{D\in \mathcal{C},\vtr{\upalpha}}{\scriptstyle\sum_{i}^{}}\norm{\vtr{\upbeta}_i\otimes\left( \vtr{x}_i-D\vtr{\upalpha}_i \right)}_{2}^{2}\\
+		&\quad+\lambda_i\psi(\upalpha_i)
+	\end{align*}
 \item[\lp{RAW Image Processing}] GRBG-mosaic $\to$ white balance, black substraction $\to$ denoising $\to$ demosaicking $\to$ conversion to sRGB, gamma correction $\to$ image.
 \end{compactdesc}
